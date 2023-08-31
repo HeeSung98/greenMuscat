@@ -1,0 +1,12 @@
+{
+  "name": "greenmuscat",
+  "version": "1.0.0",
+  "description": "Implementation for children's environmental awareness",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
