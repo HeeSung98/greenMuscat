@@ -12,7 +12,7 @@ rotuer.get('/signIn', controller.signIn)
 router.post('/signIn', controller.postSignIn)
 // 업로드 페이지 (Post)
 router.get('/aPost', controller.aPost)
-router.post('/aPost', controller.aPost)
+router.post('/aPost', controller.postAPost)
 // 마이 페이지 (Profile)
 router.get('/profile:id', controller.profile)
 // 회원 정보 수정
