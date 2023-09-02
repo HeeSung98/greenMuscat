@@ -4,9 +4,22 @@
   "description": "Implementation for children's environmental awareness",
   "main": "index.js",
   "scripts": {
+    "start": "cross-env NODE_ENV=development nodemon index.js",
+    "prod": "cross-env NODE_ENV=aws nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cross-env": "^7.0.3",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "mysql2": "^3.6.0",
+    "sequelize": "^6.32.1",
+    "sequelize-cli": "^6.6.1",
+    "cookie-parser": "^1.4.6"
+  }
 }
