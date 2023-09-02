@@ -23,5 +23,8 @@ router.get('/select', controller.select)
 router.get('/room:id', controller.room)
 // 회원 탈퇴
 router.delete('/destroy', controller.destroy)
+// 관리자 페이지
+router.get('/admin:id', controller.admin)
+router.post('/admin:id', controller.postAdmin)
 
 module.exports = router
