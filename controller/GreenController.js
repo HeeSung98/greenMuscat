@@ -38,7 +38,19 @@ const admin = (req, res) => {
 }
 
 //* POST
-
+const postSignin = async (req, res) => {
+  model.db_signin(req.body, (result) => {
+    if (result.length > 0) {
+      res.json({ result: true, data: result[0] })
+    } else {
+      res.json({ result: false })
+    }
+  })
+}
 //* PATCH
 
 //* DELETE
+
+//----------------------------------------------------
+//비교
+const compareFunc = (password, dbpass) => bcrypt.compare(password, dbpass)
