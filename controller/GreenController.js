@@ -76,14 +76,16 @@ const postSignIn = async (req, res) => {
   })
   // 사용자가 존재하면
   if (member) {
-    const _result = await compareFunc(password, member.password) // true 또는 false 반환
+    console.log('아이디있음')
+    // const _result = await compareFunc(password, member.password) // true 또는 false 반환
     // _result: true → 비밀번호 일치
-    if (_result) {
-      res.json({ result: true, data: member })
-    } else res.json({ result: false, message: '비밀번호가 틀렸습니다' })
+    // if (_result) {
+    //   res.json({ result: true, data: member })
+    // } else res.json({ result: false, message: '비밀번호가 틀렸습니다' })
   }
   // 사용자가 존재하지 않으면 (undefined, null)
-  else res.json({ result: false, message: '사용자가 존재하지 않습니다' })
+  // else res.json({ result: false, message: '사용자가 존재하지 않습니다' })
+  console.log('사용자없음')
 }
 
 // 게시물

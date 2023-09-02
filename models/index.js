@@ -50,8 +50,8 @@ db.User = require('./ProfileImage')(sequelize)
 db.User = require('./Room')(sequelize)
 
 // profile image 참조키 -> member의 email
-db.Member.hasOne(db.ProfileImage, { foreignKey: 'email' })
-db.ProfileImage.belongsTo(db.Member, { foreignKey: 'email' })
+// db.Member.hasOne(db.ProfileImage, { foreignKey: 'email' })
+// db.ProfileImage.belongsTo(db.Member, { foreignKey: 'email' })
 
 db.sequelize = sequelize
 db.Sequelize = Sequelize
