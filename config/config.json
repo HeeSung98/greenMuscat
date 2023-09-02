@@ -2,7 +2,7 @@
   "development": {
     "username": "user",
     "password": "1234",
-    "database": "bootcamp",
+    "database": "db1",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
@@ -16,7 +16,7 @@
   "aws": {
     "username": "wlfkrdl2",
     "password": "gmltjd36!",
-    "database": "bootcamp",
+    "database": "greenmuscat",
     "host": "hs-spring-db.cjhazvr1oeo5.ap-northeast-2.rds.amazonaws.com",
     "dialect": "mysql"
   }
