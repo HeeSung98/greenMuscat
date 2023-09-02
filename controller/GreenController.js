@@ -1,6 +1,6 @@
 //* import
 const bcrypt = require('bcrypt')
-const { Member, profileImage } = require('../models')
+const { Member, ProfileImage, Room } = require('../models')
 
 // 쿠키 설정
 // const cookieConfig = {
@@ -54,36 +54,45 @@ const admin = (req, res) => {
 //* POST
 //* 회원가입
 const postSignUp = async (req, res) => {
-  const { email, name, nickname, password, point, fromSocial } = req.body
-  const hash = await bcryptPassword(password)
-  Member.create({
-    email,
-    name,
-    nickname,
-    password: hash,
-    point,
-    fromSocial,
-  }).then(() => {
-    res.json({ result: true })
-  })
+  try {
+    const { email, name, nickname, password, point, fromSocial } = req.body
+    const hash = bcryptPassword(password)
+    const result = await Member.create({
+      email,
+      name,
+      nickname,
+      password: hash,
+      point,
+      fromSocial,
+    })
+    if (result) res.json({ result: true })
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 //* 로그인
 const postSignIn = async (req, res) => {
-  const { email, password } = req.body
-  const member = await Member.findOne({
-    where: { email },
-  })
-  // 사용자가 존재하면
-  if (member) {
-    const _result = await compareFunc(password, member.password) // true 또는 false 반환
-    // _result: true → 비밀번호 일치
-    if (_result) {
-      res.json({ result: true, data: member })
-    } else res.json({ result: false, message: '비밀번호가 틀렸습니다' })
+  try {
+    const { email, password } = req.body
+    // 사용자 조회
+    const result = await Member.findOne({
+      where: { email },
+    })
+    console.log('user: ', result)
+    if (!result) {
+      res.json({ result: false, message: '사용자가 존재하지 않습니다' })
+    }
+    // 비밀번호 확인
+    const compare = comparePassword(password, result.password)
+    if (compare) {
+      res.json({ result: true })
+    } else {
+      res.json({ result: false, message: '비밀번호가 일치하지 않습니다' })
+    }
+  } catch (err) {
+    console.log(err)
   }
-  // 사용자가 존재하지 않으면 (undefined, null)
-  else res.json({ result: false, message: '사용자가 존재하지 않습니다' })
 }
 
 // 게시물
@@ -142,6 +151,10 @@ module.exports = {
   postAdmin,
 }
 
-const bcryptPassword = (password) => bcrypt.hash(password, 10)
-const compareFunc = (password, dbpassword) =>
-  bcrypt.compare(password, dbpassword)
+const bcryptPassword = (pw) => {
+  return bcrypt.hashSync(pw, 10)
+}
+
+const comparePassword = (pw, dbPw) => {
+  return bcrypt.compareSync(pw, dbPw)
+}

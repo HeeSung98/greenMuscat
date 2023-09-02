@@ -32,4 +32,11 @@ const Room = (sequelize) => {
   })
 }
 
+Room.associate = (models) => {
+  Room.belongsTo(models.Member, {
+    foreignKey: 'member_email',
+    sourceKey: 'email',
+  })
+}
+
 module.exports = Room
