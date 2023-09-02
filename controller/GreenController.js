@@ -1,6 +1,6 @@
 //* import
 const bcrypt = require('bcrypt')
-const { Member } = require('../models')
+const { Member, profileImage } = require('../models')
 
 // 쿠키 설정
 // const cookieConfig = {
