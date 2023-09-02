@@ -31,4 +31,8 @@ const Member = (sequelize) => {
   })
 }
 
+Member.associate = (models) => {
+  Member.hasOne(models.Room, { foreignKey: 'member_email', sourceKey: 'email' })
+}
+
 module.exports = Member
