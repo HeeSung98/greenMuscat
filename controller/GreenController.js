@@ -3,38 +3,38 @@
 //* GET
 //? 로그인 전 메인 페이지 (홈 화면)
 const main = (req, res) => {
-  res.render('Main')
+  res.render('main')
 }
 //? 회원 가입 페이지
-const signUp = (req, res) => {
-  res.render('SignUp')
+const signup = (req, res) => {
+  res.render('signup')
 }
 //? 로그인 페이지
-const signIn = (req, res) => {
-  res.render('SignIn')
+const signin = (req, res) => {
+  res.render('signin')
 }
 //? 게시글 페이지
-const aPost = (req, res) => {
-  res.render('POST')
+const board = (req, res) => {
+  res.render('board')
 }
 //? 내 프로필
 const profile = (req, res) => {
   // findOne ?
-  res.render('Profile')
+  res.render('profile')
 }
 //? 방 선택
 const select = (req, res) => {
-  res.render('Select')
+  res.render('select')
 }
 //? 선택한 방의 메인 페이지
 const room = (req, res) => {
   // findOne ?
-  res.render('Room')
+  res.render('room')
 }
 //? 관리자 페이지
 const admin = (req, res) => {
   // findOne?
-  res.render('Admin')
+  res.render('admin')
 }
 
 //* POST
