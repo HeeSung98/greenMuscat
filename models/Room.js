@@ -20,11 +20,11 @@ const Room = (sequelize) => {
     },
     muscatTitle: {
       type: DataTypes.STRING(255),
-      allowNull: false,
+      // allowNull: false,
     },
     muscatLength: {
       type: DataTypes.INTEGER(11),
-      allowNull: false,
+      // allowNull: false,
     },
     notice: {
       type: DataTypes.STRING(255),
