@@ -76,15 +76,15 @@ const postSignIn = async (req, res) => {
   try {
     const { email, password } = req.body
     // 사용자 조회
-    const result = await Member.findOne({
+    const result = Member.findOne({
       where: { email },
     })
-    console.log('user: ', result)
+    console.log('email: ', result)
     if (!result) {
       res.json({ result: false, message: '사용자가 존재하지 않습니다' })
     }
     // 비밀번호 확인
-    const compare = comparePassword(password, result.password)
+    const compare = await comparePassword(password, result.password)
     if (compare) {
       res.json({ result: true })
     } else {
@@ -126,8 +126,9 @@ const editProfile = (req, res) => {
 //* DELETE
 // 회원 탈퇴
 const deleteProfile = (req, res) => {
+  console.log('확인')
   const { email } = req.body
-  User.destroy({ where: { email } }).then(() => {
+  Member.destroy({ where: { email } }).then(() => {
     // res.clearCookie('testCookie')
     // req.session.destroy()
     res.json({ result: true })
