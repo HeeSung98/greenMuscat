@@ -19,14 +19,15 @@ const Room = (sequelize) => {
       },
       totalPoint: {
         type: DataTypes.BIGINT(20),
+        defaultValue: 0,
       },
       muscatTitle: {
         type: DataTypes.STRING(255),
-        allowNull: false,
+        defaultValue: null,
       },
       muscatLength: {
         type: DataTypes.INTEGER(11),
-        allowNull: false,
+        defaultValue: null,
       },
       notice: {
         type: DataTypes.STRING(255),
