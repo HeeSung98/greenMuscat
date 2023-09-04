@@ -56,13 +56,13 @@ const admin = (req, res) => {
 const postSignUp = async (req, res) => {
   try {
     const { email, name, nickname, password, point, fromSocial } = req.body
-    // const hash = bcryptPassword(password)
+    const hash = bcryptPassword(password)
     const result = await Member.create({
       email,
       name,
       nickname,
       password,
-      // password: hash,
+      password: hash,
       point,
       fromSocial,
     })
