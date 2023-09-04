@@ -155,7 +155,6 @@ const editProfile = (req, res) => {
 //* DELETE
 // 회원 탈퇴
 const deleteProfile = (req, res) => {
-  console.log('확인')
   const { email } = req.body
   Member.destroy({ where: { email } }).then(() => {
     // res.clearCookie('testCookie')
