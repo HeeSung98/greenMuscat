@@ -25,7 +25,7 @@ const Room = (sequelize) => {
         type: DataTypes.STRING(255),
       },
       muscatLength: {
-        type: DataTypes.INTEGER(11),
+        type: DataTypes.INTEGER(10),
       },
       notice: {
         type: DataTypes.STRING(255),
