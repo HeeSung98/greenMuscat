@@ -42,9 +42,16 @@ const profile = (req, res) => {
     res.render('profile', { data: result })
   })
 }
-//TODO 방 선택
+
+// 방 생성하는 페이지
+const roomAdd = (req, res) => {
+  res.render('roomadd')
+}
+
+// 방 선택하는 페이지
 const select = (req, res) => {
-  res.render('select')
+  res.render('select', { roomLists: Room })
+  console.log('room list: ', roomLists)
 }
 //TODO 선택한 방의 메인 페이지
 const room = (req, res) => {
@@ -59,6 +66,7 @@ const admin = (req, res) => {
   res.render('admin')
 }
 
+/* ---------------------------------------------------------- */
 //* POST
 //* 회원가입
 const postSignUp = async (req, res) => {
@@ -108,7 +116,23 @@ const postSignIn = async (req, res) => {
   }
 }
 
-//TODO 게시물
+// 방 생성하는 페이지
+const postRoomAdd = (req, res) => {
+  console.log('roomadd: ', req.body)
+  const { rtitle, code } = req.body
+  Room.create({
+    rtitle,
+    code,
+  })
+    .then(() => {
+      res.json({ result: true })
+    })
+    .catch((error) => {
+      console.log('room add 에러: ', error)
+    })
+}
+
+// 게시물
 const postBoard = (req, res) => {}
 
 //TODO 관리자
@@ -178,6 +202,8 @@ module.exports = {
   editProfile,
   deleteProfile,
   postAdmin,
+  roomAdd,
+  postRoomAdd,
 }
 
 const bcryptPassword = (password) => {
