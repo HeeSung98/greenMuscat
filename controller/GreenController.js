@@ -56,12 +56,13 @@ const admin = (req, res) => {
 const postSignUp = async (req, res) => {
   try {
     const { email, name, nickname, password, point, fromSocial } = req.body
-    const hash = bcryptPassword(password)
+    // const hash = bcryptPassword(password)
     const result = await Member.create({
       email,
       name,
       nickname,
-      password: hash,
+      password,
+      // password: hash,
       point,
       fromSocial,
     })
@@ -151,10 +152,10 @@ module.exports = {
   postAdmin,
 }
 
-const bcryptPassword = (pw) => {
-  return bcrypt.hashSync(pw, 10)
+const bcryptPassword = (password) => {
+  return bcrypt.hashSync(password, 10)
 }
 
-const comparePassword = (pw, dbPw) => {
-  return bcrypt.compareSync(pw, dbPw)
+const comparePassword = (password, db_password) => {
+  return bcrypt.compareSync(password, db_password)
 }
