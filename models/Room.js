@@ -23,11 +23,9 @@ const Room = (sequelize) => {
       },
       muscatTitle: {
         type: DataTypes.STRING(255),
-        defaultValue: null,
       },
       muscatLength: {
         type: DataTypes.INTEGER(11),
-        defaultValue: null,
       },
       notice: {
         type: DataTypes.STRING(255),
