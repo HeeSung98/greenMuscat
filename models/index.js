@@ -22,36 +22,18 @@ if (config.use_env_variable) {
   )
 }
 
-fs.readdirSync(__dirname)
-  .filter((file) => {
-    return (
-      file.indexOf('.') !== 0 &&
-      file !== basename &&
-      file.slice(-3) === '.js' &&
-      file.indexOf('.test.js') === -1
-    )
-  })
-  .forEach((file) => {
-    const model = require(path.join(__dirname, file))(
-      sequelize,
-      Sequelize.DataTypes
-    )
-    db[model.name] = model
-  })
+db.Member = require('./Member')(sequelize)
+db.ProfileImage = require('./ProfileImage')(sequelize)
+db.Room = require('./Room')(sequelize)
 
-Object.keys(db).forEach((modelName) => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db)
-  }
+db.Member.hasOne(db.ProfileImage, {
+  foreignKey: 'member_email',
+  sourceKey: 'email',
 })
-
-db.User = require('./Member')(sequelize)
-db.User = require('./ProfileImage')(sequelize)
-db.User = require('./Room')(sequelize)
-
-// // profile image 참조키 -> member의 email
-// db.Member.hasOne(db.ProfileImage, { foreignKey: 'email' })
-// db.ProfileImage.belongsTo(db.Member, { foreignKey: 'email' })
+db.ProfileImage.belongsTo(db.Member, {
+  foreignKey: 'member_email',
+  sourceKey: 'email',
+})
 
 db.sequelize = sequelize
 db.Sequelize = Sequelize
