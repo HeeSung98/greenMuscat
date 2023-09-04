@@ -31,9 +31,13 @@ const board = (req, res) => {
   res.render('board')
 }
 //TODO 내 프로필
+// 토큰을 찾고 그 토큰에 해당하는 유저의 마이페이지
+// sign으로
 const profile = (req, res) => {
+  const email = req.params.email
+  const token = jwt.sign({ email }, SECRET)
   Member.findOne({
-    where: { id: req.params.email },
+    where: { email },
   }).then((result) => {
     res.render('profile', { data: result })
   })
