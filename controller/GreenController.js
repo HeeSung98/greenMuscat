@@ -1,7 +1,7 @@
 //* import
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const { Member, ProfileImage, Room } = require('../models')
+const { mMember, mProfileImage, mRoom } = require('../models')
 const SECRET = 'mySecretKey'
 
 // 쿠키 설정
@@ -34,13 +34,14 @@ const board = (req, res) => {
 // 토큰을 찾고 그 토큰에 해당하는 유저의 마이페이지
 // sign으로
 const profile = (req, res) => {
-  const email = req.params.email
-  const token = jwt.sign({ email }, SECRET)
-  Member.findOne({
-    where: { email },
-  }).then((result) => {
-    res.render('profile', { data: result })
-  })
+  const decodedToken = jwt.verify(token, SECRET)
+  mMember
+    .findOne({
+      where: { email: decodedToken.email },
+    })
+    .then((result) => {
+      res.render('profile', { data: result })
+    })
 }
 //TODO 방 선택
 const select = (req, res) => {
@@ -64,12 +65,11 @@ const admin = (req, res) => {
 const postSignUp = async (req, res) => {
   try {
     const { email, name, nickname, password, point, fromSocial } = req.body
-    const hash = bcryptPassword(password) // 비밀번호 암호화
-    const result = await Member.create({
+    const hash = await bcryptPassword(password) // 비밀번호 암호화
+    const result = await mMember.create({
       email,
       name,
       nickname,
-      password,
       password: hash,
       point,
       fromSocial,
@@ -85,15 +85,17 @@ const postSignIn = async (req, res) => {
   try {
     const { email, password } = req.body
     // 사용자 조회
-    const result = Member.findOne({
+    const result = await mMember.findOne({
       where: { email },
     })
-    console.log('email: ', result)
+    console.log('result', result)
     if (!result) {
       res.json({ result: false, message: '사용자가 존재하지 않습니다' })
     }
+    console.log('check')
     // 비밀번호 확인
     const compare = await comparePassword(password, result.password)
+    console.log(compare)
     if (compare) {
       // 비밀번호 일치
       // res.cookie('isLoggin', true, cookieConfig);
@@ -135,7 +137,7 @@ const editProfile = (req, res) => {
     const decodedToken = jwt.verify(token, SECRET)
     console.log(decodedToken)
     // email이 일치한 하나의 member 찾아서 해당 member 회원 정보 수정.
-    Member.findOne({ where: { email: decodedToken.email } }).then((member) => {
+    mMember.findOne({ where: { email: decodedToken.email } }).then((member) => {
       member
         .update({ profileImage, nickname, password })
         .then(() => {
@@ -156,7 +158,7 @@ const editProfile = (req, res) => {
 // 회원 탈퇴
 const deleteProfile = (req, res) => {
   const { email } = req.body
-  Member.destroy({ where: { email } }).then(() => {
+  mMember.destroy({ where: { email } }).then(() => {
     // res.clearCookie('testCookie')
     // req.session.destroy()
     res.json({ result: true, message: '회원 탈퇴 성공' })
@@ -181,9 +183,9 @@ module.exports = {
 }
 
 const bcryptPassword = (password) => {
-  return bcrypt.hashSync(password, 10)
+  return bcrypt.hash(password, 10)
 }
 
 const comparePassword = (password, db_password) => {
-  return bcrypt.compareSync(password, db_password)
+  return bcrypt.compare(password, db_password)
 }

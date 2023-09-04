@@ -13,11 +13,11 @@ const router = require('./router/GreenRouter')
 app.use('/', router)
 
 //오류처리
-// app.use('*', (req, res) => {
-//   res.status(404).render('404')
-// })
+app.use('*', (req, res) => {
+  res.status(404).render('404')
+})
 
-db.sequelize.sync({ force: false }).then(() => {
+db.sequelize.sync({ force: true }).then(() => {
   app.listen(PORT, () => {
     console.log(`http://localhost:${PORT}`)
   })
