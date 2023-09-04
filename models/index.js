@@ -21,13 +21,13 @@ if (config.use_env_variable) {
   )
 }
 
-db.member = require('./Member')(sequelize)
-db.profileImage = require('./ProfileImage')(sequelize)
-db.room = require('./Room')(sequelize)
-db.membersInRoom = require('./MembersInRoom')(sequelize)
-db.post = require('./Post')(sequelize)
-db.postImage = require('./PostImage')(sequelize)
-db.reply = require('./Reply')(sequelize)
+db.mMember = require('./Member')(sequelize)
+db.mProfileImage = require('./ProfileImage')(sequelize)
+db.mRoom = require('./Room')(sequelize)
+db.mMembersInRoom = require('./MembersInRoom')(sequelize)
+db.mPost = require('./Post')(sequelize)
+db.mPostImage = require('./PostImage')(sequelize)
+db.mReply = require('./Reply')(sequelize)
 
 // 멤버와 프로필 사진의 연관관계
 db.member.hasOne(db.profileImage, {
