@@ -1,32 +1,29 @@
 const { DataTypes } = require('sequelize')
 
-const Member = (sequelize) => {
+const POST = (sequelize) => {
   return sequelize.define(
-    'MEMBER',
+    'POST',
     {
-      email: {
-        type: DataTypes.STRING(50),
-        primaryKey: true,
-      },
-      name: {
-        type: DataTypes.STRING(30),
-        allowNull: false,
-      },
-      nickname: {
-        type: DataTypes.STRING(30),
-        allowNull: false,
-      },
-      password: {
-        type: DataTypes.STRING(255),
-        allowNull: false,
-      },
-      point: {
+      pNo: {
         type: DataTypes.BIGINT(20),
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      pTitle: {
+        type: DataTypes.STRING(30),
+        allowNull: false,
+      },
+      pContent: {
+        type: DataTypes.STRING(30),
+        allowNull: false,
+      },
+      like: {
+        type: DataTypes.STRING(255),
         defaultValue: 0,
       },
-      fromSocial: {
-        type: DataTypes.TINYINT(1),
-        allowNull: false,
+      approved: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
       },
     },
     {
@@ -38,4 +35,4 @@ const Member = (sequelize) => {
   )
 }
 
-module.exports = Member
+module.exports = POST

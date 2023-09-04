@@ -1,24 +1,16 @@
 const { DataTypes } = require('sequelize')
 
-const ProfileImage = (sequelize) => {
+const Reply = (sequelize) => {
   return sequelize.define(
-    'PROFILE_IMAGE',
+    'REPLY',
     {
-      iNo: {
+      reNo: {
         type: DataTypes.BIGINT(20),
         primaryKey: true,
         autoIncrement: true,
       },
-      iName: {
-        type: DataTypes.STRING(255),
-        allowNull: false,
-      },
-      path: {
-        type: DataTypes.STRING(255),
-        allowNull: false,
-      },
-      uuid: {
-        type: DataTypes.STRING(255),
+      text: {
+        type: DataTypes.STRING(30),
         allowNull: false,
       },
     },
@@ -31,4 +23,4 @@ const ProfileImage = (sequelize) => {
   )
 }
 
-module.exports = ProfileImage
+module.exports = Reply

@@ -1,31 +1,24 @@
 const { DataTypes } = require('sequelize')
 
-const Member = (sequelize) => {
+const PostImage = (sequelize) => {
   return sequelize.define(
-    'MEMBER',
+    'POST_IMAGE',
     {
-      email: {
-        type: DataTypes.STRING(50),
+      iNo: {
+        type: DataTypes.BIGINT(20),
         primaryKey: true,
+        autoIncrement: true,
       },
-      name: {
-        type: DataTypes.STRING(30),
-        allowNull: false,
-      },
-      nickname: {
-        type: DataTypes.STRING(30),
-        allowNull: false,
-      },
-      password: {
+      iName: {
         type: DataTypes.STRING(255),
         allowNull: false,
       },
-      point: {
-        type: DataTypes.BIGINT(20),
-        defaultValue: 0,
+      path: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
       },
-      fromSocial: {
-        type: DataTypes.TINYINT(1),
+      uuid: {
+        type: DataTypes.STRING(255),
         allowNull: false,
       },
     },
@@ -38,4 +31,4 @@ const Member = (sequelize) => {
   )
 }
 
-module.exports = Member
+module.exports = PostImage
