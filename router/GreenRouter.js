@@ -14,7 +14,7 @@ router.get('/signin', controller.signIn)
 router.post('/signin', controller.postSignIn)
 
 // 로그아웃 (SignOut)
-// router.get('/signout', controller.signOut)
+router.post('/signout', controller.postSignOut)
 
 // 방 생성 페이지(roomadd)
 router.get('/roomadd', controller.roomAdd)
