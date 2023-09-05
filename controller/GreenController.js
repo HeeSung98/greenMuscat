@@ -1,7 +1,7 @@
 //* import
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const { mMember, mProfileImage, mRoom } = require('../models')
+const { mMember, mProfileImage, mRoom, mMembersInRoom } = require('../models')
 const SECRET = 'mySecretKey'
 
 // 쿠키 설정
@@ -120,22 +120,36 @@ const postSignIn = async (req, res) => {
   }
 }
 
-// 방 생성하는 페이지
-const postRoomAdd = (req, res) => {
-  console.log('roomadd: ', req.body)
-  const { rtitle, code } = req.body
-  mRoom
-    .create({
-      rtitle,
+// 방 생성
+const postRoomAdd = async (req, res) => {
+  console.log(
+    'ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ'
+  )
+  console.log('postRoomAdd req.body : ', req.body)
+  const { rTitle, code, email } = req.body
+  try {
+    const createdRoom = await mRoom.create({
+      rTitle,
       code,
     })
-    .then(() => {
-      res.json({ result: true })
+    console.log('createdRoom.rNo:', createdRoom.rNo)
+    console.log('createdRoom.rTitle:', createdRoom.rTitle)
+
+    const createdMIR = await mMembersInRoom.create({
+      role: 'admin',
+      ROOM_rNo: createdRoom.rNo,
+      ROOM_rTitle: createdRoom.rTitle,
+      ROOM_code: createdRoom.code,
+      MEMBER_email: email,
     })
-    .catch((error) => {
-      console.log('room add 에러: ', error)
-    })
+    res.json({ result: true })
+  } catch (error) {
+    res.json({ error })
+  }
 }
+
+// 방 입장
+const postRoomEntrance = async (req, res) => {}
 
 // 게시물
 const postBoard = (req, res) => {}

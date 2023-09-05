@@ -17,6 +17,14 @@ const MEMBERS_IN_ROOM = (sequelize) => {
         type: DataTypes.BIGINT(20),
         defaultValue: 0,
       },
+      ROOM_rTitle: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
+      },
+      ROOM_code: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
+      },
     },
     {
       charset: 'utf8', // 한국어 설정

@@ -16,6 +16,7 @@ const Room = (sequelize) => {
       code: {
         type: DataTypes.STRING(255),
         allowNull: false,
+        unique: true,
       },
       totalPoint: {
         type: DataTypes.BIGINT(20),
