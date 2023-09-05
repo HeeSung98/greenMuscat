@@ -149,7 +149,25 @@ const postRoomAdd = async (req, res) => {
 }
 
 // 방 입장
-const postRoomEntrance = async (req, res) => {}
+const postRoomEntrance = async (req, res) => {
+  console.log('--------------방 입장--------------')
+  const { code, email } = req.body
+  try {
+    const findedRoom = await mRoom.findOne({
+      code,
+    })
+    const createdMIR = await mMembersInRoom.create({
+      role: 'member',
+      ROOM_rTitle: findedRoom.rTitle,
+      ROOM_code: findedRoom.code,
+      ROOM_rNo: findedRoom.rNo,
+      MEMBER_email: email,
+    })
+    res.json({ result: true })
+  } catch (error) {
+    res.json({ error })
+  }
+}
 
 // 게시물
 const postBoard = (req, res) => {}

@@ -3,44 +3,53 @@ const router = express.Router()
 const controller = require('../controller/GreenController')
 
 // 메인 페이지
-router.get('/', controller.main)
+router.get('/main', controller.main)
 
 // 회원가입 (SignUp)
-router.get('/signup', controller.signUp)
-router.post('/signup', controller.postSignUp)
+router.get('/main/signup', controller.signUp)
+router.post('/main/signup', controller.postSignUp)
 
 // 로그인 (SignIn)
-router.get('/signin', controller.signIn)
-router.post('/signin', controller.postSignIn)
+router.get('/main/signin', controller.signIn)
+router.post('/main/signin', controller.postSignIn)
+
+// 마이 페이지 (Profile)
+router.get('/main/profile', controller.profile)
+
+// 회원 정보 수정
+router.patch('/main/profile/edit', controller.editProfile)
+
+// 회원 탈퇴
+router.delete('/main/profile/destroy', controller.deleteProfile)
 
 // 로그아웃 (SignOut)
 // router.get('/signout', controller.signOut)
 
 // 방 생성 페이지(roomadd)
-router.get('/roomadd', controller.roomAdd)
-router.post('/roomadd', controller.postRoomAdd)
+router.get('/main/add', controller.roomAdd)
+router.post('/main/add', controller.postRoomAdd)
 
-// 업로드 페이지 (Post)
-router.get('/board:rno', controller.board)
-router.post('/board:rno', controller.postBoard)
-
-// 마이 페이지 (Profile)
-router.get('/profile', controller.profile)
-
-// 회원 정보 수정
-router.patch('/profile/edit', controller.editProfile)
-
-// 방 선택 페이지 (Select)
-router.get('/select', controller.select)
+// 방 입장 (RoomEntrance)
+router.post('/main/entrance')
 
 // 방 메인 페이지 (Room)
 router.get('/room:id', controller.room)
 
-// 회원 탈퇴
-router.delete('/destroy', controller.deleteProfile)
+// 방 게시물 목록 페이지 (Board)
+router.get('/room/board', controller.room)
+
+// 게시물 업로드 페이지 (Post)
+router.get('/room/board/register', controller.board)
+router.post('/room/board/register', controller.postBoard)
+
+// 게시물 수정 페이지 (Post)
+router.get('/room/board/register', controller.board)
+router.post('/room/board/register', controller.postBoard)
+
+// 게시물 삭제 페이지 (Post)
+router.post('/room/board/register', controller.postBoard)
 
 // 관리자 페이지
-router.get('/admin', controller.admin)
 router.post('/admin', controller.postAdmin)
 
 module.exports = router
