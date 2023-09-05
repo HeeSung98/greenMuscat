@@ -22,7 +22,7 @@ const signIn = (req, res) => {
 const board = (req, res) => {
   res.render('board')
 }
-// 내 프로필
+//* 내 프로필
 // → 토큰을 찾고 그 토큰에 해당하는 유저의 마이페이지
 const profile = async (req, res) => {
   try {
@@ -54,12 +54,12 @@ const profile = async (req, res) => {
   }
 }
 
-// 방 생성하는 페이지
+//* 방 생성하는 페이지
 const roomAdd = (req, res) => {
   res.render('roomadd')
 }
 
-// 방 선택하는 페이지
+//* 방 선택하는 페이지
 const select = (req, res) => {
   res.render('select', { roomLists: Room })
   console.log('room list: ', roomLists)
@@ -141,13 +141,13 @@ const postSignIn = async (req, res) => {
   }
 }
 
-// 로그아웃
+//* 로그아웃
 // 로그아웃 버튼 누르면 생성되었던 토큰 사라지게 ""
 const postSignOut = (req, res) => {
   res.cookie('x_auth', '').json({ logoutSuccess: true })
 }
 
-// 방 생성하는 페이지
+//* 방 생성하는 페이지
 const postRoomAdd = (req, res) => {
   console.log('roomadd: ', req.body)
   const { rtitle, code } = req.body
@@ -164,14 +164,14 @@ const postRoomAdd = (req, res) => {
     })
 }
 
-// 게시물
+//* 게시물
 const postBoard = (req, res) => {}
 
 //TODO 관리자
 const postAdmin = (req, res) => {}
 
 //* PATCH
-// 회원 정보 수정
+//* 회원 정보 수정
 const editProfile = async (req, res) => {
   const authHeader = req.headers.authorization
   if (!authHeader) {
@@ -206,7 +206,7 @@ const editProfile = async (req, res) => {
 }
 
 //* DELETE
-// 회원 탈퇴
+//* 회원 탈퇴
 const deleteProfile = async (req, res) => {
   const authHeader = req.headers.authorization
   const [bearer, token] = authHeader.split(' ')
