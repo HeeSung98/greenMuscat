@@ -20,9 +20,12 @@ router.post('/signout', controller.postSignOut)
 router.get('/roomadd', controller.roomAdd)
 router.post('/roomadd', controller.postRoomAdd)
 
-// 업로드 페이지 (Post)
-router.get('/board:rno', controller.board)
-router.post('/board:rno', controller.postBoard)
+// 스레드 페이지 (get)
+router.get('/board', controller.board)
+
+// 게시글 업로드 페이지
+router.get('/board/register', controller.BoardRegister)
+router.post('/board/register', controller.postBoardRegister)
 
 // 마이 페이지 (Profile)
 router.get('/profile', controller.profile)
