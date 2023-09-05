@@ -24,8 +24,15 @@ router.post('/roomadd', controller.postRoomAdd)
 router.get('/board', controller.board)
 
 // 게시글 업로드 페이지
-router.get('/board/register', controller.BoardRegister)
+router.get('/board/register', controller.boardRegister)
 router.post('/board/register', controller.postBoardRegister)
+
+// 댓글 페이지
+router.get('/board/reply', controller.reply)
+// 댓글 정보 보내기
+router.post('/board/reply', controller.postReply)
+// 댓글 달기
+router.post('/board/replyregister', controller.postReplyRegister)
 
 // 마이 페이지 (Profile)
 router.get('/profile', controller.profile)

@@ -1,7 +1,14 @@
 //* import
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const { mMember, mProfileImage, mRoom, mMembersInRoom } = require('../models')
+const {
+  mMember,
+  mProfileImage,
+  mPost,
+  mRoom,
+  mMembersInRoom,
+  mReply,
+} = require('../models')
 const SECRET = 'mySecretKey'
 
 //* GET
@@ -17,9 +24,8 @@ const signUp = (req, res) => {
 const signIn = (req, res) => {
   res.render('signin')
 }
-//TODO 로그아웃
-// const signOut = (req, res) => {}
-//TODO 게시글 페이지(스레드페이지)
+
+//TODO 게시글 페이지(스레드 페이지)
 const board = async (req, res) => {
   console.log('게시글 호출')
   // try {
@@ -57,12 +63,17 @@ const profile = async (req, res) => {
       // res.render('profile', { data: memberProfile })
       res.json({ result: memberProfile })
       console.log('회원 정보 조회 성공', memberProfile)
+    } else {
+      return res.json({
+        result: false,
+        message: '회원 정보를 찾을 수 없습니다.',
+      })
     }
   } catch (error) {
     console.log(error)
     return res.json({
       result: false,
-      message: '회원 정보 조회 중 오류가 발생했습니다.',
+      message: '오류가 발생했습니다.',
     })
   }
 }
@@ -81,8 +92,24 @@ const select = (req, res) => {
 const room = (req, res) => {
   res.render('room')
 }
-//TODO 선택한 방의 게시물 작성 페이지 (BoardRegister)
-const BoardRegister = (req, res) => {}
+//TODO 선택한 방의 게시물 작성 페이지 (boardRegister)
+const boardRegister = (req, res) => {}
+
+//TODO 전체 댓글 보기
+const reply = async (req, res) => {
+  const { POST_pNo, ROOM_rNo } = req.params
+  try {
+    const allReply = await mReply.findAll({
+      where: { POST_pNo, ROOM_rNo },
+    })
+    if (allReply) {
+      console.log(allReply)
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 //TODO 관리자 페이지 (개인 정보, 수정 버튼, 참여한 전체 학생들 리스트)
 const admin = (req, res) => {
   // findOne?
@@ -195,12 +222,45 @@ const postRoomEntrance = async (req, res) => {}
 const postBoardRegister = async (req, res) => {
   console.log(req.body)
   try {
-    const { pTitle, pContent } = req.body
+    const { pTitle, pContent, ROOM_rNo } = req.body
     const result = await mPost.create({
       pTitle,
       pContent,
+      ROOM_rNo,
     })
     if (result) res.json({ result: true, message: '게시물 업로드 성공' })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+//TODO 댓글 정보
+const postReply = async (req, res) => {
+  const { POST_pNo } = req.body
+  const allReply = await mReply.findAll({ where: { POST_pNo } })
+  if (allReply) {
+    console.log(allReply)
+    res.json(allReply)
+  }
+}
+
+//TODO 댓글 달기
+const postReplyRegister = async (req, res) => {
+  const authHeader = req.headers.authorization
+  const [bearer, token] = authHeader.split(' ')
+  const { text, POST_pNo } = req.body
+  try {
+    const decodedToken = jwt.verify(token, SECRET)
+    const user = await mMember.findOne({ where: { email: decodedToken.email } })
+    const reply = await mReply.create({
+      text,
+      MEMBER_email: user.email,
+      POST_pNo,
+    })
+    if (reply) {
+      console.log({ nickname: user.nickname, reply })
+      // res.redirect('/')
+    }
   } catch (error) {
     console.log(error)
   }
@@ -272,7 +332,10 @@ module.exports = {
   postSignOut,
   profile,
   board,
-  BoardRegister,
+  boardRegister,
+  reply,
+  postReply,
+  postReplyRegister,
   select,
   room,
   roomAdd,
