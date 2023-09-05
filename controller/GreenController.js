@@ -1,7 +1,14 @@
 //* import
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const { mMember, mProfileImage, mRoom, mMembersInRoom } = require('../models')
+const {
+  mMember,
+  mProfileImage,
+  mRoom,
+  mMembersInRoom,
+  mPost,
+  mPostImage,
+} = require('../models')
 const SECRET = 'mySecretKey'
 
 //* GET
@@ -17,21 +24,45 @@ const signUp = (req, res) => {
 const signIn = (req, res) => {
   res.render('signin')
 }
-//TODO 로그아웃
-// const signOut = (req, res) => {}
-//TODO 게시글 페이지(스레드페이지)
+//게시글 페이지(스레드페이지)
 const board = async (req, res) => {
-  console.log('게시글 호출')
-  // try {
-  const result = await mPost.findall({})
-  console.log(result)
-  //   await mPost.findall({}).then((result) => {
-  //     console.log(result)
-  //     res.render('board', { data: result })
-  //   })
-  // } catch (error) {
-  //   console.log(error)
-  // }
+  console.log(
+    'ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ게시물 불러오기ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ'
+  )
+  try {
+    await mPost
+      .findAll({
+        include: [
+          {
+            model: mPostImage,
+            required: false,
+            attributes: ['path'],
+          },
+        ],
+      })
+      .then((result) => {
+        console.log('result:', result[0].dataValues.POST_IMAGEs)
+        res.render('board', { data: result })
+      })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+//공지사항 페이지
+const notice = async (req, res) => {
+  console.log(
+    'ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ공지사항 불러오기ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ'
+  )
+  try {
+    await mRoom.findAll({}).then((result) => {
+      console.log('result:', result)
+      res.render('room', { data: result })
+      console.log('불러오기성공')
+    })
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 //TODO 내 프로필
@@ -205,6 +236,22 @@ const postBoardRegister = async (req, res) => {
     console.log(error)
   }
 }
+// 공지사항 업로드
+const postNotice = async (req, res) => {
+  console.log(req.body)
+  try {
+    const { rNO, rTitle, code, notice } = req.body
+    const result = await mRoom.create({
+      rNO,
+      rTitle,
+      code,
+      notice,
+    })
+    if (result) res.json({ result: true, message: '공지사항 업로드 성공' })
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 //TODO 관리자
 const postAdmin = (req, res) => {}
@@ -272,6 +319,7 @@ module.exports = {
   postSignOut,
   profile,
   board,
+  notice,
   BoardRegister,
   select,
   room,
@@ -280,6 +328,7 @@ module.exports = {
   postSignUp,
   postSignIn,
   postBoardRegister,
+  postNotice,
   editProfile,
   deleteProfile,
   postAdmin,
