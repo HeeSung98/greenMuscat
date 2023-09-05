@@ -81,8 +81,7 @@ const select = (req, res) => {
 const room = (req, res) => {
   res.render('room')
 }
-//TODO 선택한 방의 게시물 작성 페이지 (BoardRegister)
-const BoardRegister = (req, res) => {}
+
 //TODO 관리자 페이지 (개인 정보, 수정 버튼, 참여한 전체 학생들 리스트)
 const admin = (req, res) => {
   // findOne?
