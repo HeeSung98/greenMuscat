@@ -40,14 +40,14 @@ router.get('/room/board', controller.room)
 
 // 게시물 업로드 페이지 (Post)
 router.get('/room/board/register', controller.board)
-router.post('/room/board/register', controller.postBoard)
+router.post('/room/board/register', controller.postBoardRegister)
 
 // 게시물 수정 페이지 (Post)
-router.get('/room/board/register', controller.board)
-router.post('/room/board/register', controller.postBoard)
+router.get('/room/board/modify', controller.board)
+router.patch('/room/board/modify', controller.modifyBoard)
 
 // 게시물 삭제 페이지 (Post)
-router.post('/room/board/register', controller.postBoard)
+router.delete('/room/board/remove', controller.removeBoard)
 
 // 관리자 페이지
 router.post('/admin', controller.postAdmin)
