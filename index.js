@@ -6,6 +6,7 @@ const PORT = 8000
 app.set('view engine', 'ejs')
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+app.set('views', './views')
 
 //router 분리
 const router = require('./router/GreenRouter')

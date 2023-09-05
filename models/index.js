@@ -4,7 +4,6 @@ const fs = require('fs')
 const path = require('path')
 const Sequelize = require('sequelize')
 const process = require('process')
-const ProfileImage = require('./ProfileImage')
 const basename = path.basename(__filename)
 const env = process.env.NODE_ENV || 'development'
 const config = require(__dirname + '/../config/config.json')[env]
@@ -49,9 +48,11 @@ db.User = require('./Member')(sequelize)
 db.User = require('./ProfileImage')(sequelize)
 db.User = require('./Room')(sequelize)
 
-// profile image 참조키 -> member의 email
-// db.Member.hasOne(db.ProfileImage, { foreignKey: 'email' })
-// db.ProfileImage.belongsTo(db.Member, { foreignKey: 'email' })
+//게시글과 게시글이미지의 연관관계
+db.mPost.hasMany(db.mPostImage, {
+  foreignKey: 'POST_pNo',
+  sourceKey: 'pNo',
+})
 
 db.sequelize = sequelize
 db.Sequelize = Sequelize
