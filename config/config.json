@@ -2,7 +2,7 @@
   "development": {
     "username": "user",
     "password": "1234",
-    "database": "greenMuscat",
+    "database": "kdt8",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
