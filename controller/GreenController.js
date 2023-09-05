@@ -61,7 +61,7 @@ const roomAdd = (req, res) => {
 
 //* 방 선택하는 페이지
 const select = (req, res) => {
-  res.render('select', { roomLists: Room })
+  res.render('select', { roomLists: mRoom })
   console.log('room list: ', roomLists)
 }
 //TODO 선택한 방의 메인 페이지
