@@ -368,7 +368,6 @@ module.exports = {
   postSignOut,
   profile,
   board,
-  boardRegister,
   reply,
   postReply,
   postReplyRegister,

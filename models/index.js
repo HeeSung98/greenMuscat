@@ -110,6 +110,10 @@ db.mPost.hasMany(db.mPostImage, {
   foreignKey: 'POST_pNo',
   sourceKey: 'pNo',
 })
+db.mPostImage.belongsTo(db.mPost, {
+  foreignKey: 'POST_pNo',
+  sourceKey: 'pNo',
+})
 
 db.sequelize = sequelize
 db.Sequelize = Sequelize
