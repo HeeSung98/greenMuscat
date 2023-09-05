@@ -5,13 +5,16 @@ const controller = require('../controller/GreenController')
 // 메인 페이지
 router.get('/', controller.main)
 
-// 회원가입 (SignUp)g
+// 회원가입 (SignUp)
 router.get('/signup', controller.signUp)
 router.post('/signup', controller.postSignUp)
 
 // 로그인 (SignIn)
 router.get('/signin', controller.signIn)
 router.post('/signin', controller.postSignIn)
+
+// 로그아웃 (SignOut)
+// router.get('/signout', controller.signOut)
 
 // 방 생성 페이지(roomadd)
 router.get('/roomadd', controller.roomAdd)
@@ -22,7 +25,7 @@ router.get('/board:rno', controller.board)
 router.post('/board:rno', controller.postBoard)
 
 // 마이 페이지 (Profile)
-router.get('/profile:id', controller.profile)
+router.get('/profile', controller.profile)
 
 // 회원 정보 수정
 router.patch('/profile/edit', controller.editProfile)
