@@ -29,6 +29,7 @@ const MEMBERS_IN_ROOM = (sequelize) => {
     {
       charset: 'utf8', // 한국어 설정
       collate: 'utf8_general_ci', // 한국어 설정
+      timestamps: false, // createAt & updateAt 비활성화
       freezeTableName: true, // 테이블명 복수화 중지
     }
   )
