@@ -13,6 +13,7 @@ const Reply = (sequelize) => {
         type: DataTypes.STRING(30),
         allowNull: false,
       },
+      MEMBER_email: DataTypes.STRING(50),
     },
     {
       charset: 'utf8', // 한국어 설정
