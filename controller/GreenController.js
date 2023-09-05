@@ -188,10 +188,10 @@ const postRoomAdd = async (req, res) => {
   }
 }
 
-// 방 입장
+//* 방 입장
 const postRoomEntrance = async (req, res) => {}
 
-// 게시물 업로드
+//* 게시물 업로드
 const postBoardRegister = async (req, res) => {
   console.log(req.body)
   try {
