@@ -208,6 +208,20 @@ const postRoomEntrance = async (req, res) => {
   }
 }
 
+// 방 목록
+const postRoomLists = async (req, res) => {
+  console.log('--------------방 목록--------------')
+  const { email } = req.body
+  try {
+    await mMembersInRoom.findAll({
+      attributes: ['ROOM_rTitle'],
+      where: { MEMBER_email: email },
+    })
+  } catch (error) {
+    res.json({ error })
+  }
+}
+
 //* 게시물 업로드
 const postBoardRegister = async (req, res) => {
   console.log(req.body)
@@ -261,6 +275,9 @@ const editProfile = async (req, res) => {
   }
 }
 
+// 게시글 수정
+const modifyBoard = async (req, res) => {}
+
 //* DELETE
 //* 회원 탈퇴
 const deleteProfile = async (req, res) => {
@@ -282,6 +299,9 @@ const deleteProfile = async (req, res) => {
   })
 }
 
+// 게시글 삭제
+const removeBoard = async (req, res) => {}
+
 module.exports = {
   main,
   signUp,
@@ -301,6 +321,10 @@ module.exports = {
   deleteProfile,
   postAdmin,
   postRoomAdd,
+  postRoomEntrance,
+  postRoomLists,
+  removeBoard,
+  modifyBoard,
 }
 
 const bcryptPassword = (password) => {
