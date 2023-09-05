@@ -21,32 +21,89 @@ if (config.use_env_variable) {
   )
 }
 
-fs.readdirSync(__dirname)
-  .filter((file) => {
-    return (
-      file.indexOf('.') !== 0 &&
-      file !== basename &&
-      file.slice(-3) === '.js' &&
-      file.indexOf('.test.js') === -1
-    )
-  })
-  .forEach((file) => {
-    const model = require(path.join(__dirname, file))(
-      sequelize,
-      Sequelize.DataTypes
-    )
-    db[model.name] = model
-  })
+db.mMember = require('./Member')(sequelize)
+db.mProfileImage = require('./ProfileImage')(sequelize)
+db.mRoom = require('./Room')(sequelize)
+db.mMembersInRoom = require('./MembersInRoom')(sequelize)
+db.mPost = require('./Post')(sequelize)
+db.mPostImage = require('./PostImage')(sequelize)
+db.mReply = require('./Reply')(sequelize)
 
-Object.keys(db).forEach((modelName) => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db)
-  }
+// 멤버와 프로필 사진의 연관관계
+db.mMember.hasOne(db.mProfileImage, {
+  foreignKey: {
+    name: 'MEMBER_email',
+    unique: true, // 고유(unique) 외래 키 설정
+  },
+  sourceKey: 'email',
+})
+db.mProfileImage.belongsTo(db.mMember, {
+  foreignKey: {
+    name: 'MEMBER_email',
+    unique: true, // 고유(unique) 외래 키 설정
+  },
+  sourceKey: 'email',
 })
 
-db.User = require('./Member')(sequelize)
-db.User = require('./ProfileImage')(sequelize)
-db.User = require('./Room')(sequelize)
+// 방과 MIR의 연관관계
+db.mRoom.hasMany(db.mMembersInRoom, {
+  foreignKey: 'ROOM_rNo',
+  sourceKey: 'rNo',
+})
+db.mMembersInRoom.belongsTo(db.mRoom, {
+  foreignKey: 'ROOM_rNo',
+  sourceKey: 'rNo',
+})
+
+// 멤버와 MIR의 연관관계
+db.mMember.hasMany(db.mMembersInRoom, {
+  foreignKey: 'MEMBER_email',
+  sourceKey: 'email',
+})
+db.mMembersInRoom.belongsTo(db.mMember, {
+  foreignKey: 'MEMBER_email',
+  sourceKey: 'email',
+})
+
+// 멤버와 게시글의 연관관계
+db.mMember.hasMany(db.mPost, {
+  foreignKey: 'MEMBER_email',
+  sourceKey: 'email',
+})
+db.mPost.belongsTo(db.mMember, {
+  foreignKey: 'MEMBER_email',
+  sourceKey: 'email',
+})
+
+// 멤버와 댓글의 연관관계
+db.mMember.hasMany(db.mReply, {
+  foreignKey: 'MEMBER_email',
+  sourceKey: 'email',
+})
+db.mReply.belongsTo(db.mMember, {
+  foreignKey: 'MEMBER_email',
+  sourceKey: 'email',
+})
+
+// 방과 게시글의 연관관계
+db.mRoom.hasMany(db.mPost, {
+  foreignKey: 'ROOM_rNo',
+  sourceKey: 'rNo',
+})
+db.mPost.belongsTo(db.mRoom, {
+  foreignKey: 'ROOM_rNo',
+  sourceKey: 'rNo',
+})
+
+// 게시글과 댓글의 연관관계
+db.mPost.hasMany(db.mReply, {
+  foreignKey: 'POST_pNo',
+  sourceKey: 'pNo',
+})
+db.mReply.belongsTo(db.mPost, {
+  foreignKey: 'POST_pNo',
+  sourceKey: 'pNo',
+})
 
 //게시글과 게시글이미지의 연관관계
 db.mPost.hasMany(db.mPostImage, {

@@ -1,7 +1,7 @@
 //* import
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const { mMember, mProfileImage, mRoom } = require('../models')
+const { mMember, mProfileImage, mRoom, mPost } = require('../models')
 const SECRET = 'mySecretKey'
 
 // 쿠키 설정
@@ -26,10 +26,21 @@ const signIn = (req, res) => {
 }
 //TODO 로그아웃
 // const signOut = (req, res) => {}
-//TODO 게시글 페이지
-const board = (req, res) => {
-  res.render('board')
+//TODO 게시글 페이지(스레드페이지)
+const board = async (req, res) => {
+  console.log('게시글 호출')
+  // try {
+  const result = await mPost.findall({})
+  console.log(result)
+  //   await mPost.findall({}).then((result) => {
+  //     console.log(result)
+  //     res.render('board', { data: result })
+  //   })
+  // } catch (error) {
+  //   console.log(error)
+  // }
 }
+
 //TODO 내 프로필
 // 토큰을 찾고 그 토큰에 해당하는 유저의 마이페이지
 // sign으로
@@ -63,8 +74,8 @@ const room = (req, res) => {
   // findOne ?
   res.render('room')
 }
-//TODO 선택한 방의 게시물 페이지 (board)
-
+//TODO 선택한 방의 게시물 작성 페이지 (BoardRegister)
+const BoardRegister = (req, res) => {}
 //TODO 관리자 페이지 (개인 정보, 수정 버튼, 참여한 전체 학생들 리스트)
 const admin = (req, res) => {
   // findOne?
@@ -94,26 +105,63 @@ const postSignUp = async (req, res) => {
 
 //* 로그인
 const postSignIn = async (req, res) => {
-  const { email, password } = req.body
-  const member = await Member.findOne({
-    where: { email },
-  })
-  // 사용자가 존재하면
-  if (member) {
-    console.log('아이디있음')
-    // const _result = await compareFunc(password, member.password) // true 또는 false 반환
-    // _result: true → 비밀번호 일치
-    // if (_result) {
-    //   res.json({ result: true, data: member })
-    // } else res.json({ result: false, message: '비밀번호가 틀렸습니다' })
+  try {
+    const { email, password } = req.body
+    // 사용자 조회
+    const result = await mMember.findOne({
+      where: { email },
+    })
+    if (!result) {
+      res.json({ result: false, message: '사용자가 존재하지 않습니다' })
+    }
+    // 비밀번호 확인
+    const compare = await comparePassword(password, result.password)
+    console.log(compare)
+    if (compare) {
+      // 비밀번호 일치
+      // res.cookie('isLoggin', true, cookieConfig);
+      // req.session.userInfo = { name: user.name, id: user.id };
+      const token = jwt.sign({ email }, SECRET) // email에 해당하는 token 발급
+      res.json({ result: true, token, data: compare })
+    } else {
+      res.json({ result: false, message: '비밀번호가 일치하지 않습니다' })
+    }
+  } catch (err) {
+    console.log(err)
   }
-  // 사용자가 존재하지 않으면 (undefined, null)
-  // else res.json({ result: false, message: '사용자가 존재하지 않습니다' })
-  console.log('사용자없음')
 }
 
-// 게시물
-const postBoard = (req, res) => {}
+// 방 생성하는 페이지
+const postRoomAdd = (req, res) => {
+  console.log('roomadd: ', req.body)
+  const { rtitle, code } = req.body
+  mRoom
+    .create({
+      rtitle,
+      code,
+    })
+    .then(() => {
+      res.json({ result: true })
+    })
+    .catch((error) => {
+      console.log('room add 에러: ', error)
+    })
+}
+
+// 게시물 업로드
+const postBoardRegister = async (req, res) => {
+  console.log(req.body)
+  try {
+    const { pTitle, pContent } = req.body
+    const result = await mPost.create({
+      pTitle,
+      pContent,
+    })
+    if (result) res.json({ result: true, message: '게시물 업로드 성공' })
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 //TODO 관리자
 const postAdmin = (req, res) => {}
@@ -170,13 +218,14 @@ module.exports = {
   signIn,
   profile,
   board,
+  BoardRegister,
   select,
   room,
   roomAdd,
   admin,
   postSignUp,
   postSignIn,
-  postBoard,
+  postBoardRegister,
   editProfile,
   deleteProfile,
   postAdmin,
