@@ -144,7 +144,7 @@ const postBoard = (req, res) => {}
 const postAdmin = (req, res) => {}
 
 //* PATCH
-//TODO 회원 정보 수정
+// 회원 정보 수정
 const editProfile = async (req, res) => {
   const authHeader = req.headers.authorization
   if (!authHeader) {
