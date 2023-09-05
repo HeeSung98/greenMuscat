@@ -14,7 +14,7 @@ router.get('/main/signin', controller.signIn)
 router.post('/main/signin', controller.postSignIn)
 
 // 로그아웃 (SignOut)
-router.post('/signout', controller.postSignOut)
+router.post('/main/signout', controller.postSignOut)
 
 // 마이 페이지 (Profile)
 router.get('/main/profile', controller.profile)
@@ -31,20 +31,6 @@ router.post('/main/add', controller.postRoomAdd)
 
 // 방 입장 (RoomEntrance)
 router.post('/main/entrance')
-
-// 스레드 페이지 (get)
-router.get('/board', controller.board)
-
-// 게시글 업로드 페이지
-router.get('/board/register', controller.boardRegister)
-router.post('/board/register', controller.postBoardRegister)
-
-// 댓글 페이지
-router.get('/board/reply', controller.reply)
-// 댓글 정보 보내기
-router.post('/board/reply', controller.postReply)
-// 댓글 달기
-router.post('/board/replyregister', controller.postReplyRegister)
 
 // 방 선택 페이지 (Select)
 router.get('/select', controller.select)
@@ -65,6 +51,13 @@ router.patch('/room/board/modify', controller.modifyBoard)
 
 // 게시물 삭제 페이지 (Post)
 router.delete('/room/board/remove', controller.removeBoard)
+
+// 댓글 페이지
+router.get('/room/board/reply', controller.reply)
+// 댓글 정보 보내기
+router.post('/room/board/reply', controller.postReply)
+// 댓글 달기
+router.post('/room/board/replyregister', controller.postReplyRegister)
 
 // 관리자 페이지
 router.post('/admin', controller.postAdmin)
