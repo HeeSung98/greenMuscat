@@ -31,12 +31,7 @@ const signUp = (req, res) => {
 const signIn = (req, res) => {
   res.render('signin')
 }
-<<<<<<< HEAD
-
-//TODO 게시글 페이지(스레드 페이지)
-=======
 //게시글 페이지(스레드페이지)
->>>>>>> son
 const board = async (req, res) => {
   console.log(
     'ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ게시물 불러오기ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ'
