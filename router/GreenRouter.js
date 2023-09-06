@@ -38,7 +38,7 @@ router.get('/board:rno', controller.board)
 router.post('/board:rno', controller.postBoard)
 
 // 마이 페이지 (Profile)
-router.get('/profile:id', controller.profile)
+router.get('/profile', controller.profile)
 
 // 회원 정보 수정
 router.patch('/profile/edit', controller.editProfile)
@@ -71,7 +71,9 @@ router.get('/room/board/reply', controller.reply)
 // 댓글 정보 보내기
 router.post('/room/board/reply', controller.postReply)
 // 댓글 달기
-router.post('/room/board/replyregister', controller.postReplyRegister)
+router.post('/room/board/reply/register', controller.postRegisterReply)
+// 댓글 수정
+router.patch('/room/board/reply/edit', controller.editReply)
 
 // 관리자 페이지
 router.get('/admin', controller.admin)

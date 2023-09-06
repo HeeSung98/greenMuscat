@@ -7,6 +7,7 @@ const {
   mRoom,
   mMembersInRoom,
   mPost,
+  mReply,
   mPostImage,
 } = require('../models')
 const SECRET = 'mySecretKey'
@@ -140,8 +141,7 @@ const admin = (req, res) => {
   res.render('admin')
 }
 
-/* ---------------------------------------------------------- */
-//* POST
+//* -------- POST --------
 //* 회원가입
 const postSignUp = async (req, res) => {
   try {
@@ -272,6 +272,9 @@ const postRoomLists = async (req, res) => {
   }
 }
 
+//TODO
+const postBoard = (req, res) => {}
+
 //* 게시물 업로드
 const postBoardRegister = async (req, res) => {
   console.log(req.body)
@@ -316,7 +319,7 @@ const postReply = async (req, res) => {
 }
 
 //* 댓글 달기
-const postReplyRegister = async (req, res) => {
+const postRegisterReply = async (req, res) => {
   const authHeader = req.headers.authorization
   const [bearer, token] = authHeader.split(' ')
   const { text, POST_pNo } = req.body
@@ -332,6 +335,7 @@ const postReplyRegister = async (req, res) => {
     })
     if (reply) {
       console.log({ nickname: user.nickname, reply })
+      res.json(reply)
       // res.redirect('/')
     }
   } catch (error) {
@@ -339,13 +343,10 @@ const postReplyRegister = async (req, res) => {
   }
 }
 
-//TODO 댓글 수정
-const editReply = async (req, res) => {}
-
 //TODO 관리자
 const postAdmin = (req, res) => {}
 
-//* PATCH
+//* ------- PATCH --------
 //* 회원 정보 수정
 const editProfile = async (req, res) => {
   const authHeader = req.headers.authorization
@@ -374,7 +375,8 @@ const editProfile = async (req, res) => {
       return
     }
     // 있으면 프로필 사진, 닉네임, 비밀번호 수정
-    await member.update({ profileImage, nickname, password })
+    const hash = await bcryptPassword(password) // 비밀번호 암호화
+    await member.update({ profileImage, nickname, password: hash })
     res.json({ result: true, message: '회원 정보 수정 성공' })
   } catch (error) {
     console.log(error)
@@ -382,8 +384,34 @@ const editProfile = async (req, res) => {
   }
 }
 
-// 게시글 수정
+//TODO 게시글 수정
 const modifyBoard = async (req, res) => {}
+
+//* 댓글 수정
+const editReply = async (req, res) => {
+  const authHeader = req.headers.authorization
+  const [bearer, token] = authHeader.split(' ')
+  const { text, reNo } = req.body
+  try {
+    const decodedToken = jwt.verify(token, SECRET)
+    // token에 들어있는 email인 멤버 조회
+    const user = await mMember.findOne({ where: { email: decodedToken.email } })
+    const reply = await mReply.findOne({
+      where: { MEMBER_email: decodedToken.email, reNo },
+    })
+    // 조회 되면 댓글 수정
+    const edit_reply = await reply.update({
+      text,
+    })
+    if (edit_reply) {
+      console.log(`${user.nickname}님 댓글 수정 완료`, edit_reply)
+      res.json({ message: '댓글 수정 완료', edit_reply })
+      // res.redirect('/')
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 //* DELETE
 //* 회원 탈퇴
@@ -419,21 +447,24 @@ module.exports = {
   board,
   reply,
   postReply,
-  postReplyRegister,
+  postRegisterReply,
   select,
   room,
   roomAdd,
   admin,
+  notice,
   postSignUp,
   postSignIn,
   postBoardRegister,
   postNotice,
+  editReply,
   editProfile,
   deleteProfile,
   postAdmin,
   postRoomAdd,
   postRoomEntrance,
   postRoomLists,
+  postBoard,
   removeBoard,
   modifyBoard,
 }
