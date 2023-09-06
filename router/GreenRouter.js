@@ -27,6 +27,8 @@ router.get('main/roomadd', controller.roomAdd)
 router.post('main/roomadd', controller.postRoomAdd)
 // 방 선택 페이지 (Select)
 router.get('main/select', controller.select)
+// 방 선택 페이지 (Select)
+router.get('main/select', controller.select)
 // 방 메인 페이지 (Room)
 router.get('main/room:id', controller.room)
 
