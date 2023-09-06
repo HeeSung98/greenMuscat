@@ -23,14 +23,14 @@ router.get('/main/profile', controller.profile)
 
 //!--------- 방 관련 ---------
 // 방 생성 페이지(roomadd)
-router.get('/roomadd', controller.roomAdd)
-router.post('/roomadd', controller.postRoomAdd)
+router.get('main/roomadd', controller.roomAdd)
+router.post('main/roomadd', controller.postRoomAdd)
 // 방 선택 페이지 (Select)
-router.get('/select', controller.select)
+router.get('main/select', controller.select)
 // 방 선택 페이지 (Select)
-router.get('/select', controller.select)
+router.get('main/select', controller.select)
 // 방 메인 페이지 (Room)
-router.get('/room:id', controller.room)
+router.get('main/room:id', controller.room)
 
 //!--------- 게시물 관련 ---------
 // 방 게시물 목록 페이지 (Board)
@@ -58,8 +58,8 @@ router.delete('/room/board/reply/destroy', controller.deleteReply)
 
 //!--------- 공지사항 관련 ---------
 //공지사항 작성 (notice)
-router.get('/notice', controller.notice)
-router.post('/postNotice', controller.postNotice)
+router.get('romm/notice', controller.notice)
+router.post('room/postNotice', controller.postNotice)
 
 //!--------- 관리자 관련 ---------
 // 관리자 페이지
