@@ -113,15 +113,16 @@ const select = (req, res) => {
   res.render('select', { roomLists: mRoom })
   console.log('room list: ', roomLists)
 }
-//TODO 선택한 방의 메인 페이지
+//* 선택한 방의 메인 페이지
 const room = (req, res) => {
   res.render('room')
 }
 
-//TODO 전체 댓글 보기
+//* 전체 댓글 보기
 const reply = async (req, res) => {
   const { POST_pNo, ROOM_rNo } = req.params
   try {
+    // 방 번호와 게시물 번호가 일치하는 댓글들 찾음
     const allReply = await mReply.findAll({
       where: { POST_pNo, ROOM_rNo },
     })
@@ -176,8 +177,6 @@ const postSignIn = async (req, res) => {
     console.log(compare)
     if (compare) {
       // 비밀번호 일치
-      // res.cookie('isLoggin', true, cookieConfig);
-      // req.session.userInfo = { name: user.name, id: user.id };
       const token = jwt.sign({ email }, SECRET, { expiresIn: '3d' }) // email에 해당하는 token 발급. 3일 유효
       // 해당 유저에게 token 할당 후 저장
       user.token = token
@@ -205,8 +204,8 @@ const postSignIn = async (req, res) => {
 }
 
 //* 로그아웃
-// 로그아웃 버튼 누르면 생성되었던 토큰 사라지게 ""
 const postSignOut = (req, res) => {
+  // 로그아웃 버튼 누르면 생성되었던 토큰 사라지게 ""
   res.cookie('x_auth', '').json({ logoutSuccess: true })
 }
 
@@ -238,7 +237,7 @@ const postRoomAdd = async (req, res) => {
   }
 }
 
-// 방 입장
+//* 방 입장
 const postRoomEntrance = async (req, res) => {
   console.log('--------------방 입장--------------')
   const { code, email } = req.body
@@ -259,7 +258,7 @@ const postRoomEntrance = async (req, res) => {
   }
 }
 
-// 방 목록
+//* 방 목록
 const postRoomLists = async (req, res) => {
   console.log('--------------방 목록--------------')
   const { email } = req.body
@@ -288,7 +287,7 @@ const postBoardRegister = async (req, res) => {
     console.log(error)
   }
 }
-// 공지사항 업로드
+//* 공지사항 업로드
 const postNotice = async (req, res) => {
   console.log(req.body)
   try {
@@ -305,9 +304,10 @@ const postNotice = async (req, res) => {
   }
 }
 
-//TODO 댓글 정보
+//* 댓글 정보 보내기
 const postReply = async (req, res) => {
   const { POST_pNo } = req.body
+  // Reply db에서 게시물 번호에 해당하는 모든 댓글들 조회
   const allReply = await mReply.findAll({ where: { POST_pNo } })
   if (allReply) {
     console.log(allReply)
@@ -322,7 +322,9 @@ const postReplyRegister = async (req, res) => {
   const { text, POST_pNo } = req.body
   try {
     const decodedToken = jwt.verify(token, SECRET)
+    // token에 들어있는 email인 멤버 조회
     const user = await mMember.findOne({ where: { email: decodedToken.email } })
+    // 조회 되면 댓글 작성
     const reply = await mReply.create({
       text,
       MEMBER_email: user.email,
@@ -366,10 +368,12 @@ const editProfile = async (req, res) => {
     const member = await mMember.findOne({
       where: { email: decodedToken.email },
     })
+    // 회원이 없으면
     if (!member) {
       res.json({ result: false, message: '회원을 찾을 수 없습니다.' })
       return
     }
+    // 있으면 프로필 사진, 닉네임, 비밀번호 수정
     await member.update({ profileImage, nickname, password })
     res.json({ result: true, message: '회원 정보 수정 성공' })
   } catch (error) {
@@ -395,6 +399,7 @@ const deleteProfile = async (req, res) => {
     res.json({ result: false, message: '인증 방식이 틀렸습니다.' })
     return
   }
+  // token에 들어있던 email과 일치하는 곳의 cookie 없앰
   await mMember.destroy({ where: { email: decodedToken.email } }).then(() => {
     res.clearCookie('x_auth')
     // req.session.destroy()
