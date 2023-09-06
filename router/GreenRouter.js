@@ -53,6 +53,8 @@ router.post('/room/board/reply', controller.postReply)
 router.post('/room/board/reply/register', controller.postRegisterReply)
 // 댓글 수정
 router.patch('/room/board/reply/edit', controller.editReply)
+// 댓글 삭제
+router.delete('/room/board/reply/destroy', controller.deleteReply)
 
 //!--------- 공지사항 관련 ---------
 //공지사항 작성 (notice)

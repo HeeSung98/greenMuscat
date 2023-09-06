@@ -415,15 +415,8 @@ const editReply = async (req, res) => {
 const deleteProfile = async (req, res) => {
   const authHeader = req.headers.authorization
   const [bearer, token] = authHeader.split(' ')
-  if (!authHeader) {
-    res.json({ result: false, message: '인증 정보가 필요합니다.' })
-    return
-  }
   const decodedToken = jwt.verify(token, SECRET)
-  if (bearer !== 'Bearer') {
-    res.json({ result: false, message: '인증 방식이 틀렸습니다.' })
-    return
-  }
+
   // token에 들어있던 email과 일치하는 곳의 cookie 없앰
   await mMember.destroy({ where: { email: decodedToken.email } }).then(() => {
     res.clearCookie('x_auth')
@@ -435,36 +428,66 @@ const deleteProfile = async (req, res) => {
 // 게시글 삭제
 const removeBoard = async (req, res) => {}
 
-//TODO 댓글 삭제
+//* 댓글 삭제
+const deleteReply = async (req, res) => {
+  const authHeader = req.headers.authorization
+  const [bearer, token] = authHeader.split(' ')
+  const { text, reNo } = req.body
+  try {
+    const decodedToken = jwt.verify(token, SECRET)
+    // token에 들어있는 email인 멤버 조회
+    const user = await mMember.findOne({ where: { email: decodedToken.email } })
+    const reply = await mReply.findOne({
+      where: { MEMBER_email: decodedToken.email },
+    })
+    // 조회 되면 댓글 삭제
+    const delete_reply = await reply.destroy({ where: reNo })
+    if (delete_reply) {
+      console.log(`${user.nickname}님 댓글 삭제 완료`, delete_reply)
+      res.json({ message: '댓글 삭제 완료' })
+      // res.redirect('/')
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 module.exports = {
+  // main
   main,
+  // 회원
   signUp,
+  postSignUp,
   signIn,
+  postSignIn,
   postSignOut,
   profile,
+  editProfile,
+  deleteProfile,
+  // 방
+  room,
+  select,
+  postRoomEntrance,
+  roomAdd,
+  postRoomAdd,
+  postRoomLists,
+  // 게시글
   board,
+  postBoardRegister,
+  modifyBoard,
+  removeBoard,
+  // 댓글
   reply,
   postReply,
   postRegisterReply,
-  select,
-  room,
-  roomAdd,
-  admin,
-  notice,
-  postSignUp,
-  postSignIn,
-  postBoardRegister,
-  postNotice,
   editReply,
-  editProfile,
-  deleteProfile,
+  deleteReply,
+  // 공지사항
+  notice,
+  postNotice,
+  // 관리자
+  admin,
   postAdmin,
-  postRoomAdd,
-  postRoomEntrance,
-  postRoomLists,
-  removeBoard,
-  modifyBoard,
 }
 
 const bcryptPassword = (password) => {
