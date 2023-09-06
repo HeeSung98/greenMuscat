@@ -4,17 +4,10 @@ const jwt = require('jsonwebtoken')
 const {
   mMember,
   mProfileImage,
-<<<<<<< HEAD
-  mPost,
-  mRoom,
-  mMembersInRoom,
-  mReply,
-=======
   mRoom,
   mMembersInRoom,
   mPost,
   mPostImage,
->>>>>>> son
 } = require('../models')
 const SECRET = 'mySecretKey'
 
@@ -31,12 +24,7 @@ const signUp = (req, res) => {
 const signIn = (req, res) => {
   res.render('signin')
 }
-<<<<<<< HEAD
-
-//TODO 게시글 페이지(스레드 페이지)
-=======
 //게시글 페이지(스레드페이지)
->>>>>>> son
 const board = async (req, res) => {
   console.log(
     'ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ게시물 불러오기ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ'
@@ -225,7 +213,7 @@ const postSignOut = (req, res) => {
 //* 방 생성
 const postRoomAdd = async (req, res) => {
   console.log(
-    'ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ'
+    'ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ방 생성ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ'
   )
   console.log('postRoomAdd req.body : ', req.body)
   const { rTitle, code, email } = req.body
@@ -256,8 +244,21 @@ const postRoomEntrance = async (req, res) => {
   const { code, email } = req.body
   try {
     const findedRoom = await mRoom.findOne({
-      code,
+      where: {
+        code,
+      },
     })
+    const findedMIR = await mMembersInRoom.findAll({
+      where: {
+        ROOM_code: code,
+        MEMBER_email: email,
+      },
+    })
+    console.log('findedMIR: ', findedMIR)
+    res.send(findedMIR)
+    // if (findedMIR.ROOM_code === code) {
+    //   res.json({ result: false, message: '이미 입장된 방입니다.' })
+    // } else {
     const createdMIR = await mMembersInRoom.create({
       role: 'member',
       ROOM_rTitle: findedRoom.rTitle,
@@ -265,7 +266,8 @@ const postRoomEntrance = async (req, res) => {
       ROOM_rNo: findedRoom.rNo,
       MEMBER_email: email,
     })
-    res.json({ result: true })
+    res.json({ result: true, message: '방 입장 완료' })
+    // }
   } catch (error) {
     res.json({ error })
   }
@@ -276,10 +278,12 @@ const postRoomLists = async (req, res) => {
   console.log('--------------방 목록--------------')
   const { email } = req.body
   try {
-    await mMembersInRoom.findAll({
-      attributes: ['ROOM_rTitle'],
+    const roomLists = await mMembersInRoom.findAll({
+      attributes: ['ROOM_rTitle', 'role', 'ROOM_code'],
       where: { MEMBER_email: email },
     })
+    console.log('방 이름: ', roomLists)
+    res.json({ result: true, rooms: roomLists })
   } catch (error) {
     res.json({ error })
   }
@@ -421,14 +425,7 @@ module.exports = {
   postSignOut,
   profile,
   board,
-<<<<<<< HEAD
-  reply,
-  postReply,
-  postReplyRegister,
-=======
   notice,
-  BoardRegister,
->>>>>>> son
   select,
   room,
   roomAdd,
