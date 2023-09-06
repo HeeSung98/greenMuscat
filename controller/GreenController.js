@@ -274,7 +274,7 @@ const postReply = async (req, res) => {
   }
 }
 
-//TODO 댓글 달기
+//* 댓글 달기
 const postReplyRegister = async (req, res) => {
   const authHeader = req.headers.authorization
   const [bearer, token] = authHeader.split(' ')
@@ -295,6 +295,9 @@ const postReplyRegister = async (req, res) => {
     console.log(error)
   }
 }
+
+//TODO 댓글 수정
+const editReply = async (req, res) => {}
 
 //TODO 관리자
 const postAdmin = (req, res) => {}
