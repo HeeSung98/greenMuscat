@@ -28,6 +28,7 @@ const signIn = (req, res) => {
 
 //* * 게시글 페이지
 const board = async (req, res) => {
+  const { POST_pNo } = req.body
   console.log(
     'ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ게시물 불러오기ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ'
   )
@@ -36,14 +37,22 @@ const board = async (req, res) => {
     const posts = await mPost.findAll({
       //postImage에 등록된 사진도 함께 가져오기 위해 테이블 join
       include: [
+        //게시물테이블
         {
           model: mPostImage,
           required: false,
           attributes: ['path'],
         },
+        //댓글테이블
+        {
+          // 시퀄라이즈 조인은 기본 inner join
+          model: mReply, // join할 모델
+          required: false, // outer join으로 설정
+          attributes: ['reNo', 'text', 'updatedAt'], // select해서
+        },
       ],
     })
-
+    console.log(posts)
     // 각 포스트에서 'path' 값을 추출하여 새로운 배열 생성
     const paths = posts.map((post) =>
       post.POST_IMAGEs.map((image) => image.path)
@@ -151,14 +160,13 @@ const admin = (req, res) => {
 //* 회원가입
 const postSignUp = async (req, res) => {
   try {
-    const { email, name, nickname, password, point, fromSocial } = req.body
+    const { email, name, nickname, password, fromSocial } = req.body
     const hash = await bcryptPassword(password) // 비밀번호 암호화
     const result = await mMember.create({
       email,
       name,
       nickname,
       password: hash,
-      point,
       fromSocial,
     })
     if (result) res.json({ result: true, message: '회원 가입 성공' })
@@ -431,7 +439,11 @@ const deleteProfile = async (req, res) => {
 }
 
 //TODO 게시글 삭제
-const removeBoard = async (req, res) => {}
+const removeBoard = async (req, res) => {
+  const { pNo } = req.body
+  console.log(pNo)
+  const board = await mPost.findOne({ where: { pNo: pNo } })
+}
 
 //* 댓글 삭제
 const deleteReply = async (req, res) => {
