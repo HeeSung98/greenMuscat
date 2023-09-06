@@ -151,14 +151,13 @@ const admin = (req, res) => {
 //* 회원가입
 const postSignUp = async (req, res) => {
   try {
-    const { email, name, nickname, password, point, fromSocial } = req.body
+    const { email, name, nickname, password, fromSocial } = req.body
     const hash = await bcryptPassword(password) // 비밀번호 암호화
     const result = await mMember.create({
       email,
       name,
       nickname,
       password: hash,
-      point,
       fromSocial,
     })
     if (result) res.json({ result: true, message: '회원 가입 성공' })
