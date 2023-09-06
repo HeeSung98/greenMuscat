@@ -25,12 +25,8 @@ const signUp = (req, res) => {
 const signIn = (req, res) => {
   res.render('signin')
 }
-<<<<<<< HEAD
 
-//* 게시글 페이지(스레드페이지)
-=======
-//* 게시글 페이지
->>>>>>> hyeiis
+//* * 게시글 페이지
 const board = async (req, res) => {
   console.log(
     'ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ게시물 불러오기ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ'
@@ -69,17 +65,14 @@ const notice = async (req, res) => {
     const rooms = await mRoom.findAll({
       attributes: ['notice'],
     })
-    res.render('main', { data: rooms })
+    //! 렌더링 페이지 다시 확인
+    res.render('room', { data: rooms })
   } catch (error) {
     console.log(error)
   }
 }
 
-<<<<<<< HEAD
-//* 내 프로필
-=======
 //* 프로필
->>>>>>> hyeiis
 // 토큰을 찾고 그 토큰에 해당하는 유저의 마이페이지
 // sign으로
 const profile = async (req, res) => {
@@ -437,7 +430,7 @@ const deleteProfile = async (req, res) => {
   })
 }
 
-// 게시글 삭제
+//TODO 게시글 삭제
 const removeBoard = async (req, res) => {}
 
 //* 댓글 삭제
