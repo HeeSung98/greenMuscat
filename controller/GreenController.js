@@ -24,26 +24,31 @@ const signUp = (req, res) => {
 const signIn = (req, res) => {
   res.render('signin')
 }
+
 //게시글 페이지(스레드페이지)
 const board = async (req, res) => {
   console.log(
     'ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ게시물 불러오기ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ'
   )
   try {
-    await mPost
-      .findAll({
-        include: [
-          {
-            model: mPostImage,
-            required: false,
-            attributes: ['path'],
-          },
-        ],
-      })
-      .then((result) => {
-        console.log('result:', result[0].dataValues.POST_IMAGEs)
-        res.render('board', { data: result })
-      })
+    //post테이블에 값 불러오기
+    const posts = await mPost.findAll({
+      //postImage에 등록된 사진도 함께 가져오기 위해 테이블 join
+      include: [
+        {
+          model: mPostImage,
+          required: false,
+          attributes: ['path'],
+        },
+      ],
+    })
+
+    // 각 포스트에서 'path' 값을 추출하여 새로운 배열 생성
+    const paths = posts.map((post) =>
+      post.POST_IMAGEs.map((image) => image.path)
+    )
+
+    res.render('board', { data: posts, paths })
   } catch (error) {
     console.log(error)
   }
@@ -55,11 +60,11 @@ const notice = async (req, res) => {
     'ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ공지사항 불러오기ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ'
   )
   try {
-    await mRoom.findAll({}).then((result) => {
-      console.log('result:', result)
-      res.render('room', { data: result })
-      console.log('불러오기성공')
+    //room테이블 공지사항 값들 불러오기
+    const rooms = await mRoom.findAll({
+      attributes: ['notice'],
     })
+    res.render('main', { data: rooms })
   } catch (error) {
     console.log(error)
   }
@@ -237,6 +242,8 @@ const postRoomAdd = async (req, res) => {
     res.json({ error })
   }
 }
+// 업로드 페이지
+const postBoard = (req, res) => {}
 
 // 방 입장
 const postRoomEntrance = async (req, res) => {
@@ -277,7 +284,9 @@ const postRoomLists = async (req, res) => {
 const postBoardRegister = async (req, res) => {
   console.log(req.body)
   try {
+    //게시물 등록을 위한 content, rNo 값 가져오기
     const { pTitle, pContent, ROOM_rNo } = req.body
+    // 게시물 테이블에 추가하기
     const result = await mPost.create({
       pTitle,
       pContent,
@@ -416,6 +425,7 @@ module.exports = {
   room,
   roomAdd,
   admin,
+  notice,
   postSignUp,
   postSignIn,
   postBoardRegister,
@@ -428,6 +438,7 @@ module.exports = {
   postRoomLists,
   removeBoard,
   modifyBoard,
+  postBoard,
 }
 
 const bcryptPassword = (password) => {
