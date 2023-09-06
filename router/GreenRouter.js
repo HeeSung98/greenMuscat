@@ -55,7 +55,7 @@ router.delete('/room/board/reply/destroy', controller.deleteReply)
 
 //!--------- 공지사항 관련 ---------
 //공지사항 작성 (notice)
-router.get('/romm/notice', controller.notice)
+router.get('/room/notice', controller.notice)
 router.post('/room/notice', controller.postNotice)
 
 //!--------- 관리자 관련 ---------
