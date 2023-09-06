@@ -3,11 +3,11 @@ const router = express.Router()
 const controller = require('../controller/GreenController')
 
 // 메인 페이지
-router.get('/main', controller.main)
+router.get('/', controller.main)
 
 // 회원가입 (SignUp)
-router.get('/main/signup', controller.signUp)
-router.post('/main/signup', controller.postSignUp)
+router.get('/signup', controller.signUp)
+router.post('/signup', controller.postSignUp)
 
 // 로그인 (SignIn)
 router.get('/main/signin', controller.signIn)
@@ -15,6 +15,10 @@ router.post('/main/signin', controller.postSignIn)
 
 // 로그아웃 (SignOut)
 router.post('/main/signout', controller.postSignOut)
+
+//공지사항 작성 (notice)
+router.get('/notice', controller.notice)
+router.post('/postNotice', controller.postNotice)
 
 // 마이 페이지 (Profile)
 router.get('/main/profile', controller.profile)
@@ -26,11 +30,21 @@ router.patch('/main/profile/edit', controller.editProfile)
 router.delete('/main/profile/destroy', controller.deleteProfile)
 
 // 방 생성 페이지(roomadd)
-router.get('/main/add', controller.roomAdd)
-router.post('/main/add', controller.postRoomAdd)
+router.get('/roomadd', controller.roomAdd)
+router.post('/roomadd', controller.postRoomAdd)
 
-// 방 입장 (RoomEntrance)
-router.post('/main/entrance')
+// 업로드 페이지 (Post)
+router.get('/board:rno', controller.board)
+router.post('/board:rno', controller.postBoard)
+
+// 마이 페이지 (Profile)
+router.get('/profile:id', controller.profile)
+
+// 회원 정보 수정
+router.patch('/profile/edit', controller.editProfile)
+
+// 방 선택 페이지 (Select)
+router.get('/select', controller.select)
 
 // 방 선택 페이지 (Select)
 router.get('/select', controller.select)
@@ -60,6 +74,7 @@ router.post('/room/board/reply', controller.postReply)
 router.post('/room/board/replyregister', controller.postReplyRegister)
 
 // 관리자 페이지
+router.get('/admin', controller.admin)
 router.post('/admin', controller.postAdmin)
 
 module.exports = router
