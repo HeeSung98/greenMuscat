@@ -16,8 +16,8 @@ router.post('/main/signin', controller.postSignIn)
 // 로그아웃 (SignOut)
 router.post('/main/signout', controller.postSignOut)
 
-//공지사항 작성 (notice)
-router.get('/notice', controller.notice)
+// 공지사항 작성 (notice)
+// router.get('/notice', controller.notice)
 router.post('/postNotice', controller.postNotice)
 
 // 마이 페이지 (Profile)
