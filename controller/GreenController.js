@@ -272,9 +272,6 @@ const postRoomLists = async (req, res) => {
   }
 }
 
-//TODO
-const postBoard = (req, res) => {}
-
 //* 게시물 업로드
 const postBoardRegister = async (req, res) => {
   console.log(req.body)
@@ -438,6 +435,8 @@ const deleteProfile = async (req, res) => {
 // 게시글 삭제
 const removeBoard = async (req, res) => {}
 
+//TODO 댓글 삭제
+
 module.exports = {
   main,
   signUp,
@@ -464,7 +463,6 @@ module.exports = {
   postRoomAdd,
   postRoomEntrance,
   postRoomLists,
-  postBoard,
   removeBoard,
   modifyBoard,
 }
