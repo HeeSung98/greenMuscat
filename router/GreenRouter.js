@@ -3,12 +3,12 @@ const router = express.Router()
 const controller = require('../controller/GreenController')
 
 // 메인 페이지
-router.get('/', controller.main)
+router.get('/main', controller.main)
 
 //!--------- 회원 정보 관련 ---------
 // 회원가입 (SignUp)
-router.get('/signup', controller.signUp)
-router.post('/signup', controller.postSignUp)
+router.get('/main/signup', controller.signUp)
+router.post('/main/signup', controller.postSignUp)
 // 로그인 (SignIn)
 router.get('/main/signin', controller.signIn)
 router.post('/main/signin', controller.postSignIn)
@@ -23,14 +23,14 @@ router.get('/main/profile', controller.profile)
 
 //!--------- 방 관련 ---------
 // 방 생성 페이지(roomadd)
-router.get('main/roomadd', controller.roomAdd)
-router.post('main/roomadd', controller.postRoomAdd)
+router.get('/main/roomadd', controller.roomAdd)
+router.post('/main/roomadd', controller.postRoomAdd)
 // 방 선택 페이지 (Select)
-router.get('main/select', controller.select)
+router.get('/main/select', controller.select)
 // 방 선택 페이지 (Select)
-router.get('main/select', controller.select)
+router.get('/main/select', controller.select)
 // 방 메인 페이지 (Room)
-router.get('main/room:id', controller.room)
+router.get('/main/room:id', controller.room)
 
 //!--------- 게시물 관련 ---------
 // 방 게시물 목록 페이지 (Board)
@@ -58,8 +58,8 @@ router.delete('/room/board/reply/destroy', controller.deleteReply)
 
 //!--------- 공지사항 관련 ---------
 //공지사항 작성 (notice)
-router.get('romm/notice', controller.notice)
-router.post('room/postNotice', controller.postNotice)
+router.get('/romm/notice', controller.notice)
+router.post('/room/postNotice', controller.postNotice)
 
 //!--------- 관리자 관련 ---------
 // 관리자 페이지
