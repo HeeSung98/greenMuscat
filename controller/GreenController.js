@@ -4,17 +4,10 @@ const jwt = require('jsonwebtoken')
 const {
   mMember,
   mProfileImage,
-<<<<<<< HEAD
-  mPost,
-  mRoom,
-  mMembersInRoom,
-  mReply,
-=======
   mRoom,
   mMembersInRoom,
   mPost,
   mPostImage,
->>>>>>> son
 } = require('../models')
 const SECRET = 'mySecretKey'
 
@@ -416,14 +409,9 @@ module.exports = {
   postSignOut,
   profile,
   board,
-<<<<<<< HEAD
   reply,
   postReply,
   postReplyRegister,
-=======
-  notice,
-  BoardRegister,
->>>>>>> son
   select,
   room,
   roomAdd,
