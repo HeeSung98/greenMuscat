@@ -35,7 +35,7 @@ router.post('/roomadd', controller.postRoomAdd)
 
 // 업로드 페이지 (Post)
 router.get('/board:rno', controller.board)
-router.post('/board:rno', controller.postBoard)
+router.post('/board', controller.postBoard)
 
 // 마이 페이지 (Profile)
 router.get('/profile:id', controller.profile)
