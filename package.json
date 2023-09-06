@@ -4,8 +4,8 @@
   "description": "Implementation for children's environmental awareness",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=development nodemon index.js",
-    "deploy": "cross-env NODE_ENV=aws nodemon index.js",
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "deploy": "cross-env NODE_ENV=deploy nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
