@@ -25,7 +25,7 @@ const signUp = (req, res) => {
 const signIn = (req, res) => {
   res.render('signin')
 }
-//게시글 페이지(스레드페이지)
+//* 게시글 페이지
 const board = async (req, res) => {
   console.log(
     'ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ게시물 불러오기ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ'
@@ -50,7 +50,7 @@ const board = async (req, res) => {
   }
 }
 
-//공지사항 페이지
+//* 공지사항
 const notice = async (req, res) => {
   console.log(
     'ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ공지사항 불러오기ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ'
@@ -66,7 +66,7 @@ const notice = async (req, res) => {
   }
 }
 
-//TODO 내 프로필
+//* 프로필
 // 토큰을 찾고 그 토큰에 해당하는 유저의 마이페이지
 // sign으로
 const profile = async (req, res) => {
@@ -381,9 +381,6 @@ const editProfile = async (req, res) => {
   }
 }
 
-//TODO 게시글 수정
-const modifyBoard = async (req, res) => {}
-
 //* 댓글 수정
 const editReply = async (req, res) => {
   const authHeader = req.headers.authorization
@@ -474,7 +471,6 @@ module.exports = {
   // 게시글
   board,
   postBoardRegister,
-  modifyBoard,
   removeBoard,
   // 댓글
   reply,
