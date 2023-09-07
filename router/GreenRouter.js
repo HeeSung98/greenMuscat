@@ -71,7 +71,8 @@ router.get('/main/room:id', controller.room)
 // 방 게시물 목록 페이지 (Board)
 router.get('/room/board', controller.room)
 // 게시물 업로드 페이지 (Post)
-router.get('/room/board/register', controller.board)
+router.post('/room/board/register', controller.board)
+// 게시물 업로드(Post)
 router.post(
   '/room/board/register',
   upload.array('files'),

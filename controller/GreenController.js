@@ -33,7 +33,7 @@ const signIn = (req, res) => {
 const board = async (req, res) => {
   const { POST_pNo } = req.body
   console.log(
-    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 게시물 불러오기 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
+    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 게시물 불러오기 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
   try {
     //post테이블에 값 불러오기
@@ -70,7 +70,7 @@ const board = async (req, res) => {
 //* 공지사항
 const notice = async (req, res) => {
   console.log(
-    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 공지사항 불러오기 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
+    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 공지사항 불러오기 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
   try {
     //room테이블 공지사항 값들 불러오기
@@ -229,7 +229,7 @@ const postSignOut = (req, res) => {
 //* 방 생성
 const postRoomAdd = async (req, res) => {
   console.log(
-    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 방 생성 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
+    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 방 생성 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
   console.log('postRoomAdd req.body : ', req.body)
   const { rTitle, code, email } = req.body
@@ -257,7 +257,7 @@ const postRoomAdd = async (req, res) => {
 //* 방 입장
 const postRoomEntrance = async (req, res) => {
   console.log(
-    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 방 입장 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
+    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 방 입장 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
   const { code, email } = req.body
   try {
@@ -294,7 +294,7 @@ const postRoomEntrance = async (req, res) => {
 //* 방 목록
 const postRoomLists = async (req, res) => {
   console.log(
-    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 방 목록 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
+    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 방 목록 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
   const { email } = req.body
   try {
@@ -309,18 +309,31 @@ const postRoomLists = async (req, res) => {
   }
 }
 
+//* 게시물 업로드 페이지 이동
+const postBoard = async (req, res) => {
+  console.log(
+    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ register 페이지 이동 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
+  )
+  console.log('req.body:', req.body)
+  const { MEMBER_email, ROOM_rNo } = req.body
+  res.send('register', { MEMBER_email, ROOM_rNo })
+}
+
 //* 게시물 업로드
 const postBoardRegister = async (req, res) => {
   console.log(
-    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 게시물 업로드 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
+    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 게시물 업로드 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
-  console.log(req.body)
+  console.log('req.body:', req.body)
+  console.log('req.files:', req.files)
+
   try {
     //게시물 등록을 위한 content, rNo 값 가져오기
-    const { pContent, ROOM_rNo } = req.body
+    const { pContent, MEMBER_email, ROOM_rNo } = req.body
     // 게시물 테이블에 추가하기
     const createdPost = await mPost.create({
       pContent,
+      MEMBER_email,
       ROOM_rNo,
     })
     console.log('createdPost:', createdPost)
@@ -526,6 +539,7 @@ module.exports = {
   postRoomLists,
   // 게시글
   board,
+  postBoard,
   postBoardRegister,
   removeBoard,
   // 댓글
