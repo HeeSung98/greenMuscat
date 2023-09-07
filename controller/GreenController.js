@@ -438,11 +438,19 @@ const deleteProfile = async (req, res) => {
   })
 }
 
-//TODO 게시글 삭제
+//게시글 삭제
 const removeBoard = async (req, res) => {
   const { pNo } = req.body
   console.log(pNo)
-  const board = await mPost.findOne({ where: { pNo: pNo } })
+  try {
+    const delete_board = await mPost.destroy({ where: { pNo: pNo } })
+    if (delete_board) {
+      console.log('yes')
+      res.json({ message: '게시물 삭제 완료' })
+    }
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 //* 댓글 삭제
