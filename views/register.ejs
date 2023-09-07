@@ -33,13 +33,15 @@
         ROOM_rNo: form.roomNo.value,
       }
       console.log(data)
-      const res = await axios({
+      const respone = await axios({
         method: 'POST',
+        data,
         url: '/room/board/register',
       })
-      const resData = res.data.result
-      if (res.result) {
-        alert('')
+      resData = respone.data
+      console.log(resData)
+      if (resData.result) {
+        alert('가져와짐')
       } else {
         console.log('err')
       }
