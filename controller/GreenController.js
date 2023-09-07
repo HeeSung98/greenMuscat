@@ -295,12 +295,12 @@ const postRoomLists = async (req, res) => {
   )
   const { email } = req.body
   try {
-    const roomLists = await mMembersInRoom.findAll({
+    const roomList = await mMembersInRoom.findAll({
       attributes: ['ROOM_rTitle', 'role', 'ROOM_code'],
       where: { MEMBER_email: email },
     })
-    console.log('방 이름: ', roomLists)
-    res.json({ result: true, rooms: roomLists })
+    console.log('방 이름: ', roomList)
+    res.json({ result: true, rooms: roomList })
   } catch (error) {
     res.json({ error })
   }
@@ -316,14 +316,15 @@ const postBoardRegister = async (req, res) => {
     //게시물 등록을 위한 content, rNo 값 가져오기
     const { pContent, ROOM_rNo } = req.body
     // 게시물 테이블에 추가하기
-    const result = await mPost.create({
+    const createdPost = await mPost.create({
       pContent,
       ROOM_rNo,
     })
-    console.log('result:', result)
-    if (result) res.json({ result: true, message: '게시물 업로드 성공' })
+    console.log('createdPost:', createdPost)
+    res.json({ result: true, message: '게시물 업로드 성공' })
   } catch (error) {
     console.log(error)
+    res.json({ result: false })
   }
 }
 
