@@ -30,43 +30,53 @@ const signIn = (req, res) => {
 }
 
 //* * 게시글 페이지
-const board = async (req, res) => {
-  const { POST_pNo } = req.body
+const board = (req, res) => {
   console.log(
     ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 게시물 불러오기 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
-  try {
-    //post테이블에 값 불러오기
-    const posts = await mPost.findAll({
-      //postImage에 등록된 사진도 함께 가져오기 위해 테이블 join
-      include: [
-        //게시물테이블
-        {
-          model: mPostImage,
-          required: false,
-          attributes: ['path'],
-        },
-        //댓글테이블
-        {
-          // 시퀄라이즈 조인은 기본 inner join
-          model: mReply, // join할 모델
-          required: false, // outer join으로 설정
-          attributes: ['reNo', 'text', 'updatedAt'], // select해서
-        },
-      ],
-    })
-    console.log(posts)
-    // 각 포스트에서 'path' 값을 추출하여 새로운 배열 생성
-    const paths = posts.map((post) =>
-      post.POST_IMAGEs.map((image) => image.path)
-    )
+  res.render('board')
+  // try {
+  //   //post테이블에 값 불러오기
+  //   const posts = await mPost.findAll({
+  //     //postImage에 등록된 사진도 함께 가져오기 위해 테이블 join
+  //     include: [
+  //       //게시물테이블
+  //       {
+  //         model: mPostImage,
+  //         required: false,
+  //         attributes: ['path'],
+  //       },
+  //       //댓글테이블
+  //       {
+  //         // 시퀄라이즈 조인은 기본 inner join
+  //         model: mReply, // join할 모델
+  //         required: false, // outer join으로 설정
+  //         attributes: ['reNo', 'text', 'updatedAt'], // select해서
+  //       },
+  //     ],
+  //   })
+  //   console.log(posts)
+  //   // 각 포스트에서 'path' 값을 추출하여 새로운 배열 생성
+  //   const paths = posts.map((post) =>
+  //     post.POST_IMAGEs.map((image) => image.path)
+  //   )
 
-    console.log('-------------------post담기는값-------------------')
-    console.log(post)
-    res.render('board', { data: posts.pContent })
-  } catch (error) {
-    console.log(error)
-  }
+  //   console.log('-------------------post담기는값-------------------')
+  //   console.log(post)
+  //   res.render('board', { data: posts.pContent })
+  // } catch (error) {
+  //   console.log(error)
+  // }
+}
+
+//* 게시물 업로드 페이지 이동
+const boardRegister = async (req, res) => {
+  console.log(
+    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ register 페이지 이동 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
+  )
+  console.log('req.query:', req.query)
+  const { MEMBER_email, ROOM_rNo } = req.query
+  res.render('register', { MEMBER_email, ROOM_rNo })
 }
 
 //* 공지사항
@@ -311,16 +321,6 @@ const postRoomLists = async (req, res) => {
   }
 }
 
-//* 게시물 업로드 페이지 이동
-const postBoard = async (req, res) => {
-  console.log(
-    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ register 페이지 이동 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
-  )
-  console.log('req.body:', req.body)
-  const { MEMBER_email, ROOM_rNo } = req.body
-  res.send('register', { MEMBER_email, ROOM_rNo })
-}
-
 //* 게시물 업로드
 const postBoardRegister = async (req, res) => {
   console.log(
@@ -541,7 +541,7 @@ module.exports = {
   postRoomLists,
   // 게시글
   board,
-  postBoard,
+  boardRegister,
   postBoardRegister,
   removeBoard,
   // 댓글

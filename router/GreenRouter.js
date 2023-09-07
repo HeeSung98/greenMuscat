@@ -69,9 +69,9 @@ router.get('/main/room:id', controller.room)
 
 //!--------- 게시물 관련 ---------
 // 방 게시물 목록 페이지 (Board)
-router.get('/room/board', controller.room)
-// 게시물 업로드 페이지 (Post)
-router.post('/room/board/register', controller.board)
+router.get('/room/board', controller.board)
+// 게시물 업로드 페이지 (get)
+router.get('/room/board/register', controller.boardRegister)
 // 게시물 업로드(Post)
 router.post(
   '/room/board/register',
