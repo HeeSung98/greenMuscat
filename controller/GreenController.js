@@ -30,7 +30,7 @@ const signIn = (req, res) => {
 const board = async (req, res) => {
   const { POST_pNo } = req.body
   console.log(
-    'ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ게시물 불러오기ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ'
+    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 게시물 불러오기 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
   try {
     //post테이블에 값 불러오기
@@ -67,7 +67,7 @@ const board = async (req, res) => {
 //* 공지사항
 const notice = async (req, res) => {
   console.log(
-    'ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ공지사항 불러오기ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ'
+    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 공지사항 불러오기 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
   try {
     //room테이블 공지사항 값들 불러오기
@@ -226,7 +226,7 @@ const postSignOut = (req, res) => {
 //* 방 생성
 const postRoomAdd = async (req, res) => {
   console.log(
-    'ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ방 생성ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ'
+    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 방 생성 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
   console.log('postRoomAdd req.body : ', req.body)
   const { rTitle, code, email } = req.body
@@ -253,7 +253,9 @@ const postRoomAdd = async (req, res) => {
 
 //* 방 입장
 const postRoomEntrance = async (req, res) => {
-  console.log('--------------방 입장--------------')
+  console.log(
+    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 방 입장 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
+  )
   const { code, email } = req.body
   try {
     const findedRoom = await mRoom.findOne({
@@ -288,7 +290,9 @@ const postRoomEntrance = async (req, res) => {
 
 //* 방 목록
 const postRoomLists = async (req, res) => {
-  console.log('--------------방 목록--------------')
+  console.log(
+    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 방 목록 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
+  )
   const { email } = req.body
   try {
     const roomLists = await mMembersInRoom.findAll({
@@ -319,6 +323,7 @@ const postBoardRegister = async (req, res) => {
     console.log(error)
   }
 }
+
 //* 공지사항 업로드
 const postNotice = async (req, res) => {
   console.log(req.body)

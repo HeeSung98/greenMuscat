@@ -1,6 +1,34 @@
+const controller = require('../controller/GreenController')
+const dotenv = require('dotenv')
+const aws = require('aws-sdk')
+const multer = require('multer')
+const multerS3 = require('multer-s3')
 const express = require('express')
 const router = express.Router()
-const controller = require('../controller/GreenController')
+dotenv.config()
+
+aws.config.update({
+  accessKeyId: process.env.S3_KEYID,
+  secretAccessKey: process.env.S3_ACCESSKEY,
+  region: process.env.S3_REGION,
+  bucket: process.env.S3_BUCKET,
+})
+
+const s3 = new aws.S3()
+
+const upload = multer({
+  storage: multerS3({
+    s3,
+    bucket: process.env.S3_BUCKET,
+    acl: 'public-read',
+    metadata: function (req, file, callback) {
+      callback(null, { fieldName: file.fieldname })
+    },
+    key: function (req, file, callback) {
+      callback(null, Date.now().toString() + '-' + file.originalname)
+    },
+  }),
+})
 
 // 메인 페이지
 router.get('/', controller.main)
@@ -44,7 +72,11 @@ router.get('/main/room:id', controller.room)
 router.get('/room/board', controller.room)
 // 게시물 업로드 페이지 (Post)
 router.get('/room/board/register', controller.board)
-router.post('/room/board/register', controller.postBoardRegister)
+router.post(
+  '/room/board/register',
+  upload.array('files'),
+  controller.postBoardRegister
+)
 // 게시물 삭제 페이지 (Post)
 router.delete('/room/board/remove', controller.removeBoard)
 
