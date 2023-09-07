@@ -308,16 +308,19 @@ const postRoomLists = async (req, res) => {
 
 //* 게시물 업로드
 const postBoardRegister = async (req, res) => {
+  console.log(
+    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 게시물 업로드 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
+  )
   console.log(req.body)
   try {
     //게시물 등록을 위한 content, rNo 값 가져오기
-    const { pTitle, pContent, ROOM_rNo } = req.body
+    const { pContent, ROOM_rNo } = req.body
     // 게시물 테이블에 추가하기
     const result = await mPost.create({
-      pTitle,
       pContent,
       ROOM_rNo,
     })
+    console.log('result:', result)
     if (result) res.json({ result: true, message: '게시물 업로드 성공' })
   } catch (error) {
     console.log(error)

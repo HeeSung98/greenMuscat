@@ -1,14 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-
-<body>
+    <script
+      src="https://code.jquery.com/jquery-3.7.0.min.js"
+      integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style></style>
+  </head>
+  <body>
     <h1>게시물 전체 불러오기, 게시물 작성 (상단 조그맣게) -> 모달 창</h1>
-</body>
 
+    <form name="postForm">
+      <input type="text" id="content" />
+      <input type="text" id="roomNo" />
+      <button type="button" onclick="boardRegister()">게시</button>
+    </form>
+    <div class="result"></div>
+  </body>
+
+  <script>
+    const resultBox = document.querySelector('.result')
+    async function boardRegister() {
+      const form = document.forms['postForm']
+      const data = {
+        pContent: form.content.value,
+        ROOM_rNo: form.roomNo.value,
+      }
+      console.log(data)
+      const result = await axios({
+        method: 'POST',
+        url: '/room/board/register',
+        data,
+      })
+      if (result) {
+        // console.log(res.data.pTitle)
+        // console.log(res.data.pContent)
+        // console.log(res.data.ROOM_rNo)
+        // resultBox.textContent = `${result.data.pTitle}, ${result.data.pContent}, ${result.data.ROOM_rNo}`
+      } else {
+        console.log('err')
+      }
+    }
+  </script>
 </html>
