@@ -330,7 +330,7 @@ const postBoardRegister = async (req, res) => {
   console.log('req.files:', req.files)
 
   try {
-    //게시물 등록을 위한 content, rNo 값 가져오기
+    // 게시물 등록을 위한 값 가져오기
     const { pContent, MEMBER_email, ROOM_rNo } = req.body
     // 게시물 테이블에 추가하기
     const createdPost = await mPost.create({
