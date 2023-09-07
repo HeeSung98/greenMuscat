@@ -18,6 +18,7 @@
     <form name="postForm">
       <input type="text" id="content" />
       <input type="text" id="roomNo" />
+      <input type="file" id="files" multiple /><br /><br />
       <button type="button" onclick="boardRegister()">게시</button>
     </form>
     <div class="result"></div>
@@ -32,16 +33,13 @@
         ROOM_rNo: form.roomNo.value,
       }
       console.log(data)
-      const result = await axios({
+      const res = await axios({
         method: 'POST',
         url: '/room/board/register',
-        data,
       })
-      if (result) {
-        // console.log(res.data.pTitle)
-        // console.log(res.data.pContent)
-        // console.log(res.data.ROOM_rNo)
-        // resultBox.textContent = `${result.data.pTitle}, ${result.data.pContent}, ${result.data.ROOM_rNo}`
+      const resData = res.data.result
+      if (res.result) {
+        alert('')
       } else {
         console.log('err')
       }

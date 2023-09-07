@@ -1,5 +1,6 @@
 //* import
 const bcrypt = require('bcrypt')
+const dotenv = require('dotenv')
 const jwt = require('jsonwebtoken')
 const {
   mMember,
@@ -10,7 +11,9 @@ const {
   mReply,
   mPostImage,
 } = require('../models')
-const SECRET = 'mySecretKey'
+
+dotenv.config()
+const SECRET = process.env.SECRETKEY
 
 //* GET
 // 로그인 전 메인 페이지 (홈 화면)
