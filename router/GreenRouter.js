@@ -3,7 +3,7 @@ const router = express.Router()
 const controller = require('../controller/GreenController')
 
 // 메인 페이지
-router.get('/main', controller.main)
+router.get('/', controller.main)
 
 //!--------- 회원 정보 관련 ---------
 // 회원가입 (SignUp)
