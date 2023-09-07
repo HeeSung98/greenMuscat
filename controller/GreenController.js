@@ -58,7 +58,9 @@ const board = async (req, res) => {
       post.POST_IMAGEs.map((image) => image.path)
     )
 
-    res.render('board', { data: posts, paths })
+    console.log('-------------------post담기는값-------------------')
+    console.log(post)
+    res.render('board', { data: posts.pContent })
   } catch (error) {
     console.log(error)
   }
