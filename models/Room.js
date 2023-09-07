@@ -30,6 +30,10 @@ const Room = (sequelize) => {
         type: DataTypes.INTEGER(10),
         defaultValue: null,
       },
+      muscatTotal: {
+        type: DataTypes.INTEGER(10),
+        defaultValue: 0,
+      },
       notice: {
         type: DataTypes.STRING(255),
         defaultValue: null,
