@@ -30,7 +30,7 @@ const uploadProfile = multer({
     key: function (req, file, callback) {
       callback(
         null,
-        'profile' + Date.now().toString() + '-' + file.originalname
+        'profile-' + Date.now().toString() + '-' + file.originalname
       )
     },
   }),
@@ -45,7 +45,7 @@ const uploadRoom = multer({
       callback(null, { fieldName: file.fieldname })
     },
     key: function (req, file, callback) {
-      callback(null, 'room' + Date.now().toString() + '-' + file.originalname)
+      callback(null, 'room-' + Date.now().toString() + '-' + file.originalname)
     },
   }),
 })
@@ -59,7 +59,10 @@ const uploadPost = multer({
       callback(null, { fieldName: file.fieldname })
     },
     key: function (req, file, callback) {
-      callback(null, 'post' + Date.now().toString() + '-' + file.originalname)
+      callback(
+        null,
+        'post-' + Date.now().toString().substring(5) + '-' + file.originalname
+      )
     },
   }),
 })
@@ -104,7 +107,7 @@ router.get('/main/select', getController.select)
 // 방 메인 페이지 (Room)
 router.get('/room/', getController.room)
 // 방 이미지 수정 (Room)
-router.get('/room/', postController.postRoom)
+router.post('/room/', postController.postRoom)
 // 방 게시물 목록 페이지 (Board)
 router.get('/room/board', getController.board)
 // 게시물 업로드 페이지 (get)
