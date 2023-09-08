@@ -85,12 +85,11 @@
       const resultBox = document.querySelector('.result')
       async function btnRoomRegister() {
         const form = document.forms['roomAddForm']
-
-        const data = new FormData()
-        data.append('rTitle', form.roomTitle.value)
-        data.append('code', form.roomCode.value)
-        data.append('email', form.email.value)
-        console.log('data: ', data)
+        const data = {
+          rTitle: form.roomTitle.value,
+          code: form.roomCode.value,
+          email: form.email.value,
+        }
 
         const respone = await axios({
           method: 'POST',
@@ -100,6 +99,14 @@
 
         resData = respone.data
         console.log('resData: ', resData)
+        if (resData.result) {
+          alert(`${resData.message}`)
+          form.reset()
+          btnCloseModal()
+        } else {
+          alert(`${resData.message}`)
+          form.reset()
+        }
       }
     </script>
   </body>

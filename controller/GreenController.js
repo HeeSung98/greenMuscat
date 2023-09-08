@@ -265,7 +265,7 @@ const postRoomAdd = async (req, res) => {
         ROOM_code: createdRoom.code,
         MEMBER_email: email,
       })
-      res.json({ result: true, message: '방 생성 완료' })
+      res.json({ result: true, message: '생성이 완료되었습니다.' })
     } else {
       res.json({ result: false, message: '사용자가 존재하지 않습니다' })
     }
@@ -288,7 +288,7 @@ const postRoomEntrance = async (req, res) => {
     console.log(' findedRoom: ', findedRoom)
     // 방이 없으면
     if (!findedRoom) {
-      res.json({ result: false, msg: '방이 존재하지 않습니다.' })
+      res.json({ result: false, message: '방이 존재하지 않습니다.' })
     } else {
       // 방이 있으면
       // 입력한 방 입장 여부
