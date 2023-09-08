@@ -71,12 +71,22 @@
     <div class="btnRoomAdd" onclick="btnOpenModal()">방 생성하기</div>
 
     <script>
-      const nick = localStorage.getItem('nickname')
-      const h3 = document.querySelector('h3')
-      h3.innerText = nick + '님 방을 선택해주세요'
+      // const nick = localStorage.getItem('nickname')
+      // const h3 = document.querySelector('h3')
+      // h3.innerText = nick + '님 방을 선택해주세요'
 
       // 방 생성 모달창
       const modal = document.querySelector('.modal')
+
+      // 모달창 열기
+      function btnOpenModal() {
+        modal.style.display = 'flex'
+      }
+
+      // 모달창 닫기
+      function btnCloseModal() {
+        modal.style.display = 'none'
+      }
 
       // 방 생성 폼 데이터
       const resultBox = document.querySelector('.result')
@@ -87,6 +97,12 @@
           code: form.roomCode.value,
           email: form.email.value,
         }
+
+        const respone = await axios({
+          method: 'POST',
+          url: '/main/add',
+          data,
+        })
 
         resData = respone.data
         console.log('resData: ', resData)
