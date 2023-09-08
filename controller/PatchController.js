@@ -87,11 +87,31 @@ const editReply = async (req, res) => {
   }
 }
 
+// 공지사항 업로드
+const editNotice = async (req, res) => {
+  console.log(
+    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 공지사항 업로드 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
+  )
+  console.log(req.body)
+  try {
+    const { rNo, notice } = req.body
+    const noticeupdate = await mRoom.update(
+      { notice: notice },
+      { where: { rNo: rNo } }
+    )
+    if (noticeupdate)
+      res.json({ result: true, message: '공지사항 업로드 성공' })
+  } catch (error) {
+    console.log(error)
+  }
+}
 module.exports = {
   // 프로필
   editProfile,
   // 댓글
   editReply,
+  // 공지사항
+  editNotice,
 }
 
 const bcryptPassword = (password) => {

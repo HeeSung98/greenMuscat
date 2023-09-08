@@ -30,7 +30,7 @@ const uploadProfile = multer({
     key: function (req, file, callback) {
       callback(
         null,
-        'profile' + Date.now().toString() + '-' + file.originalname
+        'profile-' + Date.now().toString() + '-' + file.originalname
       )
     },
   }),
@@ -45,7 +45,7 @@ const uploadRoom = multer({
       callback(null, { fieldName: file.fieldname })
     },
     key: function (req, file, callback) {
-      callback(null, 'room' + Date.now().toString() + '-' + file.originalname)
+      callback(null, 'room-' + Date.now().toString() + '-' + file.originalname)
     },
   }),
 })
@@ -59,7 +59,10 @@ const uploadPost = multer({
       callback(null, { fieldName: file.fieldname })
     },
     key: function (req, file, callback) {
-      callback(null, 'post' + Date.now().toString() + '-' + file.originalname)
+      callback(
+        null,
+        'post-' + Date.now().toString().substring(5) + '-' + file.originalname
+      )
     },
   }),
 })
@@ -92,7 +95,7 @@ router.post('/main/profile', postController.postProfile)
 //!--------- 메인 페이지 관련 ---------
 // 방 생성 페이지(roomadd)
 router.get('/main/add', getController.roomAdd)
-router.post('/main/add', postController.postRoomAdd)
+router.post('/main/add', uploadRoom.array('files'), postController.postRoomAdd)
 // 방 목록
 router.post('/main/lists', postController.postRoomLists)
 // 방 입장 (RoomEntrance)
@@ -104,7 +107,7 @@ router.get('/main/select', getController.select)
 // 방 메인 페이지 (Room)
 router.get('/room/', getController.room)
 // 방 이미지 수정 (Room)
-router.get('/room/', postController.postRoom)
+router.post('/room/', postController.postRoom)
 // 방 게시물 목록 페이지 (Board)
 router.get('/room/board', getController.board)
 // 게시물 업로드 페이지 (get)
@@ -133,7 +136,7 @@ router.delete('/room/board/reply/destroy', deleteController.deleteReply)
 //!--------- 공지사항 관련 ---------
 //공지사항 작성 (notice)
 router.get('/room/notice', getController.notice)
-router.post('/room/notice', postController.postNotice)
+router.patch('/room/notice', patchController.editNotice)
 
 //!--------- 관리자 관련 ---------
 // 관리자 페이지

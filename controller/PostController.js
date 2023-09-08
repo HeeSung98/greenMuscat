@@ -254,23 +254,6 @@ const postBoardRegister = async (req, res) => {
   }
 }
 
-// 공지사항 업로드
-const postNotice = async (req, res) => {
-  console.log(req.body)
-  try {
-    const { rNO, rTitle, code, notice } = req.body
-    const result = await mRoom.create({
-      rNO,
-      rTitle,
-      code,
-      notice,
-    })
-    if (result) res.json({ result: true, message: '공지사항 업로드 성공' })
-  } catch (error) {
-    console.log(error)
-  }
-}
-
 // 댓글 정보 보내기
 const postReply = async (req, res) => {
   console.log(
@@ -339,8 +322,6 @@ module.exports = {
   // 댓글
   postReply,
   postRegisterReply,
-  // 공지사항
-  postNotice,
   // 관리자
   postAdmin,
 }
