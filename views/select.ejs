@@ -36,11 +36,13 @@
 
         transform: translateY(-50%);
       }
-      .room {
+      .btnRoomAdd {
         width: 100px;
         height: 100px;
         background-color: antiquewhite;
+        text-align: center;
         border-style: solid;
+        border-width: 3px;
       }
     </style>
     <title>방 선택하기</title>
@@ -50,21 +52,20 @@
     <div class="modal">
       <div class="modal_body">
         <h2>새로운 방 생성</h2>
-        <form name="roomAdd">
+        <form name="roomAddForm">
           <label for="email">이메일: </label>
           <input type="text" id="email" name="email" /><br />
-          <label for="roomName">방 이름: </label>
-          <input type="text" id="roomName" name="roomName" /><br />
+          <label for="roomTitle">방 이름: </label>
+          <input type="text" id="roomTitle" name="roomTitle" /><br />
           <label for="roomCode">입장 코드: </label>
           <input type="text" id="roomCode" name="roomCode" /><br />
-          <button type="button" onclick="registerFunc()">생성</button>
+          <button type="button" onclick="btnRoomRegister()">생성</button>
           <button type="button" onclick="btnCloseModal()">닫기</button>
         </form>
       </div>
     </div>
-    <div class="room" onclick="btnOpenModal()">방 생성하기</div>
-
-    <!-- <button onclick="btnOpenModal()">방 생성하기</button> -->
+    <div class="result"></div>
+    <div class="btnRoomAdd" onclick="btnOpenModal()">방 생성하기</div>
 
     <script>
       // 방 생성 모달창
@@ -81,27 +82,24 @@
       }
 
       // 방 생성 폼 데이터
-      async function registerFunc() {
-        const form = document.forms['roomAdd']
-        try {
-          const res = await axios({
-            method: 'POST',
-            url: '/main/add',
-            data: {
-              rTitle: form.roomName.value,
-              code: form.roomCode.value,
-              email: form.email.value,
-            },
-          })
-          if (res.data.result) {
-            console.log('프론트 res.data.result: ', res.data.result)
-            if (alert('방이 생성되었습니다.')) {
-              btnCloseModal()
-            }
-          }
-        } catch (err) {
-          console.log(err)
-        }
+      const resultBox = document.querySelector('.result')
+      async function btnRoomRegister() {
+        const form = document.forms['roomAddForm']
+
+        const data = new FormData()
+        data.append('rTitle', form.roomTitle.value)
+        data.append('code', form.roomCode.value)
+        data.append('email', form.email.value)
+        console.log('data: ', data)
+
+        const respone = await axios({
+          method: 'POST',
+          url: '/main/add',
+          data,
+        })
+
+        resData = respone.data
+        console.log('resData: ', resData)
       }
     </script>
   </body>
