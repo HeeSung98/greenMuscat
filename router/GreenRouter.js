@@ -62,7 +62,7 @@ router.post('/main/entrance', controller.postRoomEntrance)
 // 방 선택 페이지 (Select)
 router.get('/main/select', controller.select)
 // 방 메인 페이지 (Room)
-router.get('/main/room/:id', controller.room)
+router.get('/main/room', controller.room)
 
 //!--------- 게시물 관련 ---------
 // 방 게시물 목록 페이지 (Board)
