@@ -13,10 +13,6 @@ const Room = (sequelize) => {
         type: DataTypes.STRING(255),
         allowNull: false,
       },
-      rImg: {
-        type: DataTypes.STRING(255),
-        allowNull: false,
-      },
       code: {
         type: DataTypes.STRING(255),
         allowNull: false,
@@ -39,6 +35,10 @@ const Room = (sequelize) => {
         defaultValue: 0,
       },
       notice: {
+        type: DataTypes.STRING(255),
+        defaultValue: null,
+      },
+      rImg: {
         type: DataTypes.STRING(255),
         defaultValue: null,
       },

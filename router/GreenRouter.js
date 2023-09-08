@@ -30,7 +30,7 @@ const uploadProfile = multer({
     key: function (req, file, callback) {
       callback(
         null,
-        'profile' + Date.now().toString() + '-' + file.originalname
+        'profile-' + Date.now().toString() + '-' + file.originalname
       )
     },
   }),
@@ -45,7 +45,7 @@ const uploadRoom = multer({
       callback(null, { fieldName: file.fieldname })
     },
     key: function (req, file, callback) {
-      callback(null, 'room' + Date.now().toString() + '-' + file.originalname)
+      callback(null, 'room-' + Date.now().toString() + '-' + file.originalname)
     },
   }),
 })
@@ -59,7 +59,10 @@ const uploadPost = multer({
       callback(null, { fieldName: file.fieldname })
     },
     key: function (req, file, callback) {
-      callback(null, 'post' + Date.now().toString() + '-' + file.originalname)
+      callback(
+        null,
+        'post-' + Date.now().toString().substring(5) + '-' + file.originalname
+      )
     },
   }),
 })
