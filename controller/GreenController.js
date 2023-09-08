@@ -99,7 +99,7 @@ const profile = (req, res) => {
 
 //* 방 생성하는 페이지
 const roomAdd = (req, res) => {
-  res.render('roomadd')
+  res.render('select')
 }
 
 //* 방 선택하는 페이지
@@ -242,24 +242,33 @@ const postRoomAdd = async (req, res) => {
   console.log(
     ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 방 생성 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
-  console.log('postRoomAdd req.body : ', req.body)
+  console.log(' req.body : ', req.body)
   const { rTitle, code, email } = req.body
   try {
-    const createdRoom = await mRoom.create({
-      rTitle,
-      code,
+    // 사용자 조회 (프론트 작업 위해 넣음, 로그인 기능 확정되면 재정비 필요)
+    const user = await mMember.findOne({
+      where: { email },
     })
-    console.log('createdRoom.rNo:', createdRoom.rNo)
-    console.log('createdRoom.rTitle:', createdRoom.rTitle)
+    if (user) {
+      // 모델에 방 생성
+      const createdRoom = await mRoom.create({
+        rTitle,
+        code,
+      })
+      console.log(' createdRoom: ', createdRoom)
 
-    const createdMIR = await mMembersInRoom.create({
-      role: 'admin',
-      ROOM_rNo: createdRoom.rNo,
-      ROOM_rTitle: createdRoom.rTitle,
-      ROOM_code: createdRoom.code,
-      MEMBER_email: email,
-    })
-    res.json({ result: true })
+      // 모델에 추가 (관리자)
+      const createdMIR = await mMembersInRoom.create({
+        role: 'admin',
+        ROOM_rNo: createdRoom.rNo,
+        ROOM_rTitle: createdRoom.rTitle,
+        ROOM_code: createdRoom.code,
+        MEMBER_email: email,
+      })
+      res.json({ result: true, message: '방 생성 완료' })
+    } else {
+      res.json({ result: false, message: '사용자가 존재하지 않습니다' })
+    }
   } catch (error) {
     res.json({ error })
   }
@@ -272,31 +281,39 @@ const postRoomEntrance = async (req, res) => {
   )
   const { code, email } = req.body
   try {
+    // 입력한 code 방 존재 여부 조회
     const findedRoom = await mRoom.findOne({
-      where: {
-        code,
-      },
+      where: { code },
     })
-    const findedMIR = await mMembersInRoom.findAll({
-      where: {
-        ROOM_code: code,
-        MEMBER_email: email,
-      },
-    })
-    console.log('findedMIR: ', findedMIR)
-    res.send(findedMIR)
-    // if (findedMIR.ROOM_code === code) {
-    //   res.json({ result: false, message: '이미 입장된 방입니다.' })
-    // } else {
-    const createdMIR = await mMembersInRoom.create({
-      role: 'member',
-      ROOM_rTitle: findedRoom.rTitle,
-      ROOM_code: findedRoom.code,
-      ROOM_rNo: findedRoom.rNo,
-      MEMBER_email: email,
-    })
-    res.json({ result: true, message: '방 입장 완료' })
-    // }
+    console.log(' findedRoom: ', findedRoom)
+    // 방이 없으면
+    if (!findedRoom) {
+      res.json({ result: false, msg: '방이 존재하지 않습니다.' })
+    } else {
+      // 방이 있으면
+      // 입력한 방 입장 여부
+      const findedMIR = await mMembersInRoom.findAll({
+        where: {
+          ROOM_code: code,
+          MEMBER_email: email,
+        },
+      })
+      console.log(' findedMIR: ', findedMIR)
+      // 이미 입장되어 있을 경우
+      if (findedMIR.length >= 1) {
+        res.json({ result: false, message: '이미 입장되어 있습니다.' })
+      } else {
+        // 모델에 추가 (멤버)
+        const createdMIR = await mMembersInRoom.create({
+          role: 'member',
+          ROOM_rTitle: findedRoom.rTitle,
+          ROOM_code: findedRoom.code,
+          ROOM_rNo: findedRoom.rNo,
+          MEMBER_email: email,
+        })
+        res.json({ result: true, message: '방 입장 완료' })
+      }
+    }
   } catch (error) {
     res.json({ error })
   }
@@ -305,16 +322,18 @@ const postRoomEntrance = async (req, res) => {
 //* 방 목록
 const postRoomLists = async (req, res) => {
   console.log(
-    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 방 목록 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
+    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 방 목록 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
+  console.log(' req.body : ', req.body)
   const { email } = req.body
   try {
-    const roomList = await mMembersInRoom.findAll({
+    // 입장된 방 이름, 역할, 코드 조회
+    const roomLists = await mMembersInRoom.findAll({
       attributes: ['ROOM_rTitle', 'role', 'ROOM_code'],
       where: { MEMBER_email: email },
     })
-    console.log('방 이름: ', roomList)
-    res.json({ result: true, rooms: roomList })
+    console.log(' roomLists: ', roomLists)
+    res.json({ result: true, message: '방 목록 조회 성공' })
   } catch (error) {
     res.json({ error })
   }
