@@ -20,24 +20,21 @@ router.patch('/main/profile/edit', controller.editProfile)
 router.delete('/main/profile/destroy', controller.deleteProfile)
 // 마이 페이지 (Profile)
 router.get('/main/profile', controller.profile)
+//? 프로필 정보 보내기
+router.post('/main/profile', controller.postProfile)
 
 //!--------- 방 관련 ---------
 // 방 생성 페이지(roomadd)
 router.get('/main/add', controller.roomAdd)
 router.post('/main/add', controller.postRoomAdd)
-
 // 방 목록
 router.post('/main/lists', controller.postRoomLists)
-
 // 방 입장 (RoomEntrance)
 router.post('/main/entrance', controller.postRoomEntrance)
-
-// 방 선택 페이지 (Select)
-router.get('/main/select', controller.select)
 // 방 선택 페이지 (Select)
 router.get('/main/select', controller.select)
 // 방 메인 페이지 (Room)
-router.get('/main/room:id', controller.room)
+router.get('/main/room/:id', controller.room)
 
 //!--------- 게시물 관련 ---------
 // 방 게시물 목록 페이지 (Board)
