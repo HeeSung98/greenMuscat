@@ -17,35 +17,38 @@
 
     <!-- 게시물작성페이지로 이동 버튼 -->
     <button onclick="location.href='/room/board/register'">게시물작성</button>
+    <ul>
+      <% for(let i = 0; i < data.length; i++){ %>
+      <li>
+        <!-- 댓글들 -->
+        <b><%= data[i] %></b>
+        <button onclick="toggleText(<%= i %>)">댓글</button>
+        <ul id="commentList<%= i %>"></ul>
+        <!-- 댓글들과 댓글 입력창 -->
+        <div id="text<%= i %>" style="display: none">
+          <input type="text" id="textInput" placeholder="댓글 입력" />
+          <button onclick="addText(<%= i %>)">댓글 추가</button>
+        </div>
+      </li>
+      <% } %>
+    </ul>
   </body>
 
   <script>
-    const resultBox = document.querySelector('.result')
-    async function boardRegister() {
-      const form = document.forms['postForm']
-      const data = {
-        pContent: form.content.value,
-        ROOM_rNo: form.roomNo.value,
-      }
-      console.log(data)
-      const res = await axios({
-        method: 'POST',
-        url: '/room/board/register',
-      })
-      const resData = res.data.result
-      if (res.result) {
-        alert('')
-      } else {
-        console.log('err')
-      }
-    }
-
-    const btn = document.querySelector('.register')
-
+    //댓글버튼 클릭시 댓글 목록과 댓글 입력창 나타내기
     function register() {
-      // ... 작업 로직 ...  //
-
       window.location.href = '/room/board/register'
+    }
+    function toggleText(index) {
+      const replyText = document.getElementById(`text${index}`)
+      if (
+        replyText.style.display === 'none' ||
+        replyText.style.display === ''
+      ) {
+        replyText.style.display = 'block'
+      } else {
+        replyText.style.display = 'none'
+      }
     }
   </script>
 </html>
