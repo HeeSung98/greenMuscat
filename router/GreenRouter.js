@@ -62,42 +62,42 @@ router.post('/main/entrance', controller.postRoomEntrance)
 // 방 선택 페이지 (Select)
 router.get('/main/select', controller.select)
 // 방 메인 페이지 (Room)
-router.get('/main/room/:id', controller.room)
+router.get('/main/room', controller.room)
 
 //!--------- 게시물 관련 ---------
 // 방 게시물 목록 페이지 (Board)
-router.get('/room/board', controller.board)
+router.get('/main/room/board', controller.board)
 // 게시물 업로드 페이지 (get)
-router.get('/room/board/register', controller.boardRegister)
+router.get('/main/room/board/register', controller.boardRegister)
 // 게시물 업로드(Post)
 router.post(
-  '/room/board/register',
+  '/main/room/board/register',
   upload.array('files'),
   controller.postBoardRegister
 )
 // 게시물 삭제 페이지 (Post)
-router.delete('/room/board/remove', controller.removeBoard)
+router.delete('/main/room/board/remove', controller.removeBoard)
 
 //!--------- 댓글 관련 ---------
 // 댓글 페이지
-// router.get('/room/board/reply', controller.reply)
+// router.get('/main/room/board/reply', controller.reply)
 // 댓글 정보 보내기
-// router.post('/room/board/reply', controller.postReply)
+router.post('/main/room/board/reply', controller.postReply)
 // 댓글 달기
-router.post('/room/board/reply/register', controller.postRegisterReply)
+router.post('/main/room/board/reply/register', controller.postRegisterReply)
 // 댓글 수정
-router.patch('/room/board/reply/edit', controller.editReply)
+router.patch('/main/room/board/reply/edit', controller.editReply)
 // 댓글 삭제
-router.delete('/room/board/reply/destroy', controller.deleteReply)
+router.delete('/main/room/board/reply/destroy', controller.deleteReply)
 
 //!--------- 공지사항 관련 ---------
 //공지사항 작성 (notice)
-router.get('/room/notice', controller.notice)
-router.post('/room/notice', controller.postNotice)
+router.get('/main/room/notice', controller.notice)
+router.post('/main/room/notice', controller.postNotice)
 
 //!--------- 관리자 관련 ---------
 // 관리자 페이지
-router.get('/admin', controller.admin)
-router.post('/admin', controller.postAdmin)
+router.get('/main/admin', controller.admin)
+router.post('/main/admin', controller.postAdmin)
 
 module.exports = router
