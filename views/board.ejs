@@ -43,7 +43,7 @@
   }
 
   // 댓글 목록 (전체 댓글과 해당 댓글 쓴 유저 닉네임)
-  (async function () {
+  async function allReply() {
     // 댓글 보이게 할 부분
     const reply = document.getElementById(`reply${index}`)
     if (
@@ -61,9 +61,7 @@
       url: '/main/room/board/reply',
       data,
     })
-
-
-  })
+  }
 
   // 댓글 등록
   async function addReply(index) {
@@ -85,9 +83,7 @@
   }
 
   // 본인이 등록한 댓글이면 수정 삭제 버튼 보이고, 수정 삭제 가능하게
-  const allReply = (id) => {
 
-  }
 </script>
 
 </html>
