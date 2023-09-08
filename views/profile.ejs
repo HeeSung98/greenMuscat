@@ -58,11 +58,10 @@
         async function edit_profile() {
             const form = document.forms['edit_form']
 
-            const data = new FormData()
-            console.log(form.nickname.value);
-            console.log(form.password.value);
-            data.append('nickname', form.nickname.value)
-            data.append('password', form.password.value)
+            const data = {
+                nickname: form.nickname.value,
+                password: form.password.value
+            }
 
             const response = await axios({
                 method: 'PATCH',
@@ -70,7 +69,6 @@
                 data,
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
-                    "Content-Type": "multipart/form-data",
                 },
             })
 

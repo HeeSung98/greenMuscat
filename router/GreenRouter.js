@@ -1,7 +1,7 @@
-const getController = require('../controller/GreenController')
-const postController = require('../controller/GreenController')
-const patchController = require('../controller/GreenController')
-const deleteController = require('../controller/GreenController')
+const getController = require('../controller/GetController')
+const postController = require('../controller/PostController')
+const patchController = require('../controller/PatchController')
+const deleteController = require('../controller/DeleteController')
 const dotenv = require('dotenv')
 const aws = require('aws-sdk')
 const multer = require('multer')
@@ -92,7 +92,7 @@ router.post('/main/profile', postController.postProfile)
 //!--------- 메인 페이지 관련 ---------
 // 방 생성 페이지(roomadd)
 router.get('/main/add', getController.roomAdd)
-router.post('/main/add', postController.postRoomAdd)
+router.post('/main/add', uploadRoom.array('files'), postController.postRoomAdd)
 // 방 목록
 router.post('/main/lists', postController.postRoomLists)
 // 방 입장 (RoomEntrance)
@@ -104,7 +104,7 @@ router.get('/main/select', getController.select)
 // 방 메인 페이지 (Room)
 router.get('/room/', getController.room)
 // 방 이미지 수정 (Room)
-router.get('/room/', getController.postRoom)
+router.get('/room/', postController.postRoom)
 // 방 게시물 목록 페이지 (Board)
 router.get('/room/board', getController.board)
 // 게시물 업로드 페이지 (get)
@@ -120,9 +120,9 @@ router.delete('/room/board/remove', deleteController.removeBoard)
 
 //!--------- 댓글 관련 ---------
 // 댓글 페이지
-// router.get('/room/board/reply', controller.reply)
+// router.get('/main/room/board/reply', controller.reply)
 // 댓글 정보 보내기
-// router.post('/room/board/reply', controller.postReply)
+router.post('/room/board/reply', postController.postReply)
 // 댓글 달기
 router.post('/room/board/reply/register', postController.postRegisterReply)
 // 댓글 수정
