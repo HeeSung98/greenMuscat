@@ -33,21 +33,23 @@ const board = async (req, res) => {
   )
   try {
     //post테이블에 값 불러오기
+
+    const pNo = 1 //임시로 고정값 지정
     const posts = await mPost.findAll({
       //postImage에 등록된 사진도 함께 가져오기 위해 테이블 join
       include: [
-        //게시물테이블
+        //이미지 테이블과 조인
         {
           model: mPostImage,
           required: false,
-          attributes: ['path'],
+          where: { POST_pNo: pNo },
         },
         //댓글테이블
         {
           // 시퀄라이즈 조인은 기본 inner join
           model: mReply, // join할 모델
           required: false, // outer join으로 설정
-          attributes: ['reNo', 'text', 'updatedAt'], // select해서
+          where: { POST_pNo: pNo }, // select해서
         },
       ],
     })
@@ -55,8 +57,20 @@ const board = async (req, res) => {
     console.log(
       ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ post DB에서 가져온 값 담기 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
     )
+    //조인한 테이블에서 필요한 값 정의
+    //게시물 내용
     const contentdata = posts.map((post) => post.dataValues.pContent)
-    console.log('contentdata :', contentdata)
+    //게시물 이미지
+    const imagedata = posts.map((post) =>
+      post.dataValues.POST_IMAGEs.map((image) => image.path)
+    )
+    //게시물 댓글
+    const replydata = posts.map((post) =>
+      post.dataValues.REPLies.map((reply) => reply.text)
+    )
+    console.log('pContent :', contentdata)
+    console.log('imagedata :', imagedata)
+    console.log('replydata :', replydata)
     res.render('board', { data: contentdata })
   } catch (error) {
     console.log(error)
