@@ -93,37 +93,6 @@ const notice = async (req, res) => {
   }
 }
 
-//* 프로필
-// 토큰을 찾고 그 토큰에 해당하는 유저의 마이페이지
-// sign으로
-// const profile = async (req, res) => {
-//   console.log(req.headers.authorization)
-//   console.log('---------- 프로필 ---------')
-//   try {
-//     const authHeader = req.headers.authorization
-//     const [bearer, token] = authHeader.split(' ')
-//     const decodedToken = jwt.verify(token, SECRET)
-//     const memberProfile = await mMember.findOne({
-//       where: { email: decodedToken.email },
-//     })
-//     if (memberProfile !== null) {
-//       res.json({ result: memberProfile })
-//       console.log('회원 정보 조회 성공', memberProfile)
-//     } else {
-//       return res.json({
-//         result: false,
-//         message: '회원 정보를 찾을 수 없습니다.',
-//       })
-//     }
-//   } catch (error) {
-//     console.log(error)
-//     return res.json({
-//       result: false,
-//       message: '오류가 발생했습니다.',
-//     })
-//   }
-// }
-
 const profile = (req, res) => {
   res.render('profile')
 }
@@ -169,6 +138,7 @@ const admin = (req, res) => {
 //* -------- POST --------
 
 //? profile POST
+// 토큰을 찾고 그 토큰에 해당하는 유저의 마이페이지
 const postProfile = async (req, res) => {
   console.log(req.headers.authorization)
   console.log('---------- 프로필 ---------')
