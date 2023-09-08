@@ -59,7 +59,7 @@ const board = async (req, res) => {
       '-------------------post DB에서 가져온 값 담기-------------------'
     )
     const contentdata = posts.map((post) => post.dataValues.pContent)
-    console.log(contentdata)
+    console.log('contentdata :', contentdata)
     res.render('board', { data: contentdata })
   } catch (error) {
     console.log(error)
