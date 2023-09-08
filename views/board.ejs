@@ -17,6 +17,21 @@
 
     <!-- 게시물작성페이지로 이동 버튼 -->
     <button onclick="location.href='/room/board/register'">게시물작성</button>
+    <ul>
+      <% for(let i = 0; i < data.length; i++){ %>
+      <li>
+        <!-- 댓글들 -->
+        <b><%= data[i] %></b>
+        <button onclick="toggleCommentInput()">댓글</button>
+        <ul id="commentList<%= i %>"></ul>
+        <!-- 댓글들과 댓글 입력창 -->
+        <div id="text" style="display: none">
+          <input type="text" id="textInput" placeholder="댓글 입력" />
+          <button onclick="addText()">댓글 추가</button>
+        </div>
+      </li>
+      <% } %>
+    </ul>
   </body>
 
   <script>
@@ -46,6 +61,18 @@
       // ... 작업 로직 ...  //
 
       window.location.href = '/room/board/register'
+    }
+
+    function toggleCommentInput() {
+      const replyText = document.getElementById(`text`)
+      if (
+        replyText.style.display === 'none' ||
+        replyText.style.display === ''
+      ) {
+        replyText.style.display = 'block'
+      } else {
+        replyText.style.display = 'none'
+      }
     }
   </script>
 </html>

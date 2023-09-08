@@ -30,43 +30,40 @@ const signIn = (req, res) => {
 }
 
 //* * 게시글 페이지
-const board = (req, res) => {
+const board = async (req, res) => {
   console.log(
     ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 게시물 불러오기 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
-  res.render('board')
-  // try {
-  //   //post테이블에 값 불러오기
-  //   const posts = await mPost.findAll({
-  //     //postImage에 등록된 사진도 함께 가져오기 위해 테이블 join
-  //     include: [
-  //       //게시물테이블
-  //       {
-  //         model: mPostImage,
-  //         required: false,
-  //         attributes: ['path'],
-  //       },
-  //       //댓글테이블
-  //       {
-  //         // 시퀄라이즈 조인은 기본 inner join
-  //         model: mReply, // join할 모델
-  //         required: false, // outer join으로 설정
-  //         attributes: ['reNo', 'text', 'updatedAt'], // select해서
-  //       },
-  //     ],
-  //   })
-  //   console.log(posts)
-  //   // 각 포스트에서 'path' 값을 추출하여 새로운 배열 생성
-  //   const paths = posts.map((post) =>
-  //     post.POST_IMAGEs.map((image) => image.path)
-  //   )
-
-  //   console.log('-------------------post담기는값-------------------')
-  //   console.log(post)
-  //   res.render('board', { data: posts.pContent })
-  // } catch (error) {
-  //   console.log(error)
-  // }
+  try {
+    //post테이블에 값 불러오기
+    const posts = await mPost.findAll({
+      //postImage에 등록된 사진도 함께 가져오기 위해 테이블 join
+      include: [
+        //게시물테이블
+        {
+          model: mPostImage,
+          required: false,
+          attributes: ['path'],
+        },
+        //댓글테이블
+        {
+          // 시퀄라이즈 조인은 기본 inner join
+          model: mReply, // join할 모델
+          required: false, // outer join으로 설정
+          attributes: ['reNo', 'text', 'updatedAt'], // select해서
+        },
+      ],
+    })
+    console.log(posts)
+    console.log(
+      '-------------------post DB에서 가져온 값 담기-------------------'
+    )
+    const contentdata = posts.map((post) => post.dataValues.pContent)
+    console.log(contentdata)
+    res.render('board', { data: contentdata })
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 //* 게시물 업로드 페이지 이동
