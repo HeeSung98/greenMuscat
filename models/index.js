@@ -49,60 +49,72 @@ db.mProfileImage.belongsTo(db.mMember, {
 db.mRoom.hasMany(db.mMembersInRoom, {
   foreignKey: 'ROOM_rNo',
   sourceKey: 'rNo',
+  allowNull: false,
 })
 db.mMembersInRoom.belongsTo(db.mRoom, {
   foreignKey: 'ROOM_rNo',
   sourceKey: 'rNo',
+  allowNull: false,
 })
 
 // 멤버와 MIR의 연관관계
 db.mMember.hasMany(db.mMembersInRoom, {
   foreignKey: 'MEMBER_email',
   sourceKey: 'email',
+  allowNull: false,
 })
 db.mMembersInRoom.belongsTo(db.mMember, {
   foreignKey: 'MEMBER_email',
   sourceKey: 'email',
+  allowNull: false,
 })
 
 // 멤버와 게시글의 연관관계
 db.mMember.hasMany(db.mPost, {
   foreignKey: 'MEMBER_email',
   sourceKey: 'email',
+  allowNull: false,
 })
 db.mPost.belongsTo(db.mMember, {
   foreignKey: 'MEMBER_email',
   sourceKey: 'email',
+  allowNull: false,
 })
 
 // 멤버와 댓글의 연관관계
 db.mMember.hasMany(db.mReply, {
   foreignKey: 'MEMBER_email',
   sourceKey: 'email',
+  allowNull: false,
 })
 db.mReply.belongsTo(db.mMember, {
   foreignKey: 'MEMBER_email',
   sourceKey: 'email',
+  allowNull: false,
 })
 
 // 방과 게시글의 연관관계
 db.mRoom.hasMany(db.mPost, {
   foreignKey: 'ROOM_rNo',
   sourceKey: 'rNo',
+  allowNull: false,
 })
 db.mPost.belongsTo(db.mRoom, {
   foreignKey: 'ROOM_rNo',
   sourceKey: 'rNo',
+  allowNull: false,
 })
 
 // 게시글과 댓글의 연관관계
 db.mPost.hasMany(db.mReply, {
   foreignKey: 'POST_pNo',
   sourceKey: 'pNo',
+  allowNull: false,
 })
 db.mReply.belongsTo(db.mPost, {
   foreignKey: 'POST_pNo',
   sourceKey: 'pNo',
+  allowNull: false,
 })
 
 //게시글과 게시글이미지의 연관관계

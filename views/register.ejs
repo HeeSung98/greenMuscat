@@ -16,9 +16,9 @@
     <h1>게시물 작성</h1>
 
     <form name="postForm">
-      <input type="text" id="pContent" />
-      <input type="text" id="MEMBER_email" />
-      <input type="text" id="ROOM_rNo" />
+      <input type="text" id="pContent" placeholder="글 내용" />
+      <input type="text" id="MEMBER_email" placeholder="작성자 이메일" />
+      <input type="text" id="ROOM_rNo" placeholder="방 번호" />
       <input type="file" id="files" multiple /><br /><br />
       <button type="button" onclick="boardRegister()">게시</button>
     </form>
@@ -32,9 +32,9 @@
       const files = document.querySelector('#files')
 
       const data = new FormData()
-      data.append('pContent', form.content.value)
+      data.append('pContent', form.pContent.value)
       data.append('MEMBER_email', form.MEMBER_email.value)
-      data.append('ROOM_rNo', form.roomNo.value)
+      data.append('ROOM_rNo', form.ROOM_rNo.value)
       for (var i = 0; i < files.files.length; i++) {
         data.append('files', files.files[i])
       }
