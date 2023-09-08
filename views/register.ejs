@@ -13,39 +13,44 @@
     <style></style>
   </head>
   <body>
-    <h1>게시물 전체 불러오기, 게시물 작성 (상단 조그맣게) -> 모달 창</h1>
+    <h1>게시물 작성</h1>
 
-    <!-- 게시물작성페이지로 이동 버튼 -->
-    <button onclick="location.href='/room/board/register'">게시물작성</button>
+    <form name="postForm">
+      <input type="text" id="content" />
+      <input type="text" id="roomNo" />
+      <input type="file" id="files" multiple /><br /><br />
+      <button type="button" onclick="boardRegister()">게시</button>
+    </form>
+    <div class="result"></div>
   </body>
 
   <script>
     const resultBox = document.querySelector('.result')
     async function boardRegister() {
       const form = document.forms['postForm']
-      const data = {
-        pContent: form.content.value,
-        ROOM_rNo: form.roomNo.value,
+      const files = document.querySelector('#files')
+
+      const data = new FormData()
+      data.append('pContent', form.content.value)
+      data.append('ROOM_rNo', form.roomNo.value)
+      for (var i = 0; i < files.files.length; i++) {
+        data.append('files', files.files[i])
       }
       console.log(data)
-      const res = await axios({
+
+      const respone = await axios({
         method: 'POST',
+        data,
         url: '/room/board/register',
       })
-      const resData = res.data.result
-      if (res.result) {
-        alert('')
+
+      resData = respone.data
+      console.log(resData)
+      if (resData.result) {
+        alert('가져와짐')
       } else {
         console.log('err')
       }
-    }
-
-    const btn = document.querySelector('.register')
-
-    function register() {
-      // ... 작업 로직 ...  //
-
-      window.location.href = '/room/board/register'
     }
   </script>
 </html>

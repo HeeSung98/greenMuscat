@@ -1,5 +1,6 @@
 //* import
 const bcrypt = require('bcrypt')
+const dotenv = require('dotenv')
 const jwt = require('jsonwebtoken')
 const {
   mMember,
@@ -10,7 +11,9 @@ const {
   mReply,
   mPostImage,
 } = require('../models')
-const SECRET = 'mySecretKey'
+
+dotenv.config()
+const SECRET = process.env.SECRETKEY
 
 //* GET
 // 로그인 전 메인 페이지 (홈 화면)
@@ -27,47 +30,59 @@ const signIn = (req, res) => {
 }
 
 //* * 게시글 페이지
-const board = async (req, res) => {
-  const { POST_pNo } = req.body
+const board = (req, res) => {
   console.log(
-    'ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ게시물 불러오기ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ'
+    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 게시물 불러오기 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
-  try {
-    //post테이블에 값 불러오기
-    const posts = await mPost.findAll({
-      //postImage에 등록된 사진도 함께 가져오기 위해 테이블 join
-      include: [
-        //게시물테이블
-        {
-          model: mPostImage,
-          required: false,
-          attributes: ['path'],
-        },
-        //댓글테이블
-        {
-          // 시퀄라이즈 조인은 기본 inner join
-          model: mReply, // join할 모델
-          required: false, // outer join으로 설정
-          attributes: ['reNo', 'text', 'updatedAt'], // select해서
-        },
-      ],
-    })
-    console.log(posts)
-    // 각 포스트에서 'path' 값을 추출하여 새로운 배열 생성
-    const paths = posts.map((post) =>
-      post.POST_IMAGEs.map((image) => image.path)
-    )
+  res.render('board')
+  // try {
+  //   //post테이블에 값 불러오기
+  //   const posts = await mPost.findAll({
+  //     //postImage에 등록된 사진도 함께 가져오기 위해 테이블 join
+  //     include: [
+  //       //게시물테이블
+  //       {
+  //         model: mPostImage,
+  //         required: false,
+  //         attributes: ['path'],
+  //       },
+  //       //댓글테이블
+  //       {
+  //         // 시퀄라이즈 조인은 기본 inner join
+  //         model: mReply, // join할 모델
+  //         required: false, // outer join으로 설정
+  //         attributes: ['reNo', 'text', 'updatedAt'], // select해서
+  //       },
+  //     ],
+  //   })
+  //   console.log(posts)
+  //   // 각 포스트에서 'path' 값을 추출하여 새로운 배열 생성
+  //   const paths = posts.map((post) =>
+  //     post.POST_IMAGEs.map((image) => image.path)
+  //   )
 
-    res.render('board', { data: posts, paths })
-  } catch (error) {
-    console.log(error)
-  }
+  //   console.log('-------------------post담기는값-------------------')
+  //   console.log(post)
+  //   res.render('board', { data: posts.pContent })
+  // } catch (error) {
+  //   console.log(error)
+  // }
+}
+
+//* 게시물 업로드 페이지 이동
+const boardRegister = async (req, res) => {
+  console.log(
+    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ register 페이지 이동 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
+  )
+  console.log('req.query:', req.query)
+  const { MEMBER_email, ROOM_rNo } = req.query
+  res.render('register', { MEMBER_email, ROOM_rNo })
 }
 
 //* 공지사항
 const notice = async (req, res) => {
   console.log(
-    'ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ공지사항 불러오기ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ'
+    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 공지사항 불러오기 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
   try {
     //room테이블 공지사항 값들 불러오기
@@ -226,7 +241,7 @@ const postSignOut = (req, res) => {
 //* 방 생성
 const postRoomAdd = async (req, res) => {
   console.log(
-    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 방 생성 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
+    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 방 생성 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
   console.log(' req.body : ', req.body)
   const { rTitle, code, email } = req.body
@@ -263,9 +278,8 @@ const postRoomAdd = async (req, res) => {
 //* 방 입장
 const postRoomEntrance = async (req, res) => {
   console.log(
-    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 방 입장 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
+    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 방 입장 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
-  console.log(' req.body : ', req.body)
   const { code, email } = req.body
   try {
     // 입력한 code 방 존재 여부 조회
@@ -328,21 +342,29 @@ const postRoomLists = async (req, res) => {
 
 //* 게시물 업로드
 const postBoardRegister = async (req, res) => {
-  console.log(req.body)
+  console.log(
+    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 게시물 업로드 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
+  )
+  console.log('req.body:', req.body)
+  console.log('req.files:', req.files)
+
   try {
-    //게시물 등록을 위한 content, rNo 값 가져오기
-    const { pTitle, pContent, ROOM_rNo } = req.body
+    // 게시물 등록을 위한 값 가져오기
+    const { pContent, MEMBER_email, ROOM_rNo } = req.body
     // 게시물 테이블에 추가하기
-    const result = await mPost.create({
-      pTitle,
+    const createdPost = await mPost.create({
       pContent,
+      MEMBER_email,
       ROOM_rNo,
     })
-    if (result) res.json({ result: true, message: '게시물 업로드 성공' })
+    console.log('createdPost:', createdPost)
+    res.json({ result: true, message: '게시물 업로드 성공' })
   } catch (error) {
     console.log(error)
+    res.json({ result: false })
   }
 }
+
 //* 공지사항 업로드
 const postNotice = async (req, res) => {
   console.log(req.body)
@@ -538,6 +560,7 @@ module.exports = {
   postRoomLists,
   // 게시글
   board,
+  boardRegister,
   postBoardRegister,
   removeBoard,
   // 댓글

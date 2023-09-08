@@ -9,10 +9,6 @@ const POST = (sequelize) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      pTitle: {
-        type: DataTypes.STRING(30),
-        allowNull: false,
-      },
       pContent: {
         type: DataTypes.STRING(30),
         allowNull: false,
