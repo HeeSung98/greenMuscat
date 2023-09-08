@@ -111,7 +111,7 @@ const room = async (req, res) => {
     ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 공지사항 불러오기 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
   try {
-    //room테이블 공지사항 값들 불러오기
+    //room테이블 해당 방과 같은 rNo의 공지사항 값들 불러오기
     const rooms = await mRoom.findAll({
       attributes: ['notice'],
       where: {
@@ -121,12 +121,11 @@ const room = async (req, res) => {
     console.log(
       ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 불러오기 값 확인ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
     )
-    console.log(rooms)
     const noticedata = rooms.map((post) => post.dataValues.notice)
     console.log('noticedata :', noticedata)
 
     //! 렌더링 페이지 다시 확인
-    res.render('room', { data: rooms })
+    res.render('room', { data: noticedata })
   } catch (error) {
     console.log(error)
   }
