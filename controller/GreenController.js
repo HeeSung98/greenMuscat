@@ -401,6 +401,7 @@ const postReply = async (req, res) => {
   try {
     const allReply = await mReply.findAll({ where: { POST_pNo } })
     if (allReply) {
+      allReply = posts.map((post) => post.dataValues.pContent)
       console.log(allReply)
       res.json({ result: true, allReply })
     }
@@ -472,12 +473,17 @@ const editProfile = async (req, res) => {
       res.json({ result: false, message: '회원을 찾을 수 없습니다.' })
       return
     }
-    console.log('check1', password)
     // 있으면 프로필 사진, 닉네임, 비밀번호 수정
     const hash = await bcryptPassword(password) // 비밀번호 암호화
-    console.log('check2', hash)
     await member.update({ profileImage, nickname, password: hash })
-    res.json({ result: true, message: '회원 정보 수정 성공' })
+    console.log(nickname)
+    res.json({
+      result: true,
+      profileImage,
+      nickname,
+      password,
+      message: '회원 정보 수정 성공',
+    })
   } catch (error) {
     console.log(error)
     res.json({ result: false, message: '토큰 검증 실패' })

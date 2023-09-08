@@ -120,9 +120,9 @@ router.delete('/room/board/remove', deleteController.removeBoard)
 
 //!--------- 댓글 관련 ---------
 // 댓글 페이지
-// router.get('/room/board/reply', controller.reply)
+// router.get('/main/room/board/reply', controller.reply)
 // 댓글 정보 보내기
-outer.post('/room/board/reply', postController.postReply)
+router.post('/room/board/reply', postController.postReply)
 // 댓글 달기
 router.post('/room/board/reply/register', postController.postRegisterReply)
 // 댓글 수정
