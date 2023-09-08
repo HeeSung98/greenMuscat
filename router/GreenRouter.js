@@ -133,7 +133,7 @@ router.delete('/room/board/reply/destroy', deleteController.deleteReply)
 //!--------- 공지사항 관련 ---------
 //공지사항 작성 (notice)
 router.get('/room/notice', getController.notice)
-router.post('/room/notice', postController.postNotice)
+router.patch('/room/notice', patchController.editNotice)
 
 //!--------- 관리자 관련 ---------
 // 관리자 페이지
