@@ -9,11 +9,20 @@
 </head>
 
 <body>
-  <div>
-    <h3>이름</h3>
-  </div>
+
+  <h3>
+
+  </h3>
   <a href="roomadd">새로운 방 추가</a>
   <a href="room">기존 방으로 이동</a>
+
+
+  <script>
+    const nick = localStorage.getItem('nickname');
+    const h3 = document.querySelector('h3')
+    h3.innerText = nick + "님 ~"
+  </script>
 </body>
+
 
 </html>

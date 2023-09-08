@@ -4,11 +4,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="../style/style.scss"> -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>Document</title>
 </head>
 
 <body>
     <h1>프로필 정보 조회, 수정 (모달), 탈퇴 버튼 생성</h1>
+    <div class="profile nickname">
+    </div>
+    <!-- 모달 창 → 닉네임, 비밀번호 수정 창 & 탈퇴 버튼 -->
+    <button type="button" id="edit">수정</button>
+
+    <div id="modal" class="modal-overlay">
+        <div class="modal-window">
+            <div class="title">
+                <h2>회원 정보 수정</h2>
+            </div>
+            <div class="close-area">닫기</div>
+            <div class="content">
+                <form name="edit_form">
+                    <label for="nick">닉네임</label><input type="text" id="nickname">
+                    <label for="password">비밀번호</label><input type="password" id="password">
+                    <button type="button" onclick="edit_profile()">수정</button>
+                    <button type="button" onclick="delete_profile()">탈퇴</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        (async function () {
+            console.log("token", localStorage.getItem('token'))
+            const profile = await axios({
+                method: 'POST',
+                url: '/main/profile',
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            })
+            console.log("profile", profile)
+        })
+
+        const nick = localStorage.getItem('nickname');
+        const nickname = document.querySelector('.nickname')
+        nickname.innerText = nick
+
+        // 회원 정보 수정
+        async function edit_profile() {
+            const form = document.forms['edit_form']
+
+            const data = new FormData()
+            console.log(form.nickname.value);
+            console.log(form.password.value);
+            data.append('nickname', form.nickname.value)
+            data.append('password', form.password.value)
+
+            const response = await axios({
+                method: 'PATCH',
+                url: '/main/profile/edit',
+                data,
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    "Content-Type": "multipart/form-data",
+                },
+            })
+
+            resData = response.data
+            if (resData.result) {
+                localStorage.setItem('nickname', resData.nickname);
+                alert('수정 완료!')
+                document.location.reload()
+            }
+            else console.log('수정 실패')
+        }
+
+        // 회원 탈퇴
+        async function delete_profile() {
+            if (!confirm('탈퇴하시겠습니까?')) {
+                return;
+            }
+            const response = await axios({
+                method: 'DELETE',
+                url: '/main/profile/destroy',
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            })
+
+            resData = response.data
+            if (resData.result) {
+                alert('회원 탈퇴가 완료되었습니다 :)');
+                document.location.href = '/';
+            } else console.log('회원 탈퇴 실패')
+        }
+    </script>
 </body>
 
 </html>

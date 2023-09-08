@@ -4,16 +4,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>Document</title>
 </head>
 
 <body>
-    <h1>로그인 폼 작성</h1>
-    <form>
-        <!-- 로그인 하면 select로 -->
-        <button>로그인</button>
+    <form name="nick" method="post" action="/main/select">
+        <input type="hidden" name="nickname">
     </form>
-    <a href="signup">회원가입</a>
+
+    <form name="form_signin">
+        <input type="email" id="email" placeholder="이메일"><br>
+        <div id="err_email" class="err"></div>
+        <input type="password" id="password" placeholder="비밀번호"><br>
+        <div id="err_password" class="err"></div>
+        <button type="button" id="btn" onclick="signIn()">로그인</button>
+        <hr>
+    </form>
+
+    <a href="/main/signup">회원가입</a>
 </body>
+
+<script>
+    async function signIn() {
+        const form = document.forms['form_signin']
+        const email = form.email.value
+        const password = form.password.value
+        const data = {
+            email,
+            password
+        }
+
+        const login = await axios({
+            method: 'POST',
+            url: '/main/signin',
+            data
+        })
+
+
+        if (login.data.result) {
+            alert('로그인 성공')
+            localStorage.setItem('token', login.data.token);
+            localStorage.setItem('nickname', login.data.user);
+            document.location.href = '/main/select';
+        } else {
+            alert(`${login.data.message}`);
+            document.location.reload();
+        }
+
+    }
+</script>
 
 </html>
