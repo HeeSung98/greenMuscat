@@ -20,6 +20,10 @@ const Member = (sequelize) => {
         type: DataTypes.STRING(255),
         allowNull: false,
       },
+      mImg: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
+      },
       point: {
         type: DataTypes.BIGINT(20),
         defaultValue: 0,
