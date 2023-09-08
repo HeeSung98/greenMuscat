@@ -339,9 +339,11 @@ const postBoardRegister = async (req, res) => {
       ROOM_rNo,
     })
     console.log('createdPost:', createdPost)
+
     res.json({ result: true, message: '게시물 업로드 성공' })
   } catch (error) {
     console.log(error)
+
     res.json({ result: false })
   }
 }
