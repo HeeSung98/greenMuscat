@@ -105,8 +105,31 @@ const select = (req, res) => {
   console.log('room list: ', roomLists)
 }
 // 선택한 방의 메인 페이지
-const room = (req, res) => {
-  res.render('room')
+const room = async (req, res) => {
+  const rNo = 1
+  console.log(
+    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 공지사항 불러오기 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
+  )
+  try {
+    //room테이블 공지사항 값들 불러오기
+    const rooms = await mRoom.findAll({
+      attributes: ['notice'],
+      where: {
+        rNo: rNo,
+      },
+    })
+    console.log(
+      ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 불러오기 값 확인ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
+    )
+    console.log(rooms)
+    const noticedata = rooms.map((post) => post.dataValues.notice)
+    console.log('noticedata :', noticedata)
+
+    //! 렌더링 페이지 다시 확인
+    res.render('room', { data: rooms })
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 // 전체 댓글 보기
