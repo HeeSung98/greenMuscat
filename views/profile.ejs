@@ -11,6 +11,8 @@
 
 <body>
     <h1>프로필 정보 조회, 수정 (모달), 탈퇴 버튼 생성</h1>
+    <div class="profile image">
+    </div>
     <div class="profile nickname">
     </div>
     <!-- 모달 창 → 닉네임, 비밀번호 수정 창 & 탈퇴 버튼 -->
@@ -23,6 +25,7 @@
             </div>
             <div class="close-area">닫기</div>
             <div class="content">
+                <!-- 이미지 변경 창 -->
                 <form name="edit_form">
                     <label for="nick">닉네임</label><input type="text" id="nickname">
                     <label for="password">비밀번호</label><input type="password" id="password">

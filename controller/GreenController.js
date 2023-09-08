@@ -443,8 +443,7 @@ const editProfile = async (req, res) => {
     res.json({ result: false, message: '인증 방식이 틀렸습니다.' })
     return
   }
-  // const { profileImage, nickname, password } = req.body
-  const { nickname, password } = req.body
+  const { profileImage, nickname, password } = req.body
   // 토큰 검증
   try {
     const decodedToken = jwt.verify(token, SECRET)
