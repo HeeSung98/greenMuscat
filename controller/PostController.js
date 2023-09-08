@@ -12,7 +12,7 @@ const {
 } = require('../models')
 
 dotenv.config()
-const SECRET = process.env.SECRETKEY
+const SECRET = process.env.SECRET_KEY
 
 // 토큰을 찾고 그 토큰에 해당하는 유저의 마이페이지
 const postProfile = async (req, res) => {
