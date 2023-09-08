@@ -51,12 +51,16 @@ const board = async (req, res) => {
         },
       ],
     })
-    console.log(posts)
+
     console.log(
       ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ post DB에서 가져온 값 담기 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
     )
+    // const test = posts.dataValues
+    // console.log('댓글확인: ', test)
     const contentdata = posts.map((post) => post.dataValues.pContent)
     console.log('contentdata :', contentdata)
+    const replydata = posts.map((post) => post.dataValues.REPLies)
+    console.log('replydata :', replydata)
     res.render('board', { data: contentdata })
   } catch (error) {
     console.log(error)

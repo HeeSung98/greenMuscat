@@ -22,44 +22,47 @@
         <!-- 댓글들 -->
         <b>
           <%= data[i] %>
-        </b>
-        <button onclick="allReply(<%= i %>)">댓글</button>
-        <ul id="replylList<%= i %>"></ul>
-        <!-- 댓글들-->
-        <div id="reply<%= i %>" style="display: none">
-        </div>
-        <!-- 댓글 입력 -->
-        <form name="addReply">
-          <input type="text" id="inputReply" placeholder="댓글 입력" />
-          <button onclick="addReply(<%= i %>)">댓글 추가</button>
-        </form>
+            <button onclick="allReply(<%= i %>)">댓글</button>
+            <ul id="replylList<%= i %>"></ul>
+            <!-- 댓글들 (해당 작성자)-->
+            <div id="reply<%= i %>" style="display: none">
+            </div>
+            <!-- 댓글 입력 -->
+            <form name="addReply" hidden>
+              <input type="text" id="inputReply" placeholder="댓글 입력" />
+              <button onclick="addReply(<%= i %>)">등록</button>
+            </form>
       </li>
       <% } %>
   </ul>
 </body>
 
 <script>
-  //댓글버튼 클릭시 댓글 목록과 댓글 입력창 나타내기
-  if (
-    replyText.style.display === 'none' ||
-    replyText.style.display === ''
-  ) {
-    replyText.style.display = 'block'
-  } else {
-    replyText.style.display = 'none'
-  }
-
   function register() {
     window.location.href = '/main/room/board/register'
   }
-  // 댓글 보이게 할 부분
-  const reply = document.getElementById(`reply${index}`)
 
-  // 댓글 정보 보내기
-  const response = await axios({
-    method: 'POST',
-    url: '/main/room/board/reply',
-    data,
+  // 댓글 목록 (전체 댓글과 해당 댓글 쓴 유저 닉네임)
+  (async function () {
+    // 댓글 보이게 할 부분
+    const reply = document.getElementById(`reply${index}`)
+    if (
+      reply.style.display === 'none' ||
+      reply.style.display === ''
+    ) {
+      reply.style.display = 'block'
+    } else {
+      reply.style.display = 'none'
+    }
+
+    // 댓글 정보 보내기
+    const response = await axios({
+      method: 'POST',
+      url: '/main/room/board/reply',
+      data,
+    })
+
+
   })
 
   // 댓글 등록
@@ -73,7 +76,7 @@
 
     const response = await axios({
       method: 'POST',
-      url: '/main/room/board/reply/register',
+      url: '/room/board/reply/register',
       data,
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -82,6 +85,9 @@
   }
 
   // 본인이 등록한 댓글이면 수정 삭제 버튼 보이고, 수정 삭제 가능하게
+  const allReply = (id) => {
+
+  }
 </script>
 
 </html>
