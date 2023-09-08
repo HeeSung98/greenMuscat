@@ -28,16 +28,22 @@
     const resultBox = document.querySelector('.result')
     async function boardRegister() {
       const form = document.forms['postForm']
-      const data = {
-        pContent: form.content.value,
-        ROOM_rNo: form.roomNo.value,
+      const files = document.querySelector('#files')
+
+      const data = new FormData()
+      data.append('pContent', form.content.value)
+      data.append('ROOM_rNo', form.roomNo.value)
+      for (var i = 0; i < files.files.length; i++) {
+        data.append('files', files.files[i])
       }
       console.log(data)
+
       const respone = await axios({
         method: 'POST',
         data,
         url: '/room/board/register',
       })
+
       resData = respone.data
       console.log(resData)
       if (resData.result) {
