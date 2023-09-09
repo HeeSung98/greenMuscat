@@ -113,11 +113,17 @@ const roomAdd = (req, res) => {
   res.render('select')
 }
 
+// 방 목록보는 페이지
+const roomList = (req, res) => {
+  res.render('roomlists')
+}
+
 // 방 선택하는 페이지
 const select = (req, res) => {
   res.render('select', { roomLists: mRoom })
   console.log('room list: ', roomLists)
 }
+
 // 선택한 방의 메인 페이지
 const room = async (req, res) => {
   const rNo = 1
@@ -182,6 +188,7 @@ module.exports = {
   room,
   board,
   boardRegister,
+  roomList,
   // 댓글
   reply,
   // 공지사항

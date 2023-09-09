@@ -97,6 +97,7 @@ router.post('/main/profile', postController.postProfile)
 router.get('/main/add', getController.roomAdd)
 router.post('/main/add', uploadRoom.array('files'), postController.postRoomAdd)
 // 방 목록
+router.get('/main/lists', getController.roomList)
 router.post('/main/lists', postController.postRoomLists)
 // 방 입장 (RoomEntrance)
 router.post('/main/entrance', postController.postRoomEntrance)

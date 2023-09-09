@@ -10,6 +10,7 @@ const {
   mReply,
   mPostImage,
 } = require('../models')
+const { room } = require('./GetController')
 
 dotenv.config()
 const SECRET = process.env.SECRETKEY
@@ -173,7 +174,7 @@ const postRoomEntrance = async (req, res) => {
     console.log(' findedRoom: ', findedRoom)
     // 방이 없으면
     if (!findedRoom) {
-      res.json({ result: false, msg: '방이 존재하지 않습니다.' })
+      res.json({ result: false, message: '방이 존재하지 않습니다.' })
     } else {
       // 방이 있으면
       // 입력한 방 입장 여부
@@ -216,12 +217,16 @@ const postRoomLists = async (req, res) => {
   const { email } = req.body
   try {
     // 입장된 방 이름, 역할, 코드 조회
-    const roomLists = await mMembersInRoom.findAll({
+    const roomList = await mMembersInRoom.findAll({
       attributes: ['ROOM_rTitle', 'role', 'ROOM_code'],
       where: { MEMBER_email: email },
     })
-    console.log(' roomLists: ', roomLists)
-    res.json({ result: true, message: '방 목록 조회 성공' })
+    console.log(' roomList: ', roomList)
+    if (roomList.length > 0) {
+      res.json({ result: true, message: '방 목록 조회 성공', rooms: roomList })
+    } else {
+      res.json({ result: false, message: '입장된 방이 없습니다.' })
+    }
   } catch (error) {
     res.json({ error })
   }
