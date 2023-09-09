@@ -68,10 +68,11 @@ const uploadPost = multer({
 })
 
 // 메인 페이지
-router.get('/', getController.main)
+router.get('/', getController.index)
 
 //!--------- 회원 정보 관련 ---------
 // 회원가입 (SignUp)
+router.get('/main', getController.main)
 router.get('/main/signup', getController.signUp)
 router.post('/main/signup', postController.postSignUp)
 // 로그인 (SignIn)
@@ -95,9 +96,9 @@ router.post('/main/profile', postController.postProfile)
 //!--------- 메인 페이지 관련 ---------
 // 방 생성 페이지(roomadd)
 router.get('/main/add', getController.roomAdd)
-router.post('/main/add', uploadRoom.array('files'), postController.postRoomAdd)
+router.post('/main/add', uploadRoom.single('file'), postController.postRoomAdd)
 // 방 목록
-router.post('/main/lists', postController.postRoomLists)
+router.post('/main/lists', postController.postroomList)
 // 방 입장 (RoomEntrance)
 router.post('/main/entrance', postController.postRoomEntrance)
 // 방 선택 페이지 (Select)

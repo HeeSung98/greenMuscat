@@ -13,7 +13,11 @@ const {
 
 dotenv.config()
 
-// 로그인 전 메인 페이지 (홈 화면)
+// 로그인 전 페이지 (홈 화면)
+const index = (req, res) => {
+  res.render('index')
+}
+// 로그인 후 메인 페이지 (메인 화면)
 const main = (req, res) => {
   res.render('main')
 }
@@ -115,9 +119,9 @@ const roomAdd = (req, res) => {
 
 // 방 선택하는 페이지
 const select = (req, res) => {
-  res.render('select', { roomLists: mRoom })
-  console.log('room list: ', roomLists)
+  res.render('select')
 }
+
 // 선택한 방의 메인 페이지
 const room = async (req, res) => {
   const rNo = 1
@@ -169,6 +173,7 @@ const admin = (req, res) => {
 }
 
 module.exports = {
+  index,
   // main
   main,
   // 회원

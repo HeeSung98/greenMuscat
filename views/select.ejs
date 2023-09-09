@@ -62,19 +62,17 @@
           <input type="text" id="roomTitle" name="roomTitle" /><br />
           <label for="roomCode">입장 코드: </label>
           <input type="text" id="roomCode" name="roomCode" /><br />
+          <label for="roomImg">프로필 이미지: </label>
+          <input type="file" id="roomImg" name="roomImg" /><br /><br />
           <button type="button" onclick="btnRoomRegister()">생성</button>
           <button type="button" onclick="btnCloseModal()">닫기</button>
         </form>
       </div>
     </div>
-    <div class="result"></div>
+    <div class="result" id="result"></div>
     <div class="btnRoomAdd" onclick="btnOpenModal()">방 생성하기</div>
 
     <script>
-      // const nick = localStorage.getItem('nickname')
-      // const h3 = document.querySelector('h3')
-      // h3.innerText = nick + '님 방을 선택해주세요'
-
       // 방 생성 모달창
       const modal = document.querySelector('.modal')
 
@@ -92,22 +90,32 @@
       const resultBox = document.querySelector('.result')
       async function btnRoomRegister() {
         const form = document.forms['roomAddForm']
-        const data = {
-          rTitle: form.roomTitle.value,
-          code: form.roomCode.value,
-          email: form.email.value,
-        }
+        const file = document.querySelector('#roomImg')
+
+        const data = new FormData()
+        data.append('rTitle', form.roomTitle.value)
+        data.append('code', form.roomCode.value)
+        data.append('email', form.email.value)
+        data.append('file', file.files[0])
 
         const respone = await axios({
           method: 'POST',
           url: '/main/add',
           data,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
         })
 
         resData = respone.data
         console.log('resData: ', resData)
         if (resData.result) {
           alert(`${resData.message}`)
+          const resultBox = document.querySelector('#result')
+          const img = document.createElement('img')
+          img.src = resData.location // aws의 경로는 location으로
+          img.style.width = '500px'
+          resultBox.appendChild(img)
           form.reset()
           btnCloseModal()
         } else {

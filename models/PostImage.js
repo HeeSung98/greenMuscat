@@ -9,7 +9,7 @@ const PostImage = (sequelize) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      iName: {
+      uuid: {
         type: DataTypes.STRING(255),
         allowNull: false,
       },
@@ -17,14 +17,8 @@ const PostImage = (sequelize) => {
         type: DataTypes.STRING(255),
         allowNull: false,
       },
-      uuid: {
-        type: DataTypes.STRING(255),
-        allowNull: false,
-      },
     },
     {
-      charset: 'utf8', // 한국어 설정
-      collate: 'utf8_general_ci', // 한국어 설정
       timestamps: true, // createAt & updateAt 활성화
       freezeTableName: true, // 테이블명 복수화 중지
     }
