@@ -127,7 +127,8 @@ const postRoomAdd = async (req, res) => {
   console.log(
     ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 방 생성 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
-  console.log(' req.body : ', req.body)
+  console.log('req.body:', req.body)
+  console.log('req.files:', req.files)
   const { rTitle, code, email } = req.body
   try {
     // 사용자 조회 (프론트 작업 위해 넣음, 로그인 기능 확정되면 재정비 필요)
