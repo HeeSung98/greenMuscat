@@ -10,6 +10,7 @@ const {
   mReply,
   mPostImage,
 } = require('../models')
+const { room } = require('./GetController')
 
 dotenv.config()
 const SECRET = process.env.SECRETKEY
@@ -180,7 +181,7 @@ const postRoomEntrance = async (req, res) => {
     console.log(' findedRoom: ', findedRoom)
     // 방이 없으면
     if (!findedRoom) {
-      res.json({ result: false, msg: '방이 존재하지 않습니다.' })
+      res.json({ result: false, message: '방이 존재하지 않습니다.' })
     } else {
       // 방이 있으면
       // 입력한 방 입장 여부
@@ -215,7 +216,7 @@ const postRoomEntrance = async (req, res) => {
 const postRoom = async (req, res) => {}
 
 // 방 목록
-const postroomList = async (req, res) => {
+const postroomLists = async (req, res) => {
   console.log(
     ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 방 목록 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
@@ -228,7 +229,11 @@ const postroomList = async (req, res) => {
       where: { MEMBER_email: email },
     })
     console.log(' roomList: ', roomList)
-    res.json({ result: true, message: '방 목록 조회 성공' })
+    if (roomList.length > 0) {
+      res.json({ result: true, message: '방 목록 조회 성공', rooms: roomList })
+    } else {
+      res.json({ result: false, message: '입장된 방이 없습니다.' })
+    }
   } catch (error) {
     res.json({ error })
   }
@@ -332,7 +337,7 @@ module.exports = {
   // 메인
   postRoomEntrance,
   postRoomAdd,
-  postroomList,
+  postroomLists,
   // 방 및 게시글
   postRoom,
   postBoardRegister,

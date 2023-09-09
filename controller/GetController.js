@@ -117,6 +117,11 @@ const roomAdd = (req, res) => {
   res.render('select')
 }
 
+// 방 목록보는 페이지
+const roomList = (req, res) => {
+  res.render('roomlists')
+}
+
 // 방 선택하는 페이지
 const select = (req, res) => {
   res.render('select')
@@ -187,6 +192,7 @@ module.exports = {
   room,
   board,
   boardRegister,
+  roomList,
   // 댓글
   reply,
   // 공지사항

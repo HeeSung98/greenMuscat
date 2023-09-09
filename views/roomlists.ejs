@@ -4,10 +4,52 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+      .roomList {
+        width: 500px;
+        height: 500px;
+        border-width: 2px;
+        border-style: solid;
+        display: none;
+      }
+    </style>
     <title>방 목록</title>
   </head>
   <body>
+    <form name="list">
+      이메일(임시): <input type="text" name="email" />
+      <button type="button" onclick="test()">제출</button>
+    </form>
     <div class="roomList"></div>
-    <script></script>
+    <script>
+      async function test() {
+        const roombox = document.querySelector('.roomList')
+        const form = document.forms['list']
+        const data = {
+          email: form.email.value,
+        }
+
+        const respone = await axios({
+          method: 'POST',
+          url: '/main/lists',
+          data,
+        })
+
+        resData = respone.data
+        console.log('resData: ', resData)
+        if (resData.result) {
+          roombox.style.display = 'block'
+          for (let i = 0; i < resData.rooms.length; i++) {
+            roombox.innerHTML =
+              roombox.innerHTML +
+              `이름: ${resData.rooms[i].ROOM_rTitle}
+              역할: ${resData.rooms[i].role}
+              코드: ${resData.rooms[i].ROOM_code}`
+          }
+        } else {
+          alert(`${resData.message}`)
+        }
+      }
+    </script>
   </body>
 </html>
