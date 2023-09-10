@@ -12,7 +12,7 @@ const {
 } = require('../models')
 
 dotenv.config()
-const SECRET = process.env.SECRETKEY
+const SECRET = process.env.SECRET_KEY
 
 // DELETE
 // 회원 탈퇴

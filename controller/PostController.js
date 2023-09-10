@@ -13,7 +13,7 @@ const {
 const { room } = require('./GetController')
 
 dotenv.config()
-const SECRET = process.env.SECRETKEY
+const SECRET = process.env.SECRET_KEY
 
 // 토큰을 찾고 그 토큰에 해당하는 유저의 마이페이지
 const postProfile = async (req, res) => {
@@ -299,9 +299,11 @@ const postReply = async (req, res) => {
   // Reply db에서 게시물 번호에 해당하는 모든 댓글들 조회
   try {
     const allReply = await mReply.findAll({ where: { POST_pNo } })
+    const pReply = allReply.map((reply) => reply.dataValues.text)
+    console.log(pReply)
     if (allReply) {
       console.log(allReply)
-      res.json({ result: true, allReply })
+      res.json({ result: true, pReply })
     }
   } catch (error) {
     console.log(error)
@@ -309,7 +311,7 @@ const postReply = async (req, res) => {
   }
 }
 
-// 댓글 달기
+// 댓글 등록
 const postRegisterReply = async (req, res) => {
   console.log(
     ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 댓글 등록 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
@@ -330,7 +332,6 @@ const postRegisterReply = async (req, res) => {
     if (reply) {
       console.log({ nickname: user.nickname, reply })
       res.json(reply)
-      // res.redirect('/')
     }
   } catch (error) {
     console.log(error)

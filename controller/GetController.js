@@ -58,7 +58,7 @@ const board = async (req, res) => {
         },
       ],
     })
-    console.log(posts)
+
     console.log(
       ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ post DB에서 가져온 값 담기 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
     )
