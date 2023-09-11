@@ -112,16 +112,6 @@ const profile = (req, res) => {
   res.render('profile')
 }
 
-// 방 생성하는 페이지
-const roomAdd = (req, res) => {
-  res.render('select')
-}
-
-// 방 선택하는 페이지
-const select = (req, res) => {
-  res.render('select')
-}
-
 // 선택한 방의 메인 페이지
 const room = async (req, res) => {
   const rNo = 1
@@ -180,9 +170,6 @@ module.exports = {
   signUp,
   signIn,
   profile,
-  // 메인
-  select,
-  roomAdd,
   // 방 및 게시글
   room,
   board,

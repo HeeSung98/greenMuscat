@@ -34,17 +34,19 @@
         password,
       }
 
-      const login = await axios({
+      const respone = await axios({
         method: 'POST',
         url: '/main/signin',
         data,
       })
+      const resData = respone.data
+      console.log(resData)
 
-      if (login.data.result) {
+      if (resData.result) {
         alert('로그인 성공')
-        localStorage.setItem('token', login.data.token)
-        localStorage.setItem('nickname', login.data.user)
-        document.location.href = '/main/'
+        localStorage.setItem('token', resData.token)
+        localStorage.setItem('user', JSON.stringify(resData.user))
+        document.location.href = '/main'
       } else {
         alert(`${login.data.message}`)
         document.location.reload()
