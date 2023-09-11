@@ -44,7 +44,7 @@
         alert('로그인 성공')
         localStorage.setItem('token', login.data.token)
         localStorage.setItem('nickname', login.data.user)
-        document.location.href = '/main/'
+        document.location.href = '/main'
       } else {
         alert(`${login.data.message}`)
         document.location.reload()
