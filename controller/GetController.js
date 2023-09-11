@@ -65,12 +65,12 @@ const board = async (req, res) => {
       post.dataValues.POST_IMAGEs.map((image) => image.path)
     )
     //게시물 댓글
-    const replydata = posts.map((post) =>
-      post.dataValues.REPLies.map((reply) => reply.text)
-    )
+    // const replydata = posts.map((post) =>
+    //   post.dataValues.REPLies.map((reply) => reply.text)
+    // )
     console.log('pContent :', contentdata)
     console.log('imagedata :', imagedata)
-    console.log('replydata :', replydata)
+    // console.log('replydata :', replydata)
     res.render('board', { data: contentdata })
   } catch (error) {
     console.log(error)
