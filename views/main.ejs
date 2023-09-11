@@ -59,8 +59,6 @@
           <form name="roomRegisterForm">
             방 이름:
             <input type="text" name="roomTitle" /><br /><br />
-            입장 코드:
-            <input type="text" name="roomCode" /><br /><br />
             프로필 이미지:
             <input type="file" id="roomImg" /><br /><br />
             <button type="button" onclick="btnRoomRegister()">생성</button>
@@ -75,8 +73,6 @@
         <div class="modal_body">
           <h2>방 입장하기</h2>
           <form name="roomEntranceForm">
-            이메일:
-            <input type="text" name="email" /><br /><br />
             입장 코드:
             <input type="text" name="roomCode" /><br /><br />
             <button type="button" onclick="btnRoomEntrance()">입장</button>
@@ -95,6 +91,11 @@
       </div>
     </div>
 
+    <form action="/main/entrance" method="post" name="postRoomForm" hidden>
+      <input type="text" name="code" />
+      <input type="text" name="email" />
+    </form>
+
     <script>
       const user = JSON.parse(localStorage.getItem('user'))
       console.log('user:', user)
@@ -111,6 +112,20 @@
         document.getElementById(id).style.display = 'none'
       }
 
+      // 방 코드 생성기
+      function generateRoomCode(length) {
+        const characters =
+          'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+        let roomCode = ''
+
+        for (let i = 0; i < length; i++) {
+          const randomIndex = Math.floor(Math.random() * characters.length)
+          roomCode += characters.charAt(randomIndex)
+        }
+
+        return roomCode
+      }
+
       // 방 생성 폼 데이터
       async function btnRoomRegister() {
         const form = document.forms['roomRegisterForm']
@@ -118,7 +133,7 @@
 
         const data = new FormData()
         data.append('rTitle', form.roomTitle.value)
-        data.append('code', form.roomCode.value)
+        data.append('code', generateRoomCode(10))
         data.append('email', user.email)
         data.append('file', file.files[0])
 
@@ -135,15 +150,12 @@
         console.log('resData: ', resData)
         if (resData.result) {
           alert(`${resData.message}`)
-          const resultBox = document.querySelector('#result')
-          if (resData.location) {
-            const img = document.createElement('img')
-            img.src = resData.location // aws의 경로는 location으로
-            img.style.width = '500px'
-            resultBox.appendChild(img)
-          }
-          btnCloseModal(registerModal.id)
-          document.location.href = '/room'
+          const entranceForm = document.forms['postRoomForm']
+          console.log('createdRoom: ', resData.createdRoom)
+          localStorage.setItem('room', JSON.stringify(resData.createdRoom))
+          entranceForm.code.value = resData.createdRoom.code
+          entranceForm.email.value = user.email
+          entranceForm.submit()
         } else {
           alert(`${resData.message}`)
           form.reset()
