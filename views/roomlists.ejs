@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <style>
-      .roomList {
+      /* .roomList {
         width: 500px;
         height: 500px;
         border-width: 2px;
         border-style: solid;
         display: none;
-      }
+      } */
     </style>
     <title>방 목록</title>
   </head>
@@ -20,7 +20,16 @@
       이메일(임시): <input type="text" name="email" />
       <button type="button" onclick="test()">제출</button>
     </form>
-    <div class="roomList"></div>
+
+    <!-- 제출 버튼 누르면 리스트 생성되는 부분 -->
+    <div class="roomList">
+      <!-- <div>
+        <span>example1</span>
+      </div>
+      <div>
+        <span>example2</span>
+      </div> -->
+    </div>
     <script>
       async function test() {
         const roombox = document.querySelector('.roomList')
@@ -34,17 +43,27 @@
           url: '/main/lists',
           data,
         })
-
         resData = respone.data
         console.log('resData: ', resData)
         if (resData.result) {
-          roombox.style.display = 'block'
+          // roombox.style.display = 'block'
           for (let i = 0; i < resData.rooms.length; i++) {
-            roombox.innerHTML =
-              roombox.innerHTML +
-              `이름: ${resData.rooms[i].ROOM_rTitle}
+            const item = document.createElement('div') // div 생성
+            const text = document.createElement('span') // span 생성
+            text.textContent = `이름: ${resData.rooms[i].ROOM_rTitle}
               역할: ${resData.rooms[i].role}
               코드: ${resData.rooms[i].ROOM_code}`
+            // item = div 안에 요소로 추가
+            item.appendChild(text)
+
+            // toDoList div 안에 요소로 추가
+            roombox.appendChild(item)
+
+            // roombox.innerHTML =
+            //   roombox.innerHTML +
+            //   `이름: ${resData.rooms[i].ROOM_rTitle}
+            //   역할: ${resData.rooms[i].role}
+            //   코드: ${resData.rooms[i].ROOM_code}`
           }
         } else {
           alert(`${resData.message}`)
