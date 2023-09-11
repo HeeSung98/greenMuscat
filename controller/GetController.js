@@ -38,9 +38,10 @@ const board = async (req, res) => {
   try {
     //post테이블에 값 불러오기
 
-    const pNo = 1 //임시로 고정값 지정
+    const pNo = 3 //임시로 고정값 지정
     const posts = await mPost.findAll({
       //postImage에 등록된 사진도 함께 가져오기 위해 테이블 join
+      where: { ROOM_rNo: 1 },
       include: [
         //이미지 테이블과 조인
         {
@@ -57,7 +58,7 @@ const board = async (req, res) => {
         },
       ],
     })
-    console.log(posts)
+
     console.log(
       ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ post DB에서 가져온 값 담기 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
     )
@@ -73,9 +74,10 @@ const board = async (req, res) => {
       post.dataValues.REPLies.map((reply) => reply.text)
     )
     console.log('pContent :', contentdata)
+    console.log('pContent :', contentdata.length)
     console.log('imagedata :', imagedata)
     console.log('replydata :', replydata)
-    res.render('board', { data: contentdata })
+    res.render('board', { data: { contentdata, imagedata, replydata } })
   } catch (error) {
     console.log(error)
   }

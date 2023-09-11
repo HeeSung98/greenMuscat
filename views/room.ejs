@@ -10,6 +10,7 @@
   <body>
     <h1>프로필, 로그아웃, 공지사항 불러오기 (한 줄만), 더보기 누르기</h1>
     <button onclick="logout()">로그아웃</button><br />
+    <button onclick="boardPage()"">게시글 목폭 페이지로 이동하기</button>
     <h1>---------공지사항---------</h1>
     <form name="noticeForm">
       <label for="rNo">방넘버(임시)</label>
@@ -23,7 +24,9 @@
 
   <script>
     function logout() {}
-
+    function boardPage() {
+      window.location.href = '/room/board'
+    }
     // 공지사항 등록하기
     async function noticeRegister() {
       const form = document.forms['noticeForm']

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="stylesheet" href="../style/style.scss"> -->
+    <link rel="stylesheet" href="/css/profile.css">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>Document</title>
 </head>
@@ -16,21 +16,24 @@
     <div class="profile nickname">
     </div>
     <!-- 모달 창 → 닉네임, 비밀번호 수정 창 & 탈퇴 버튼 -->
-    <button type="button" id="edit">수정</button>
+    <!-- 원래 id: edit -->
+    <button type="button" id="edit-modal" onclick="openModal()">내 계정</button>
 
-    <div id="modal" class="modal-overlay">
+    <div id="modal" class="modal-overlay" hidden>
         <div class="modal-window">
             <div class="title">
                 <h2>회원 정보 수정</h2>
             </div>
-            <div class="close-area">닫기</div>
+            <div class="close-area" onclick="closeModal()">닫기</div>
             <div class="content">
-                <!-- 이미지 변경 창 -->
                 <form name="edit_form">
-                    <label for="nick">닉네임</label><input type="text" id="nickname">
-                    <label for="password">비밀번호</label><input type="password" id="password">
+                    <!-- 이미지 변경..  -->
+                    <input type="file" id="profileImage"><br>
+                    <label for="nick">닉네임</label><input type="text" id="nickname"><br>
+                    <label for="password">비밀번호</label><input type="password" id="password"><br>
                     <button type="button" onclick="edit_profile()">수정</button>
-                    <button type="button" onclick="delete_profile()">탈퇴</button>
+                    <hr>
+                    <button type="button" onclick="delete_profile()">회원 탈퇴</button>
                 </form>
             </div>
         </div>
@@ -38,6 +41,13 @@
 
 
     <script>
+        function openModal() {
+            document.getElementById('modal').hidden = false
+        }
+
+        function closeModal() {
+            document.getElementById('modal').hidden = true
+        }
         (async function () {
             console.log("token", localStorage.getItem('token'))
             const profile = await axios({
@@ -59,6 +69,8 @@
             const form = document.forms['edit_form']
 
             const data = {
+                // 이미지..
+                profileImage: form.profileImage,
                 nickname: form.nickname.value,
                 password: form.password.value
             }

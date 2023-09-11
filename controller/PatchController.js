@@ -12,7 +12,7 @@ const {
 } = require('../models')
 
 dotenv.config()
-const SECRET = process.env.SECRETKEY
+const SECRET = process.env.SECRET_KEY
 
 // 회원 정보 수정
 const editProfile = async (req, res) => {
@@ -29,8 +29,7 @@ const editProfile = async (req, res) => {
     res.json({ result: false, message: '인증 방식이 틀렸습니다.' })
     return
   }
-  // const { profileImage, nickname, password } = req.body
-  const { nickname, password } = req.body
+  const { profileImage, nickname, password } = req.body
   // 토큰 검증
   try {
     const decodedToken = jwt.verify(token, SECRET)
@@ -45,12 +44,15 @@ const editProfile = async (req, res) => {
       res.json({ result: false, message: '회원을 찾을 수 없습니다.' })
       return
     }
-    console.log('check1', password)
     // 있으면 프로필 사진, 닉네임, 비밀번호 수정
     const hash = await bcryptPassword(password) // 비밀번호 암호화
-    console.log('check2', hash)
     await member.update({ profileImage, nickname, password: hash })
-    res.json({ result: true, message: '회원 정보 수정 성공' })
+    res.json({
+      result: true,
+      profileImage,
+      nickname,
+      message: '회원 정보 수정 성공',
+    })
   } catch (error) {
     console.log(error)
     res.json({ result: false, message: '토큰 검증 실패' })

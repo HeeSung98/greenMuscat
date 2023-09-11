@@ -13,7 +13,7 @@ const {
 const { room } = require('./GetController')
 
 dotenv.config()
-const SECRET = process.env.SECRETKEY
+const SECRET = process.env.SECRET_KEY
 
 // 토큰을 찾고 그 토큰에 해당하는 유저의 마이페이지
 const postProfile = async (req, res) => {
@@ -129,9 +129,11 @@ const postRoomAdd = async (req, res) => {
     ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 방 생성 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
   console.log('req.body:', req.body)
-  console.log('req.file.location:', req.file.location)
+  if (req.file) {
+    console.log('req.file.location:', req.file.location)
+    const rImg = req.file.location
+  }
   const { rTitle, code, email } = req.body
-  const rImg = req.file.location
   try {
     // 사용자 조회 (프론트 작업 위해 넣음, 로그인 기능 확정되면 재정비 필요)
     const user = await mMember.findOne({
@@ -142,7 +144,6 @@ const postRoomAdd = async (req, res) => {
       const createdRoom = await mRoom.create({
         rTitle,
         code,
-        rImg,
       })
       console.log('createdRoom:', createdRoom)
 
@@ -172,6 +173,13 @@ const postRoomEntrance = async (req, res) => {
   console.log(
     ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 방 입장 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
+  if (req.files) {
+    console.log('req.files:', req.files)
+    files = req.files
+  } else {
+    console.log('req.files: null')
+    files = null
+  }
   const { code, email } = req.body
   try {
     // 입력한 code 방 존재 여부 조회
@@ -208,7 +216,7 @@ const postRoomEntrance = async (req, res) => {
       }
     }
   } catch (error) {
-    res.json({ error })
+    res.json({ result: false, message: error })
   }
 }
 
@@ -246,6 +254,11 @@ const postBoardRegister = async (req, res) => {
   )
   console.log('req.body:', req.body)
   console.log('req.files:', req.files)
+  if (req.files) {
+    files = req.files
+  } else {
+    files = null
+  }
 
   // 게시물 등록을 위한 값 가져오기
   const { pContent, MEMBER_email, ROOM_rNo } = req.body
@@ -262,8 +275,8 @@ const postBoardRegister = async (req, res) => {
     // 게시물 이미지 테이블에 레코드 추가하기
     for (var i = 0; i < req.files.length; i++) {
       const createdPostImage = await mPostImage.create({
-        uuid: req.files[i].key,
-        path: req.files[i].location,
+        uuid: files[i].key,
+        path: files[i].location,
         POST_pNo: createdPost.pNo,
       })
       console.log(`createdPostImage${i}:`, createdPostImage)
@@ -286,9 +299,11 @@ const postReply = async (req, res) => {
   // Reply db에서 게시물 번호에 해당하는 모든 댓글들 조회
   try {
     const allReply = await mReply.findAll({ where: { POST_pNo } })
+    const pReply = allReply.map((reply) => reply.dataValues.text)
+    console.log(pReply)
     if (allReply) {
       console.log(allReply)
-      res.json({ result: true, allReply })
+      res.json({ result: true, pReply })
     }
   } catch (error) {
     console.log(error)
@@ -296,7 +311,7 @@ const postReply = async (req, res) => {
   }
 }
 
-// 댓글 달기
+// 댓글 등록
 const postRegisterReply = async (req, res) => {
   console.log(
     ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 댓글 등록 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
@@ -317,7 +332,6 @@ const postRegisterReply = async (req, res) => {
     if (reply) {
       console.log({ nickname: user.nickname, reply })
       res.json(reply)
-      // res.redirect('/')
     }
   } catch (error) {
     console.log(error)
