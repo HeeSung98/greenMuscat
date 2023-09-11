@@ -95,15 +95,12 @@ router.post('/main/profile', postController.postProfile)
 
 //!--------- 메인 페이지 관련 ---------
 // 방 생성 페이지(roomadd)
-router.get('/main/add', getController.roomAdd)
 router.post('/main/add', uploadRoom.single('file'), postController.postRoomAdd)
 // 방 목록
 router.get('/main/lists', getController.roomList)
 router.post('/main/lists', postController.postroomLists)
 // 방 입장 (RoomEntrance)
 router.post('/main/entrance', postController.postRoomEntrance)
-// 방 선택 페이지 (Select)
-router.get('/main/select', getController.select)
 
 //!--------- 방 페이지 관련 ---------
 // 방 메인 페이지 (Room)

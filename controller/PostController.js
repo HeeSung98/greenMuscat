@@ -102,7 +102,7 @@ const postSignIn = async (req, res) => {
           httpOnly: true,
         })
         .status(200)
-        .json({ result: true, token, user: user.nickname, mImg: user.mImg })
+        .json({ result: true, token, user })
     } else {
       return res
         .status(403)
