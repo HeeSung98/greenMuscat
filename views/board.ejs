@@ -4,134 +4,122 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
+  <title>게시물</title>
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"
     integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <style></style>
+  <style>
+    .reply-section {
+      display: none;
+    }
+  </style>
 </head>
 
 <body>
-  <h1>게시물 전체 불러오기, 게시물 작성 (상단 조그맣게) -> 모달 창</h1>
+  <h1>게시물 전체 불러오기, 게시물 작성 (상단 조그맣게) - 모달 창</h1>
 
-  <!-- 게시물작성페이지로 이동 버튼 -->
-  <button onclick="location.href='/main/room/board/register'">
-    게시물작성
-  </button>
+  <!-- 게시물 작성 페이지로 이동 버튼 -->
+  <button onclick="location.href='/main/room/board/register'">게시물 작성</button>
 
-  <!-- <h1><%= data.contentdata%></h1>
-    <h1><%= data.imagedata%></h1>
-    <h1><%= data.replydata%></h1> -->
-
-  <% for(let i=0; i < data.contentdata.length; i++){ %>
+  <% data.contentdata.forEach((content, i)=> { %>
     <div>
       <h3>
-        <%= [i+1] %>번째 게시글
+        <%= i + 1 %>번째 게시글
       </h3>
-      <div>게시글 내용 : <%= data.contentdata[i]%>
+      <div>게시글 내용 : <%= content %>
       </div>
       <button onclick="toggleSections(<%= i %>)">댓글</button>
-      <!-- 댓글들-->
-      <div id="replyText<%= i %>" style="display: none;">
-        <div>업로드 된 이미지 : <%= data.imagedata[i]%>
+      <!-- 댓글 섹션 -->
+      <div class="reply-section" id="replySection<%= i %>">
+        <div>업로드된 이미지 : <%= data.imagedata[i] %>
         </div>
-        <div>댓글 내용 : <%= data.replydata[i]%>
-        </div>
+        <!-- 댓글 목록 -->
+        <ul id="replyList<%= i %>">
+          <% data.replydata[i].forEach(function(reply) { %>
+            <li>
+              <%= reply %>
+            </li>
+            <% }); %>
+        </ul>
         <!-- 댓글 입력 -->
         <form name="addReply">
-          <input type="text" id="inputReply" placeholder="댓글 입력" />
+          <input type="text" id="inputReply<%= i %>" placeholder="댓글 입력" />
           <button onclick="addReply(<%= i %>)">댓글 추가</button>
         </form>
-
-        <button>게시</button>
       </div>
     </div>
-    </div>
-    <% } %>
+    <% }) %>
+
 </body>
 
 <script>
-  //댓글 버튼 클릭시 댓글 목록과 댓글 입력창 나타내기
+  // 댓글 버튼 클릭 시 댓글 섹션 토글
   function toggleSections(index) {
-    const replyText = document.getElementById(`replyText${index}`);
-    if (replyText.style.display === 'none' || replyText.style.display === '') {
-      replyText.style.display = 'block';
+    const replySection = document.getElementById(`replySection${index}`);
+    if (replySection.style.display === 'none' || replySection.style.display === '') {
+      replySection.style.display = 'block';
+      allReply(index); // 댓글 목록 불러오기
     } else {
-      replyText.style.display = 'none';
+      replySection.style.display = 'none';
     }
   }
-  //게시글 작성페이지로 이동
-  function register() {
-    window.location.href = '/main/room/board/register'
-  }
 
-  // 댓글 목록 보이기/숨기기 및 댓글 불러오기
+  // 댓글 목록 불러오기
   async function allReply(index) {
-    // 댓글 보이게 할 부분
-    const replyList = document.getElementById(`reply${index}`)
-    const replyDiv = document.getElementById(`reply${index}`)
-    // 댓글 보이게 할 부분
-    if (
-      reply.style.display === 'none' ||
-      reply.style.display === ''
-    ) {
-      reply.style.display = 'block'
-    } else {
-      reply.style.display = 'none'
-    }
-
-    const data = { POST_pNo: index }
-    // 댓글 불러오기
+    const data = { POST_pNo: index };
     try {
       const response = await axios({
         method: 'POST',
         url: '/main/room/board/reply',
         data,
-      })
-
+      });
       if (response.data.result) {
-        const pReply = response.data.pReply
-        replyList.innerHTML = ''
-
-        // 댓글 목록 ul에 추가
-        pReply.forEach((reply) => {
-          const li = document.createElement('li')
-          li.textContent = reply;
-          replyList.appendChild(li)
-        })
-      } else console.log('댓글 불러오기 실패')
+        const pReply = response.data.pReply;
+        const replyList = document.getElementById(`replyList${index}`);
+        replyList.innerHTML = '';
+        // 댓글 목록이 있는 경우에만 forEach 호출
+        if (pReply && Array.isArray(pReply)) {
+          pReply.forEach((reply) => {
+            const li = document.createElement('li');
+            li.textContent = reply;
+            replyList.appendChild(li);
+          });
+        }
+      } else {
+        console.log('댓글 불러오기 실패');
+      }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
   // 댓글 등록
   async function addReply(index) {
-    const form = document.forms['addReply']
-    const inputReply = document.getElementById(`inputReply${index}`)
-    const text = form.inputReply.value
-    const data = { text }
+    const form = document.forms['addReply'];
+    const inputReply = document.getElementById(`inputReply${index}`);
+    const text = inputReply.value;
+    const data = { text, POST_pNo: index };
 
     try {
       const response = await axios({
         method: 'POST',
-        url: '/room/board/reply/register',
+        url: '/main/room/board/reply/register',
         data,
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
-      })
+      });
       if (response.data.result) {
         // 댓글 등록 성공 시 처리
-        inputReply.value = ''
-        // 댓글 목록 다시 불러오기
-        allReply(index)
-      } else console.log('댓글 등록 실패')
+        inputReply.value = '';
+        allReply(index); // 댓글 목록 다시 불러오기
+      } else {
+        console.log('댓글 등록 실패');
+      }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
-  // 본인이 등록한 댓글이면 수정 삭제 버튼 보이고, 수정 삭제 가능하게
 </script>
 
 </html>
