@@ -10,6 +10,7 @@ const {
   mReply,
   mPostImage,
 } = require('../models')
+const { room } = require('./GetController')
 
 dotenv.config()
 const SECRET = process.env.SECRET_KEY
@@ -127,7 +128,11 @@ const postRoomAdd = async (req, res) => {
   console.log(
     ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 방 생성 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
-  console.log(' req.body : ', req.body)
+  console.log('req.body:', req.body)
+  if (req.file) {
+    console.log('req.file.location:', req.file.location)
+    const rImg = req.file.location
+  }
   const { rTitle, code, email } = req.body
   try {
     // 사용자 조회 (프론트 작업 위해 넣음, 로그인 기능 확정되면 재정비 필요)
@@ -140,7 +145,7 @@ const postRoomAdd = async (req, res) => {
         rTitle,
         code,
       })
-      console.log(' createdRoom: ', createdRoom)
+      console.log('createdRoom:', createdRoom)
 
       // 모델에 추가 (관리자)
       const createdMIR = await mMembersInRoom.create({
@@ -150,7 +155,11 @@ const postRoomAdd = async (req, res) => {
         ROOM_code: createdRoom.code,
         MEMBER_email: email,
       })
-      res.json({ result: true, message: '방 생성 완료' })
+      res.json({
+        result: true,
+        message: '방 생성 완료',
+        location: req.file.location,
+      })
     } else {
       res.json({ result: false, message: '사용자가 존재하지 않습니다' })
     }
@@ -164,6 +173,13 @@ const postRoomEntrance = async (req, res) => {
   console.log(
     ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 방 입장 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
+  if (req.files) {
+    console.log('req.files:', req.files)
+    files = req.files
+  } else {
+    console.log('req.files: null')
+    files = null
+  }
   const { code, email } = req.body
   try {
     // 입력한 code 방 존재 여부 조회
@@ -173,7 +189,7 @@ const postRoomEntrance = async (req, res) => {
     console.log(' findedRoom: ', findedRoom)
     // 방이 없으면
     if (!findedRoom) {
-      res.json({ result: false, msg: '방이 존재하지 않습니다.' })
+      res.json({ result: false, message: '방이 존재하지 않습니다.' })
     } else {
       // 방이 있으면
       // 입력한 방 입장 여부
@@ -200,7 +216,7 @@ const postRoomEntrance = async (req, res) => {
       }
     }
   } catch (error) {
-    res.json({ error })
+    res.json({ result: false, message: error })
   }
 }
 
@@ -208,7 +224,7 @@ const postRoomEntrance = async (req, res) => {
 const postRoom = async (req, res) => {}
 
 // 방 목록
-const postRoomLists = async (req, res) => {
+const postroomLists = async (req, res) => {
   console.log(
     ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 방 목록 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
@@ -216,12 +232,16 @@ const postRoomLists = async (req, res) => {
   const { email } = req.body
   try {
     // 입장된 방 이름, 역할, 코드 조회
-    const roomLists = await mMembersInRoom.findAll({
+    const roomList = await mMembersInRoom.findAll({
       attributes: ['ROOM_rTitle', 'role', 'ROOM_code'],
       where: { MEMBER_email: email },
     })
-    console.log(' roomLists: ', roomLists)
-    res.json({ result: true, message: '방 목록 조회 성공' })
+    console.log(' roomList: ', roomList)
+    if (roomList.length > 0) {
+      res.json({ result: true, message: '방 목록 조회 성공', rooms: roomList })
+    } else {
+      res.json({ result: false, message: '입장된 방이 없습니다.' })
+    }
   } catch (error) {
     res.json({ error })
   }
@@ -234,17 +254,33 @@ const postBoardRegister = async (req, res) => {
   )
   console.log('req.body:', req.body)
   console.log('req.files:', req.files)
+  if (req.files) {
+    files = req.files
+  } else {
+    files = null
+  }
+
+  // 게시물 등록을 위한 값 가져오기
+  const { pContent, MEMBER_email, ROOM_rNo } = req.body
 
   try {
-    // 게시물 등록을 위한 값 가져오기
-    const { pContent, MEMBER_email, ROOM_rNo } = req.body
-    // 게시물 테이블에 추가하기
+    // 게시물 테이블에 레코드 추가하기
     const createdPost = await mPost.create({
       pContent,
       MEMBER_email,
       ROOM_rNo,
     })
     console.log('createdPost:', createdPost)
+
+    // 게시물 이미지 테이블에 레코드 추가하기
+    for (var i = 0; i < req.files.length; i++) {
+      const createdPostImage = await mPostImage.create({
+        uuid: files[i].key,
+        path: files[i].location,
+        POST_pNo: createdPost.pNo,
+      })
+      console.log(`createdPostImage${i}:`, createdPostImage)
+    }
 
     res.json({ result: true, message: '게시물 업로드 성공' })
   } catch (error) {
@@ -315,7 +351,7 @@ module.exports = {
   // 메인
   postRoomEntrance,
   postRoomAdd,
-  postRoomLists,
+  postroomLists,
   // 방 및 게시글
   postRoom,
   postBoardRegister,

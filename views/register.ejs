@@ -43,6 +43,9 @@
         method: 'POST',
         data,
         url: '/room/board/register',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       })
       resData = respone.data
       console.log(resData)

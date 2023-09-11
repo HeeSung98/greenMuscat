@@ -13,7 +13,11 @@ const {
 
 dotenv.config()
 
-// 로그인 전 메인 페이지 (홈 화면)
+// 로그인 전 페이지 (홈 화면)
+const index = (req, res) => {
+  res.render('index')
+}
+// 로그인 후 메인 페이지 (메인 화면)
 const main = (req, res) => {
   res.render('main')
 }
@@ -34,9 +38,10 @@ const board = async (req, res) => {
   try {
     //post테이블에 값 불러오기
 
-    const pNo = 1 //임시로 고정값 지정
+    const pNo = 3 //임시로 고정값 지정
     const posts = await mPost.findAll({
       //postImage에 등록된 사진도 함께 가져오기 위해 테이블 join
+      where: { ROOM_rNo: 1 },
       include: [
         //이미지 테이블과 조인
         {
@@ -69,6 +74,7 @@ const board = async (req, res) => {
     //   post.dataValues.REPLies.map((reply) => reply.text)
     // )
     console.log('pContent :', contentdata)
+    console.log('pContent :', contentdata.length)
     console.log('imagedata :', imagedata)
     // console.log('replydata :', replydata)
     res.render('board', { data: contentdata })
@@ -113,11 +119,16 @@ const roomAdd = (req, res) => {
   res.render('select')
 }
 
+// 방 목록보는 페이지
+const roomList = (req, res) => {
+  res.render('roomlists')
+}
+
 // 방 선택하는 페이지
 const select = (req, res) => {
-  res.render('select', { roomLists: mRoom })
-  console.log('room list: ', roomLists)
+  res.render('select')
 }
+
 // 선택한 방의 메인 페이지
 const room = async (req, res) => {
   const rNo = 1
@@ -169,6 +180,7 @@ const admin = (req, res) => {
 }
 
 module.exports = {
+  index,
   // main
   main,
   // 회원
@@ -182,6 +194,7 @@ module.exports = {
   room,
   board,
   boardRegister,
+  roomList,
   // 댓글
   reply,
   // 공지사항
