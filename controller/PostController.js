@@ -11,7 +11,6 @@ const {
   mReply,
   mPostImage,
 } = require('../models')
-const { room } = require('./GetController')
 
 dotenv.config()
 const SECRET = process.env.SECRET_KEY
@@ -192,7 +191,7 @@ const postRoomAdd = async (req, res) => {
 }
 
 // 방 입장
-const postRoomEntrance = async (req, res) => {
+const postRoom = async (req, res) => {
   console.log(
     ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 방 입장 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
@@ -247,37 +246,25 @@ const postRoomEntrance = async (req, res) => {
   }
 }
 
-// 방 이미지 변경
-const postRoom = async (req, res) => {}
-
 // 게시물 업로드
 const postBoardRegister = async (req, res) => {
   console.log(
     ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 게시물 업로드 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
   console.log('req.body:', req.body)
-  console.log('req.files:', req.files)
-  if (req.files) {
-    files = req.files
-  } else {
-    files = null
+  console.log('req.file', req.file)
+  let location
+  try {
+    location = req.file.location
+  } catch (err) {
+    location = null
   }
 
-  // 게시물 등록을 위한 값 가져오기
-
   try {
-    const authHeader = req.headers.authorization
-    const [bearer, token] = authHeader.split(' ')
     const { pContent, MEMBER_email, ROOM_rNo } = req.body
-
-    const decodedToken = jwt.verify(token, SECRET)
-    // token에 들어있는 email인 멤버 조회
-    const user = await mMember.findOne({ where: { email: decodedToken.email } })
-    console.log('User', user)
-    // 게시물 테이블에 레코드 추가하기
     const createdPost = await mPost.create({
       pContent,
-      MEMBER_email: user.email,
+      MEMBER_email,
       ROOM_rNo,
     })
     console.log('createdPost:', createdPost)
@@ -376,7 +363,6 @@ module.exports = {
   // 프로필
   postProfile,
   // 메인
-  postRoomEntrance,
   postRoomAdd,
   postRoomList,
   // 방 및 게시글

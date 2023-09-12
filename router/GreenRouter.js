@@ -98,14 +98,12 @@ router.post('/main/profile', postController.postProfile)
 router.post('/main/add', uploadRoom.single('file'), postController.postRoomAdd)
 // 방 목록 불러오기
 router.post('/main/lists', postController.postRoomList)
-// 방 입장 (RoomEntrance)
-router.post('/main/entrance', postController.postRoomEntrance)
 
 //!--------- 방 페이지 관련 ---------
 // 방 메인 페이지 (Room)
 router.get('/room/', getController.room)
 // 방 이미지 수정 (Room)
-router.post('/room/', postController.postRoom)
+router.post('/room', postController.postRoom)
 // 방 게시물 목록 페이지 (Board)
 router.get('/room/board', getController.board)
 // 게시물 업로드 페이지 (get)
