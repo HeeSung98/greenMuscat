@@ -239,6 +239,7 @@ const postRoomEntrance = async (req, res) => {
     res.render('room', {
       result: true,
       message: '방 입장 완료',
+      findedRoom,
     })
   } catch (error) {
     console.log('err:', error)

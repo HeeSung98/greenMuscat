@@ -30,14 +30,6 @@
       <div class="notice">
         <div>공지사항</div>
         <form name="noticeForm">
-          <div>
-            <input
-              type="text"
-              id="rNo"
-              class="noticeInput"
-              placeholder="방넘버 작성해주세요(나중에 삭제)"
-            />
-          </div>
           <div class="noticeDiv">
             <div>:)</div>
             <div class="noticeInputDiv">
@@ -58,11 +50,13 @@
           <hr />
         </form>
       </div>
-      <div class="noticeContent"><%= data %></div>
+      <p class="noticeContent"><%= findedRoom.notice %></p>
     </div>
   </body>
 
   <script>
+    const room = JSON.parse(localStorage.getItem('room'))
+    const noticeContent = document.querySelector('.noticeContent')
     //textarea 자동 높이 조절
     const DEFAULT_HEIGHT = 5 // textarea 기본 height
     const $textarea = document.querySelector('#notice')
@@ -90,7 +84,8 @@
       if (resData.result) {
         console.log('새로운 공지사항 등록 성공')
         localStorage.setItem('room', JSON.stringify(resData.findedRoom))
-        noticeResult.innerText = room.notice
+        console.log(resData.findedRoom.notice)
+        noticeContent.innerText = resData.findedRoom.notice
         location.reload()
       } else {
         console.log('err')
