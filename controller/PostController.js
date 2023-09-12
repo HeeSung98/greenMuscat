@@ -300,7 +300,6 @@ const postReply = async (req, res) => {
       include: [
         {
           model: mMember,
-          // attributes: ['nickname'],
         },
       ],
     })
