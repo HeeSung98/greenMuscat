@@ -50,13 +50,14 @@
           <hr />
         </form>
       </div>
-      <p class="noticeContent"><%= findedRoom.notice %></p>
+      <p class="noticeContent"></p>
     </div>
   </body>
 
   <script>
     const room = JSON.parse(localStorage.getItem('room'))
     const noticeContent = document.querySelector('.noticeContent')
+    noticeContent.innerText = room.notice
 
     //textarea 자동 높이 조절
     const $textarea = document.querySelector('#notice')
@@ -85,8 +86,7 @@
       if (resData.result) {
         console.log('새로운 공지사항 등록 성공')
         localStorage.setItem('room', JSON.stringify(resData.findedRoom))
-        console.log(resData.findedRoom.notice)
-        noticeContent.innerText = resData.findedRoom.notice
+        console.log('resData.findedRoom.notice:', resData.findedRoom.notice)
         location.reload()
       } else {
         console.log('err')
