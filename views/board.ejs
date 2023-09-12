@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <script
-      src="https://code.jquery.com/jquery-3.7.0.min.js"
-      integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
-      crossorigin="anonymous"
-    ></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <style>
-      body {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-      }
-      .main {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 70%;
-        margin: auto;
-      }
-    </style>
-  </head>
-  <%- include('header') %>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+    integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 70%;
+      margin: auto;
+    }
+  </style>
+</head>
+<%- include('header') %>
+
   <body>
     <div class="main">
       <h1>게시물 전체 불러오기, 게시물 작성 (상단 조그맣게) -> 모달 창</h1>
@@ -35,80 +35,189 @@
         게시물작성
       </button>
 
-      <!-- <h1><%= data.contentdata%></h1>
-    <h1><%= data.imagedata%></h1>
-    <h1><%= data.replydata%></h1> -->
+      <body>
+        <h1>게시물 전체 불러오기, 게시물 작성 (상단 조그맣게) -> 모달 창</h1>
 
-      <% for(let i=0; i < data.contentdata.length; i++){ %>
-      <div>
-        <h3><%= [i+1] %>번째 게시글</h3>
-        <div>게시글 내용 : <%= data.contentdata[i]%></div>
-        <button onclick="toggleSections(<%= i %>)">댓글</button>
-        <!-- 댓글들-->
-        <div id="replyText<%= i %>" style="display: none">
-          <div>업로드 된 이미지 : <%= data.imagedata[i]%></div>
-          <div>댓글 내용 : <%= data.replydata[i]%></div>
-          <!-- 댓글 입력 -->
-          <form name="addReply">
-            <input type="text" id="inputReply" placeholder="댓글 입력" />
-            <button onclick="addReply(<%= i %>)">댓글 추가</button>
-          </form>
-        </div>
-      </div>
-      <% } %>
-    </div>
-  </body>
+        <!-- 게시물작성페이지로 이동 버튼 -->
+        <button onclick="location.href='/main/room/board/register'">
+          게시물작성
+        </button>
 
-  <script>
-    //댓글 버튼 클릭시 댓글 목록과 댓글 입력창 나타내기
-    function toggleSections(index) {
-      const replyText = document.getElementById(`replyText${index}`)
-      if (
-        replyText.style.display === 'none' ||
-        replyText.style.display === ''
-      ) {
-        replyText.style.display = 'block'
-      } else {
-        replyText.style.display = 'none'
-      }
-    }
-    //게시글 작성페이지로 이동
-    function register() {
-      window.location.href = '/main/room/board/register'
-    }
+        <% for(let i=0; i < data.contentdata.length; i++){ %>
+          <div>
+            <h3>
+              <%= [i+1] %>번째 게시글
+            </h3>
+            <div>게시글 내용 : <%= data.contentdata[i]%>
+            </div>
+            <div>업로드 된 이미지 : <%= data.imagedata[i]%>
+            </div>
+            <button onclick="toggleSections(<%= i %>)">댓글</button>
+            <!-- 댓글들-->
+            <div id="replyText<%= i %>" class="replyText" style="display: none;">
+              <div>--- 댓글 ---</div>
+              <div id="previousComments<%= i %>" class="previousComments"></div>
+              <!-- 댓글 입력 -->
+              <form name="addReply<%= i %>">
+                <input type="text" id="inputReply<%= i %>" placeholder="댓글 입력" />
+                <button type="button" onclick="addReplyFunc(<%= i %>)">등록</button>
+              </form>
+              <!-- 댓글 삭제 버튼 -->
+              <% if (checkLoginStatus().loggedIn) { %>
+                <button type="button" onclick="deleteReplyFunc(<%= i %>)">삭제</button>
+                <% } %>
+            </div>
+            <% } %>
+          </div>
+      </body>
 
-    // // 댓글 보이게 할 부분
-    // const reply = document.getElementById(`reply${index}`)
+      <script>
+        // toggle
+        function toggleSections(index) {
+          const replyText = document.getElementById(`replyText${index}`);
+          if (replyText.style.display === 'none') {
+            replyText.style.display = 'block';
+            getReplies(index)
+          } else {
+            replyText.style.display = 'none';
+          }
+        }
 
-    // // 댓글 보이게 할 부분
-    // const reply = document.getElementById(`reply${index}`)
+        //게시글 작성페이지로 이동
+        function register() {
+          window.location.href = '/room/board/register'
+        }
 
-    // // 댓글 정보 보내기
-    // const response = await axios({
-    //   method: 'POST',
-    //   url: '/main/room/board/reply',
-    //   data,
-    // })
+        // 로그인 상태 판별하고, 토큰 및 닉네임 가져오기
+        function checkLoginStatus() {
+          const token = localStorage.getItem('token');
+          const nickname = localStorage.getItem('nickname');
 
-    // 댓글 등록
-    async function addReply(index) {
-      const form = document.forms['addReply']
-      // 댓글 값
-      const text = form.inputReply.value
-      const data = {
-        text,
-      }
+          if (token && nickname) {
+            // 토큰과 닉네임이 로컬 스토리지에 존재하는 경우
+            // 로그인 상태로 판별하고 해당 닉네임을 사용
+            return { loggedIn: true, nickname };
+          } else {
+            // 토큰 또는 닉네임이 로컬 스토리지에 없는 경우
+            // 로그인 상태가 아니라고 판별하고 "Guest" 닉네임 사용
+            return { loggedIn: false, nickname: 'Guest' };
+          }
+        }
+        // 댓글 조회
+        async function getReplies(index) {
+          const POST_pNo = index + 1
 
-      const response = await axios({
-        method: 'POST',
-        url: '/main/room/board/reply/register',
-        data,
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      })
-    }
+          try {
+            const response = await axios({
+              method: 'POST',
+              url: '/room/board/reply',
+              data: { POST_pNo },
+            });
 
-    // 본인이 등록한 댓글이면 수정 삭제 버튼 보이고, 수정 삭제 가능하게
-  </script>
+            const resData = response.data;
+            if (resData.result) {
+              console.log('댓글 조회 결과:', resData.pReply);
+
+              // 이전 댓글 표시 영역 초기화
+              const previousComments = document.getElementById(`previousComments${index}`);
+              previousComments.innerHTML = '';
+
+              // 댓글 데이터 사용해 화면에 표시
+              const replyData = resData.pReply;
+              for (const reply of replyData) {
+                const replyParagraph = document.createElement('p');
+                replyParagraph.textContent = `${reply.nickname} : ${reply.text}`;
+                previousComments.appendChild(replyParagraph);
+              }
+
+            }
+          } catch (error) {
+            console.error('댓글 조회 중 오류 발생:', error);
+          }
+        }
+
+        // 댓글 등록
+        async function addReplyFunc(index) {
+          // console.log('등록', index)
+          const form = document.forms[`addReply${index}`]
+          const text = form[`inputReply${index}`].value
+          console.log(text)
+          const POST_pNo = index + 1
+
+          // 입력 값이 빈 문자열이면 댓글 등록 막기
+          if (!text.trim()) {
+            console.error('댓글 내용을 입력하세요.');
+            return;
+          }
+
+          const data = {
+            text,
+            POST_pNo,
+          };
+
+          try {
+            const response = await axios({
+              method: 'POST',
+              url: '/room/board/reply/register',
+              data,
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+              },
+            });
+
+            const resData = response.data
+            if (resData.result) {
+              console.log('댓글이 성공적으로 추가되었습니다:', resData.data);
+
+              // 댓글 등록 후 다시 댓글 목록 조회
+              getReplies(index)
+
+              // 입력창 비워주기
+              form[`inputReply${index}`].value = '';
+
+              // 새로운 댓글 추가
+              const newComment = document.createElement('div');
+              newComment.textContent = `${resData.nickname}: ${text}`;
+              // replyText.appendChild(newComment);
+              const previousComments = document.getElementById(`previousComments${index}`);
+              previousComments.appendChild(newComment);
+
+            }
+          } catch (error) {
+            console.error('댓글 추가 중 오류 발생:', error);
+          }
+        }
+
+
+        // 본인이 등록한 댓글이면 수정 삭제 버튼 보이고, 수정 삭제 가능하게
+        // 수정
+        // ...
+
+        // 삭제
+        async function deleteReplyFunc(index) {
+          const POST_pNo = index + 1
+          const replyText = document.getElementById(`replyText${index}`)
+          const confirmation = confirm('댓글을 삭제하시겠습니까?')
+
+          if (confirmation) {
+            try {
+              const response = await axios.delete(`/room/board/reply/destroy`, {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                }
+              })
+
+              const resData = response.data
+              if (resData.result) {
+                console.log('댓글이 성공적으로 삭제되었습니다')
+                // 삭제한 댓글의 화면 표시 숨김
+                replyText.style.display = 'none'
+              }
+            } catch (error) {
+              console.log(error)
+            }
+          }
+        }
+      </script>
+
 </html>
