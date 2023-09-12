@@ -64,6 +64,7 @@ button {
   background: rgb(234, 244, 78);
   border-radius: 10px;
   border: 0;
+  cursor: pointer;
 }
 hr {
   width: 100%;

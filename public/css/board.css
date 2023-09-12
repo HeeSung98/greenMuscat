@@ -24,6 +24,18 @@ body {
   justify-content: center;
   margin-bottom: 30px;
 }
+#addBtn {
+  display: flex;
+  margin: auto;
+  width: 100px;
+  cursor: pointer;
+}
+hr {
+  width: 100%;
+  background: #c4c4c4;
+  height: 1px;
+  border: 0;
+}
 .register {
   display: flex;
   flex-direction: column;
@@ -70,6 +82,12 @@ img {
 .contentImg {
   width: 300px;
 }
+#commentBtn {
+  cursor: pointer;
+}
+#likeBtn {
+  cursor: pointer;
+}
 .postForm {
   display: flex;
   flex-direction: column;
@@ -79,4 +97,28 @@ img {
   border: 0;
   font-size: 30px;
   outline-style: none;
+}
+p {
+  display: flex;
+  align-items: center;
+}
+textarea {
+  border: 0;
+  font-size: 18px;
+  outline-style: none;
+  width: 100%;
+  resize: none;
+}
+#replyBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+
+  height: 30px;
+  margin-bottom: 10px;
+  background: rgb(234, 244, 78);
+  border-radius: 10px;
+  border: 0;
 }

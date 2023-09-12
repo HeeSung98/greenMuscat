@@ -20,6 +20,11 @@ body {
 .notice {
   width: 90%;
 }
+.innerNotice {
+}
+#noticeImg {
+  width: 40px;
+}
 .noticeDiv {
   display: flex;
   justify-content: space-around;
@@ -30,6 +35,7 @@ body {
 .noticeInput {
   width: 100%;
   border: 0;
+  resize: none;
 }
 .registerBtn {
   border-radius: 8px;
