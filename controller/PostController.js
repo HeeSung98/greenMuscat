@@ -2,6 +2,7 @@
 const bcrypt = require('bcrypt')
 const dotenv = require('dotenv')
 const jwt = require('jsonwebtoken')
+const sequelize = require('sequelize')
 const {
   mMember,
   mRoom,
@@ -261,13 +262,20 @@ const postBoardRegister = async (req, res) => {
   }
 
   // 게시물 등록을 위한 값 가져오기
-  const { pContent, MEMBER_email, ROOM_rNo } = req.body
 
   try {
+    const authHeader = req.headers.authorization
+    const [bearer, token] = authHeader.split(' ')
+    const { pContent, MEMBER_email, ROOM_rNo } = req.body
+
+    const decodedToken = jwt.verify(token, SECRET)
+    // token에 들어있는 email인 멤버 조회
+    const user = await mMember.findOne({ where: { email: decodedToken.email } })
+    console.log('User', user)
     // 게시물 테이블에 레코드 추가하기
     const createdPost = await mPost.create({
       pContent,
-      MEMBER_email,
+      MEMBER_email: user.email,
       ROOM_rNo,
     })
     console.log('createdPost:', createdPost)
@@ -285,7 +293,6 @@ const postBoardRegister = async (req, res) => {
     res.json({ result: true, message: '게시물 업로드 성공' })
   } catch (error) {
     console.log(error)
-
     res.json({ result: false })
   }
 }
@@ -295,14 +302,30 @@ const postReply = async (req, res) => {
   console.log(
     ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 댓글 조회 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
+
   const { POST_pNo } = req.body
   // Reply db에서 게시물 번호에 해당하는 모든 댓글들 조회
   try {
-    const allReply = await mReply.findAll({ where: { POST_pNo } })
-    const pReply = allReply.map((reply) => reply.dataValues.text)
-    console.log(pReply)
-    if (allReply) {
-      console.log(allReply)
+    const allReply = await mReply.findAll({
+      // where: { POST_pNo },
+      include: [
+        {
+          model: mMember,
+          // attributes: ['nickname'],
+        },
+      ],
+    })
+    const pReply = allReply.map((reply) => ({
+      text: reply.text,
+      nickname: reply.dataValues.MEMBER
+        ? reply.dataValues.MEMBER.dataValues.nickname
+        : 'Guest',
+    }))
+    console.log('----------')
+
+    // console.log(pReply.nickname)
+    if (pReply) {
+      console.log(pReply)
       res.json({ result: true, pReply })
     }
   } catch (error) {
@@ -323,6 +346,7 @@ const postRegisterReply = async (req, res) => {
     const decodedToken = jwt.verify(token, SECRET)
     // token에 들어있는 email인 멤버 조회
     const user = await mMember.findOne({ where: { email: decodedToken.email } })
+    console.log('User', user)
     // 조회 되면 댓글 작성
     const reply = await mReply.create({
       text,
@@ -331,10 +355,11 @@ const postRegisterReply = async (req, res) => {
     })
     if (reply) {
       console.log({ nickname: user.nickname, reply })
-      res.json(reply)
+      res.json({ result: true, data: reply, nickname: user.nickname })
     }
   } catch (error) {
     console.log(error)
+    res.json({ result: false })
   }
 }
 

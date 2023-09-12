@@ -71,13 +71,14 @@ const board = async (req, res) => {
     )
     //게시물 댓글
     const replydata = posts.map((post) =>
-      post.dataValues.REPLies.map((reply) => reply.text)
+      post.dataValues.REPLies.map((reply) => {
+        reply.text, reply.nickname
+      })
     )
     console.log('pContent :', contentdata)
-    console.log('pContent :', contentdata.length)
     console.log('imagedata :', imagedata)
-    // console.log('replydata :', replydata)
-    res.render('board', { data: contentdata })
+    console.log('replydata :', replydata)
+    res.render('board', { data: { contentdata, imagedata, replydata } })
   } catch (error) {
     console.log(error)
   }
