@@ -97,10 +97,9 @@
     </form>
 
     <script>
+      const entranceForm = document.forms['postRoomForm'] // 방 입장 정보를 위한 히든 폼
       const user = JSON.parse(localStorage.getItem('user'))
       console.log('user:', user)
-
-      const resultBox = document.querySelector('.result')
 
       // 모달창 열기
       function btnOpenModal(id) {
@@ -145,9 +144,9 @@
             'Content-Type': 'multipart/form-data',
           },
         })
-
         resData = respone.data
         console.log('resData: ', resData)
+
         if (resData.result) {
           alert(`${resData.message}`)
           const entranceForm = document.forms['postRoomForm']
@@ -181,11 +180,10 @@
 
         if (resData.result) {
           alert(`${resData.message}`)
-          btnCloseModal(entranceModal.id)
-          document.location.href = '/room'
+          localStorage.setItem('room', JSON.stringify(resData.findedRoom))
+          location.href = '/room'
         } else {
           alert(`${resData.message}`)
-          form.reset()
         }
       }
     </script>
