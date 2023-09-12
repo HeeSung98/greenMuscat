@@ -97,7 +97,7 @@ router.post('/main/profile', postController.postProfile)
 // 방 생성 페이지(roomadd)
 router.post('/main/add', uploadRoom.single('file'), postController.postRoomAdd)
 // 방 목록 불러오기
-router.post('/main/lists', postController.postroomList)
+router.post('/main/lists', postController.postRoomList)
 // 방 입장 (RoomEntrance)
 router.post('/main/entrance', postController.postRoomEntrance)
 

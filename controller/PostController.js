@@ -124,7 +124,7 @@ const postSignOut = (req, res) => {
 }
 
 // 방 목록
-const postroomLists = async (req, res) => {
+const postRoomList = async (req, res) => {
   console.log(
     ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 방 목록 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
@@ -136,7 +136,7 @@ const postroomLists = async (req, res) => {
       attributes: ['ROOM_rTitle', 'role', 'ROOM_code'],
       where: { MEMBER_email: email },
     })
-    console.log(' roomList: ', roomList)
+    console.log('roomList: ', roomList)
     if (roomList.length > 0) {
       res.json({ result: true, message: '방 목록 조회 성공', rooms: roomList })
     } else {
@@ -352,7 +352,7 @@ module.exports = {
   // 메인
   postRoomEntrance,
   postRoomAdd,
-  postroomLists,
+  postRoomList,
   // 방 및 게시글
   postRoom,
   postBoardRegister,
