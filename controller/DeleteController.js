@@ -24,7 +24,7 @@ const deleteProfile = async (req, res) => {
   const [bearer, token] = authHeader.split(' ')
   const decodedToken = jwt.verify(token, SECRET)
   try {
-    // token에 들어있던 email과 일치하는 곳의 cookie 없앰
+    // token에 들어있던 email과 일치하는 곳의 cookie 제거
     await mMember.destroy({ where: { email: decodedToken.email } }).then(() => {
       res.clearCookie('x_auth')
       // req.session.destroy()
