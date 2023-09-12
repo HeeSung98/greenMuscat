@@ -20,102 +20,96 @@
         margin: auto;
         margin-top: 10%;
       }
-      .login{
+      .login {
         font-size: 20px;
         margin-bottom: 15px;
       }
       .loginDiv {
-
-display: flex;
-flex-direction: column;
-align-items: center;
-width: 80%;
-}
-#formSignin{
-  display: flex;
-flex-direction: column;
-width: 80%;
-align-items: center;
-}
-.innerform{
-  display: flex;
-flex-direction: column;
-/* justify-content: center; */
-/* align-content: center; */
-align-items: left;
-width: 80%;
-}
-label{
-  font-size: 13px;
-}
-input {
-  width: 95%;
-  height: 30px;
-  margin-bottom:10px;
-  background: rgb(237, 235, 235);
-  border: 1px solid rgb(196, 196, 196);
-  border-radius: 10px;
-  padding-left: 5%;
-}
-button{
-  width: 100%;
-  height: 30px;
-  margin-bottom:10px;
-  background: rgb(234, 244, 78);
-  border-radius: 10px;
-  border: 0;
-}
-hr {
-  width: 100%;
-  background: #c4c4c4;
-  height: 1px;
-  border: 0;
-}
-.Q{
-  text-align: center;
-}
-img{
-  width: 20%;
-  margin: auto;
-  margin-bottom: 10px;
-}
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 80%;
+      }
+      #formSignin {
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        align-items: center;
+      }
+      .innerform {
+        display: flex;
+        flex-direction: column;
+        /* justify-content: center; */
+        /* align-content: center; */
+        align-items: left;
+        width: 80%;
+      }
+      label {
+        font-size: 13px;
+      }
+      input {
+        width: 95%;
+        height: 30px;
+        margin-bottom: 10px;
+        background: rgb(237, 235, 235);
+        border: 1px solid rgb(196, 196, 196);
+        border-radius: 10px;
+        padding-left: 5%;
+      }
+      button {
+        width: 100%;
+        height: 30px;
+        margin-bottom: 10px;
+        background: rgb(234, 244, 78);
+        border-radius: 10px;
+        border: 0;
+      }
+      hr {
+        width: 100%;
+        background: #c4c4c4;
+        height: 1px;
+        border: 0;
+      }
+      .Q {
+        text-align: center;
+      }
+      img {
+        width: 20%;
+        margin: auto;
+        margin-bottom: 10px;
+      }
     </style>
   </head>
-  <%- include('headerMain') %>
+  <%- include('mainHeader') %>
   <body>
     <div class="main">
-    
-    <form name="nick" method="post" action="/main/select">
-      <div class="login">로그인</div>
-      <input type="hidden" name="nickname" />
-    </form>
-    <div class="loginDiv">
-    <form name="form_signin" id="formSignin">
-      <div class="innerform">
-      <label for="email">이메일</label>
+      <form name="nick" method="post" action="/main/select">
+        <div class="login">로그인</div>
+        <input type="hidden" name="nickname" />
+      </form>
+      <div class="loginDiv">
+        <form name="form_signin" id="formSignin">
+          <div class="innerform">
+            <label for="email">이메일</label>
 
-      <input type="email" id="email" placeholder="이메일" />
+            <input type="email" id="email" placeholder="이메일" />
 
-      <div id="err_email" class="err"></div>
-      <label for="password">비밀번호</label>
-      
-      <input type="password" id="password" placeholder="비밀번호" />
-    
-      <div id="err_password" class="err"></div>
-      <button type="button" id="btn" onclick="signIn()">로그인</button>
-      <hr />
-      <div class="Q">그린머스켓이 처음이신가요?
-        
+            <div id="err_email" class="err"></div>
+            <label for="password">비밀번호</label>
+
+            <input type="password" id="password" placeholder="비밀번호" />
+
+            <div id="err_password" class="err"></div>
+            <button type="button" id="btn" onclick="signIn()">로그인</button>
+            <hr />
+            <div class="Q">그린머스켓이 처음이신가요?</div>
+            <img src="/earth.png" alt="" />
+          </div>
+        </form>
       </div>
-      <img src="/earth.png" alt="">
     </div>
-      
-    </form>
-    
-  </div>
 
     <a href="/main/signup">회원가입</a>
-
   </body>
 
   <script>

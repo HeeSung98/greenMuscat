@@ -21,7 +21,7 @@
       }
     </style>
   </head>
-  <%- include('header') %>
+  <%- include('roomHeader') %>
   <body>
     <div class="main">
       <div style="height: 300px">
@@ -57,14 +57,15 @@
   <script>
     const room = JSON.parse(localStorage.getItem('room'))
     const noticeContent = document.querySelector('.noticeContent')
+
     //textarea 자동 높이 조절
-    const DEFAULT_HEIGHT = 5 // textarea 기본 height
     const $textarea = document.querySelector('#notice')
     $textarea.oninput = (event) => {
       const $target = event.target
       $target.style.height = 0
-      $target.style.height = DEFAULT_HEIGHT + $target.scrollHeight + 'px'
+      $target.style.height = 5 + $target.scrollHeight + 'px'
     }
+
     // 공지사항 등록하기
     async function noticeRegister() {
       const form = document.forms['noticeForm']
