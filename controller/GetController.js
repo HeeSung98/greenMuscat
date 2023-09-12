@@ -176,7 +176,6 @@ module.exports = {
   room,
   board,
   boardRegister,
-  roomList,
   // 댓글
   reply,
   // 공지사항
