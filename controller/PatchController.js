@@ -35,7 +35,7 @@ const editProfile = async (req, res) => {
     const decodedToken = jwt.verify(token, SECRET)
     console.log(decodedToken)
 
-    // email이 일치한 하나의 member 찾아서 해당 member 회원 정보 수정.
+    // email이 일치한 하나의 member 찾아서 해당 member 회원 정보 수정
     const member = await mMember.findOne({
       where: { email: decodedToken.email },
     })

@@ -136,7 +136,7 @@ router.delete('/room/board/reply/destroy', deleteController.deleteReply)
 router.get('/room/notice', getController.notice)
 router.patch('/room/notice', patchController.editNotice)
 
-//!--------- 관리자 관련 ---------
+//!---------- 관리자 관련 ----------
 // 관리자 페이지
 router.get('/admin', getController.admin)
 router.post('/admin', postController.postAdmin)

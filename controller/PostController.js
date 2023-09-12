@@ -15,7 +15,7 @@ const { room } = require('./GetController')
 dotenv.config()
 const SECRET = process.env.SECRET_KEY
 
-// 토큰을 찾고 그 토큰에 해당하는 유저의 마이페이지
+// 유저의 토큰을 찾고 해당 유저의 마이페이지로 이동
 const postProfile = async (req, res) => {
   console.log(req.headers.authorization)
   console.log(
@@ -312,10 +312,10 @@ const postReply = async (req, res) => {
   }
 }
 
-// 댓글 등록
+// 댓글 작성
 const postRegisterReply = async (req, res) => {
   console.log(
-    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 댓글 등록 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
+    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 댓글 등록 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
   const authHeader = req.headers.authorization
   const [bearer, token] = authHeader.split(' ')

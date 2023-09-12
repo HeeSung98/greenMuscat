@@ -158,7 +158,7 @@ const reply = async (req, res) => {
   }
 }
 
-//TODO 관리자 페이지 (개인 정보, 수정 버튼, 참여한 전체 학생들 리스트)
+//TODO 관리자 페이지
 const admin = (req, res) => {
   // findOne?
   res.render('admin')
