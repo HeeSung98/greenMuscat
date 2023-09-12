@@ -23,8 +23,8 @@
         position: absolute;
         top: 50%;
 
-        width: 400px;
-        height: 600px;
+        /* width: 400px;
+        height: 600px; */
 
         padding: 40px;
 
@@ -37,7 +37,25 @@
         transform: translateY(-50%);
       }
 
-      .roomBtn {
+      h2 {
+        text-align: center;
+        padding: 15px;
+        margin: 0 auto;
+      }
+      .roomBox {
+        border: dotted 2px black;
+        border-radius: 3%;
+        width: 60%;
+        height: 300px;
+        position: relative;
+        margin: 0 auto;
+      }
+      p {
+        text-align: center;
+        margin: 15px 0;
+        font-weight: 600;
+      }
+      /* .roomBtn {
         width: 100px;
         height: 100px;
         background-color: antiquewhite;
@@ -45,50 +63,67 @@
         border-style: solid;
         border-width: 3px;
         margin: 2vw;
-      }
+      } */
     </style>
-    <title>방 선택하기</title>
+    <title>GreenMuscat</title>
   </head>
-  <%- include('roomHeader') %>
+  <%- include('mainHeader') %>
 
   <body>
-    <h2></h2>
-    <div style="display: flex">
-      <div class="modal" id="registerModal">
-        <div class="modal_body">
-          <h2>방 생성하기</h2>
-          <form name="roomRegisterForm">
-            방 이름:
-            <input type="text" name="roomTitle" /><br /><br />
-            프로필 이미지:
-            <input type="file" id="roomImg" /><br /><br />
-            <button type="button" onclick="btnRoomRegister()">생성</button>
-            <button type="button" onclick="btnCloseModal(registerModal.id)">
-              닫기
-            </button>
-          </form>
+    <h2>닉네임 👨‍🌾 환영합니다!</h2>
+    <div class="roomBox">
+      <p style="font-size: 20px">포도 농장을 선택해 주세요.</p>
+      <br />
+      <div style="text-align: center">현재 재배 중인 농장이 없어요😢</div>
+      <br />
+      <p style="font-size: 16px">다른 농장을 찾으시나요?</p>
+      <div>
+        <div class="modal" id="registerModal">
+          <div class="modal_body">
+            <h2>방 생성하기</h2>
+            <form name="roomRegisterForm">
+              방 이름:
+              <input type="text" name="roomTitle" /><br /><br />
+              프로필 이미지:
+              <input type="file" id="roomImg" /><br /><br />
+              <button type="button" onclick="btnRoomRegister()">생성</button>
+              <button type="button" onclick="btnCloseModal(registerModal.id)">
+                닫기
+              </button>
+            </form>
+          </div>
         </div>
-      </div>
 
-      <div class="modal" id="entranceModal">
-        <div class="modal_body">
-          <h2>방 입장하기</h2>
-          <form name="roomEntranceForm">
-            입장 코드:
-            <input type="text" name="roomCode" /><br /><br />
-            <button type="button" onclick="btnRoomEntrance()">입장</button>
-            <button type="button" onclick="btnCloseModal(entranceModal.id)">
-              닫기
-            </button>
-          </form>
+        <div class="modal" id="entranceModal">
+          <div class="modal_body">
+            <h2>방 입장하기</h2>
+            <form name="roomEntranceForm">
+              입장 코드:
+              <input type="text" name="roomCode" /><br /><br />
+              <button type="button" onclick="btnRoomEntrance()">입장</button>
+              <button type="button" onclick="btnCloseModal(entranceModal.id)">
+                닫기
+              </button>
+            </form>
+          </div>
         </div>
-      </div>
-      <div class="result" id="result"></div>
-      <div class="roomBtn" onclick="btnOpenModal(registerModal.id)">
-        방 생성하기
-      </div>
-      <div class="roomBtn" onclick="btnOpenModal(entranceModal.id)">
-        방 입장하기
+        <div class="result" id="result"></div>
+        <div class="btnBox" style="text-align: center">
+          <button
+            class="roomBtn"
+            type="button"
+            onclick="btnOpenModal(registerModal.id)"
+          >
+            방 생성하기
+          </button>
+          <button
+            class="roomBtn"
+            type="button"
+            onclick="btnOpenModal(entranceModal.id)"
+          >
+            방 입장하기
+          </button>
+        </div>
       </div>
     </div>
 

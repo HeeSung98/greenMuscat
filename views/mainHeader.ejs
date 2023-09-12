@@ -40,20 +40,30 @@
       }
       .innderHeaderLogo {
         margin: 10px;
-        width: 50px;
-        height: 50px;
+        display: flex;
+        text-align: center;
+      }
+      .innderHeaderLogo:hover {
+        cursor: pointer;
       }
       .innderHeaderLogin {
         margin: 10px;
         align-items: center;
         display: flex;
       }
+      .innderHeaderLogin:hover {
+        color: rgb(187, 245, 72);
+        font-size: 1em;
+        font-weight: 800;
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
     <div class="header">
-      <div>
-        <img src="/home.png" class="innderHeaderLogo" onclick="mainPage()" />
+      <div onclick="mainPage()" class="innderHeaderLogo">
+        <!-- <img src="/home.png" class="innderHeaderLogo" onclick="mainPage()" /> -->
+        GreenMuscat
       </div>
 
       <div class="innderHeaderLogin" onclick="loginPage()">login or logout</div>
