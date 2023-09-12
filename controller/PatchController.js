@@ -130,7 +130,3 @@ module.exports = {
 const bcryptPassword = (password) => {
   return bcrypt.hash(password, 10)
 }
-
-const comparePassword = (password, db_password) => {
-  return bcrypt.compare(password, db_password)
-}
