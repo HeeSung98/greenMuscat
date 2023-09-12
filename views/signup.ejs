@@ -1,68 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <title>Document</title>
-    <style>
-      body {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-      }
-      .main {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 70%;
-        margin: auto;
-        margin-top: 10%;
-      }
-      .signUp {
-        font-size: 20px;
-        margin-bottom: 15px;
-      }
-      .signUpDiv {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 80%;
-      }
-      #formSignup {
-        display: flex;
-        flex-direction: column;
-        width: 80%;
-        align-items: center;
-      }
-      .innerform {
-        display: flex;
-        flex-direction: column;
-        /* justify-content: center; */
-        /* align-content: center; */
-        align-items: left;
-        width: 80%;
-      }
-      input {
-        width: 95%;
-        height: 30px;
-        margin-bottom: 10px;
-        background: rgb(237, 235, 235);
-        border: 1px solid rgb(196, 196, 196);
-        border-radius: 10px;
-        padding-left: 5%;
-      }
-      button {
-        width: 100%;
-        height: 30px;
-        margin-bottom: 10px;
-        background: rgb(234, 244, 78);
-        border-radius: 10px;
-        border: 0;
-      }
-    </style>
-  </head>
-  <%- include('mainHeader') %>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/css/signup.css">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <title>Document</title>
+</head>
+<%- include('mainHeader') %>
+
   <body>
     <div class="main">
       <div class="signUp">회원가입</div>
@@ -107,4 +54,5 @@
       }
     }
   </script>
+
 </html>

@@ -1,87 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <style>
-      body {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-      }
-      .main {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 70%;
-        margin: auto;
-        margin-top: 10%;
-      }
-      .title {
-        font-size: 50px;
-        margin-bottom: 15px;
-      }
-      .loginDiv {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 80%;
-      }
-      #formSignin {
-        display: flex;
-        flex-direction: column;
-        width: 80%;
-        align-items: center;
-      }
-      .innerform {
-        display: flex;
-        flex-direction: column;
-        /* justify-content: center; */
-        /* align-content: center; */
-        align-items: left;
-        width: 80%;
-      }
-      label {
-        font-size: 13px;
-      }
-      input {
-        width: 95%;
-        height: 30px;
-        margin-bottom: 10px;
-        background: rgb(237, 235, 235);
-        border: 1px solid rgb(196, 196, 196);
-        border-radius: 10px;
-        padding-left: 5%;
-      }
-      button {
-        width: 50%;
-        height: 30px;
-        margin-bottom: 10px;
-        background: rgb(234, 244, 78);
-        border-radius: 10px;
-        border: 0;
-        margin: auto;
-      }
-      hr {
-        width: 100%;
-        background: #c4c4c4;
-        height: 1px;
-        border: 0;
-      }
-      .content {
-        text-align: center;
-        margin-bottom: 30px;
-      }
-      img {
-        width: 100%;
-        margin: auto;
-        margin-bottom: 10px;
-      }
-    </style>
-  </head>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="/css/index.css">
+</head>
+
+
+<body>
   <%- include('mainHeader') %>
-  <body>
     <div class="main">
       <div class="title">환경에 대한 좋은 습관을 심어주세요</div>
 
@@ -95,14 +24,15 @@
           <button type="button" id="btn" onclick="signIn()">
             목표 달성하러 가기
           </button>
-          <img src="/main.png" alt="" />
+          <img src="/img/main.png" alt="people" />
         </div>
       </div>
     </div>
-  </body>
-  <script>
-    function signIn() {
-      window.location.href = '/main/signin'
-    }
-  </script>
+</body>
+<script>
+  function signIn() {
+    window.location.href = '/main/signin'
+  }
+</script>
+
 </html>

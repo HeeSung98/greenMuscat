@@ -1,86 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <style>
-      @font-face {
-        font-family: 'HSSaemaul-Regular';
-        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/HSSaemaul-Regular.woff')
-          format('woff');
-        font-weight: normal;
-        font-style: normal;
-      }
-      @font-face {
-        font-family: 'EarlyFontDiary';
-        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_220508@1.0/EarlyFontDiary.woff2')
-          format('woff2');
-        font-weight: normal;
-        font-style: normal;
-      }
-      @font-face {
-        font-family: 'HakgyoansimWoojuR';
-        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.0/HakgyoansimWoojuR.woff2')
-          format('woff2');
-        font-weight: normal;
-        font-style: normal;
-      }
-      * {
-        font-family: 'HakgyoansimWoojuR';
-      }
-      .header {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 60px;
-        border-bottom: 1px solid #c4c4c4;
-      }
-      .innderHeader {
-        margin: 10px;
-      }
-      .innderHeaderLogo {
-        margin: 10px;
-        display: flex;
-        text-align: center;
-      }
-      .innderHeaderLogo:hover {
-        cursor: pointer;
-      }
-      .innderHeaderLogin {
-        margin: 10px;
-        align-items: center;
-        display: flex;
-      }
-      .innderHeaderLogin:hover {
-        color: rgb(187, 245, 72);
-        font-size: 1em;
-        font-weight: 800;
-        cursor: pointer;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="header">
-      <div onclick="mainPage()" class="innderHeaderLogo">
-        <!-- <img src="/home.png" class="innderHeaderLogo" onclick="mainPage()" /> -->
-        GreenMuscat
-      </div>
 
-      <div class="innderHeaderLogin" onclick="loginPage()">login or logout</div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/css/mainHeader.css">
+  <title>Document</title>
+  <style>
+
+
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <div onclick="mainPage()" class="innerHeaderLogo">
+      <!-- <img src="/home.png" class="innderHeaderLogo" onclick="mainPage()" /> -->
+      GreenMuscat
     </div>
-  </body>
-  <script>
-    //로그인 이동
-    function loginPage() {
-      window.location.href = '/main/signin'
-    }
-    //회원가입 이동
-    function boardPage() {
-      window.location.href = '/main/signup'
-    }
-    //메인페이지 이동
-    function mainPage() {
-      window.location.href = '/'
-    }
-  </script>
+
+    <div class="innerHeaderLogin" onclick="loginPage()">login / logout</div>
+  </div>
+</body>
+<script>
+  //로그인 이동
+  function loginPage() {
+    window.location.href = '/main/signin'
+  }
+  //회원가입 이동
+  function boardPage() {
+    window.location.href = '/main/signup'
+  }
+  //메인페이지 이동
+  function mainPage() {
+    window.location.href = '/'
+  }
+</script>
+
 </html>

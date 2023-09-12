@@ -1,28 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <title>Document</title>
-    <link rel="stylesheet" href="../public/css/room.css" />
-    <style>
-      body {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-      }
-      .main {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 70%;
-        margin: auto;
-      }
-    </style>
-  </head>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <title>Document</title>
+  <link rel="stylesheet" href="/css/room.css" />
+</head>
+
+
+<body>
   <%- include('roomHeader') %>
-  <body>
     <div class="main">
       <div style="height: 300px">
         <h1>커다란 포도 들어갈 위치</h1>
@@ -33,17 +22,9 @@
           <div class="noticeDiv">
             <div>:)</div>
             <div class="noticeInputDiv">
-              <textarea
-                id="notice"
-                class="noticeInput"
-                placeholder="공지사항을 작셍해주세요"
-              ></textarea>
+              <textarea id="notice" class="noticeInput" placeholder="공지사항을 작셍해주세요"></textarea>
             </div>
-            <button
-              type="button"
-              onclick="noticeRegister()"
-              class="registerBtn"
-            >
+            <button type="button" onclick="noticeRegister()" class="registerBtn">
               게시
             </button>
           </div>
@@ -52,46 +33,47 @@
       </div>
       <p class="noticeContent"></p>
     </div>
-  </body>
+</body>
 
-  <script>
-    const room = JSON.parse(localStorage.getItem('room'))
-    console.log('room:', room)
-    const noticeContent = document.querySelector('.noticeContent')
-    noticeContent.innerText = room.notice
+<script>
+  const room = JSON.parse(localStorage.getItem('room'))
+  console.log('room:', room)
+  const noticeContent = document.querySelector('.noticeContent')
+  noticeContent.innerText = room.notice
 
-    //textarea 자동 높이 조절
-    const $textarea = document.querySelector('#notice')
-    $textarea.oninput = (event) => {
-      const $target = event.target
-      $target.style.height = 0
-      $target.style.height = 5 + $target.scrollHeight + 'px'
+  //textarea 자동 높이 조절
+  const $textarea = document.querySelector('#notice')
+  $textarea.oninput = (event) => {
+    const $target = event.target
+    $target.style.height = 0
+    $target.style.height = 5 + $target.scrollHeight + 'px'
+  }
+
+  // 공지사항 등록하기
+  async function noticeRegister() {
+    const form = document.forms['noticeForm']
+    const data = {
+      rNo: room.rNo,
+      notice: form.notice.value,
     }
 
-    // 공지사항 등록하기
-    async function noticeRegister() {
-      const form = document.forms['noticeForm']
-      const data = {
-        rNo: room.rNo,
-        notice: form.notice.value,
-      }
+    const respone = await axios({
+      method: 'PATCH',
+      url: '/room/notice',
+      data,
+    })
+    const resData = respone.data
+    console.log('resData:', resData)
 
-      const respone = await axios({
-        method: 'PATCH',
-        url: '/room/notice',
-        data,
-      })
-      const resData = respone.data
-      console.log('resData:', resData)
-
-      if (resData.result) {
-        console.log('새로운 공지사항 등록 성공')
-        localStorage.setItem('room', JSON.stringify(resData.findedRoom))
-        console.log('resData.findedRoom.notice:', resData.findedRoom.notice)
-        location.reload()
-      } else {
-        console.log('err')
-      }
+    if (resData.result) {
+      console.log('새로운 공지사항 등록 성공')
+      localStorage.setItem('room', JSON.stringify(resData.findedRoom))
+      console.log('resData.findedRoom.notice:', resData.findedRoom.notice)
+      location.reload()
+    } else {
+      console.log('err')
     }
-  </script>
+  }
+</script>
+
 </html>

@@ -1,75 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <style>
-      .modal {
-        position: absolute;
-        display: none;
 
-        justify-content: center;
-        top: 0;
-        left: 0;
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <link rel="stylesheet" href="/css/main.css">
+  <title>GreenMuscat</title>
+</head>
 
-        width: 100%;
-        height: 100%;
-
-        background-color: rgba(0, 0, 0, 0.4);
-      }
-
-      .modal_body {
-        position: absolute;
-        top: 50%;
-
-        /* width: 400px;
-        height: 600px; */
-
-        padding: 40px;
-
-        text-align: center;
-
-        background-color: rgb(255, 255, 255);
-        border-radius: 10px;
-        box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
-
-        transform: translateY(-50%);
-      }
-
-      h2 {
-        text-align: center;
-        padding: 15px;
-        margin: 0 auto;
-      }
-      .roomBox {
-        border: dotted 2px black;
-        border-radius: 3%;
-        width: 60%;
-        height: 300px;
-        position: relative;
-        margin: 0 auto;
-      }
-      p {
-        text-align: center;
-        margin: 15px 0;
-        font-weight: 600;
-      }
-      /* .roomBtn {
-        width: 100px;
-        height: 100px;
-        background-color: antiquewhite;
-        text-align: center;
-        border-style: solid;
-        border-width: 3px;
-        margin: 2vw;
-      } */
-    </style>
-    <title>GreenMuscat</title>
-  </head>
+<body>
   <%- include('mainHeader') %>
-
-  <body>
     <h2>닉네임 👨‍🌾 환영합니다!</h2>
     <div class="roomBox">
       <p style="font-size: 20px">포도 농장을 선택해 주세요.</p>
@@ -109,18 +50,10 @@
         </div>
         <div class="result" id="result"></div>
         <div class="btnBox" style="text-align: center">
-          <button
-            class="roomBtn"
-            type="button"
-            onclick="btnOpenModal(registerModal.id)"
-          >
+          <button class="roomBtn" type="button" onclick="btnOpenModal(registerModal.id)">
             방 생성하기
           </button>
-          <button
-            class="roomBtn"
-            type="button"
-            onclick="btnOpenModal(entranceModal.id)"
-          >
+          <button class="roomBtn" type="button" onclick="btnOpenModal(entranceModal.id)">
             방 입장하기
           </button>
         </div>
@@ -223,5 +156,6 @@
         }
       }
     </script>
-  </body>
+</body>
+
 </html>
