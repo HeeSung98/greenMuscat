@@ -38,6 +38,10 @@
           <input type="text" id="inputReply<%= i %>" placeholder="댓글 입력" />
           <button type="button" onclick="addReplyFunc(<%= i %>)">등록</button>
         </form>
+        <!-- 댓글 삭제 버튼 -->
+        <% if (checkLoginStatus().loggedIn) { %>
+          <button type="button" onclick="deleteReplyFunc(<%= i %>)">삭제</button>
+          <% } %>
       </div>
     </div>
     </div>
@@ -167,8 +171,10 @@
   // ...
 
   // 삭제
-  async function deleteReply() {
-    const confirmation = confirm('정말로 댓글을 삭제하시겠습니까?')
+  async function deleteReplyFunc(index) {
+    const POST_pNo = index + 1
+    const replyText = document.getElementById(`replyText${index}`)
+    const confirmation = confirm('댓글을 삭제하시겠습니까?')
 
     if (confirmation) {
       try {
@@ -181,7 +187,8 @@
         const resData = response.data
         if (resData.result) {
           console.log('댓글이 성공적으로 삭제되었습니다')
-
+          // 삭제한 댓글의 화면 표시 숨김
+          replyText.style.display = 'none'
         }
       } catch (error) {
         console.log(error)
