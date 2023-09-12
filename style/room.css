@@ -1,0 +1,28 @@
+.notice {
+  width: 90%;
+}
+.noticeDiv {
+  display: flex;
+  justify-content: space-around;
+}
+.noticeInputDiv {
+  width: 80%;
+}
+.noticeInput {
+  width: 100%;
+  border: 0;
+}
+.registerBtn {
+  border-radius: 8px;
+  width: 40px;
+  background-color: white;
+  border: 1px solid #787777;
+}
+hr {
+  background: #c4c4c4;
+  height: 1px;
+  border: 0;
+}
+.noticeContent {
+  width: 90%;
+}

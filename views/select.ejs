@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 70%;
+        margin: auto;
+      }
       .modal {
         position: absolute;
         display: none;
@@ -49,54 +61,54 @@
     </style>
     <title>방 선택하기</title>
   </head>
-
+  <%- include('headerMain') %>
   <body>
-    <h2></h2>
-    <div style="display: flex">
-      <div class="modal" id="registerModal">
-        <div class="modal_body">
-          <h2>방 생성하기</h2>
-          <form name="roomRegisterForm">
-            <label for="email">이메일: </label>
-            <input type="text" name="email" /><br />
-            <label for="roomTitle">방 이름: </label>
-            <input type="text" name="roomTitle" /><br />
-            <label for="roomCode">입장 코드: </label>
-            <input type="text" name="roomCode" /><br />
-            <label for="roomImg">프로필 이미지: </label>
-            <input type="file" id="roomImg" /><br /><br />
-            <button type="button" onclick="btnRoomRegister()">생성</button>
-            <button type="button" onclick="btnCloseModal(registerModal.id)">
-              닫기
-            </button>
-          </form>
+    <div class="main">
+      <div style="display: flex">
+        <div class="modal" id="registerModal">
+          <div class="modal_body">
+            <h2>방 생성하기</h2>
+            <form name="roomRegisterForm">
+              <label for="email">이메일: </label>
+              <input type="text" name="email" /><br />
+              <label for="roomTitle">방 이름: </label>
+              <input type="text" name="roomTitle" /><br />
+              <label for="roomCode">입장 코드: </label>
+              <input type="text" name="roomCode" /><br />
+              <label for="roomImg">프로필 이미지: </label>
+              <input type="file" id="roomImg" /><br /><br />
+              <button type="button" onclick="btnRoomRegister()">생성</button>
+              <button type="button" onclick="btnCloseModal(registerModal.id)">
+                닫기
+              </button>
+            </form>
+          </div>
         </div>
-      </div>
 
-      <div class="modal" id="entranceModal">
-        <div class="modal_body">
-          <h2>방 입장하기</h2>
-          <form name="roomEntranceForm">
-            <label for="email">이메일: </label>
-            <input type="text" name="email" /><br />
-            <label for="roomCode">입장 코드: </label>
-            <input type="text" name="roomCode" /><br /><br />
-            <button type="button" onclick="btnRoomEntrance()">입장</button>
-            <button type="button" onclick="btnCloseModal(entranceModal.id)">
-              닫기
-            </button>
-          </form>
+        <div class="modal" id="entranceModal">
+          <div class="modal_body">
+            <h2>방 입장하기</h2>
+            <form name="roomEntranceForm">
+              <label for="email">이메일: </label>
+              <input type="text" name="email" /><br />
+              <label for="roomCode">입장 코드: </label>
+              <input type="text" name="roomCode" /><br /><br />
+              <button type="button" onclick="btnRoomEntrance()">입장</button>
+              <button type="button" onclick="btnCloseModal(entranceModal.id)">
+                닫기
+              </button>
+            </form>
+          </div>
         </div>
-      </div>
-      <div class="result" id="result"></div>
-      <div class="roomBtn" onclick="btnOpenModal(registerModal.id)">
-        방 생성하기
-      </div>
-      <div class="roomBtn" onclick="btnOpenModal(entranceModal.id)">
-        방 입장하기
+        <div class="result" id="result"></div>
+        <div class="roomBtn" onclick="btnOpenModal(registerModal.id)">
+          방 생성하기
+        </div>
+        <div class="roomBtn" onclick="btnOpenModal(entranceModal.id)">
+          방 입장하기
+        </div>
       </div>
     </div>
-
     <script>
       const resultBox = document.querySelector('.result')
 
