@@ -136,7 +136,7 @@
         localStorage.setItem('user', JSON.stringify(resData.user))
         document.location.href = '/main'
       } else {
-        alert(`${login.data.message}`)
+        alert(`${resData.message}`)
         document.location.reload()
       }
     }
