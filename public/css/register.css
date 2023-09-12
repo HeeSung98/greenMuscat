@@ -52,4 +52,18 @@ img {
   border: 0;
   font-size: 30px;
   outline-style: none;
+  resize: none;
+}
+#registerBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+
+  height: 30px;
+  margin-bottom: 10px;
+  background: rgb(234, 244, 78);
+  border-radius: 10px;
+  border: 0;
 }
