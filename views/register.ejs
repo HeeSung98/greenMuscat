@@ -10,22 +10,103 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <style></style>
-  </head>
-  <body>
-    <h1>게시물 작성</h1>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
 
-    <form name="postForm">
-      <input type="text" id="pContent" placeholder="글 내용" />
-      <input type="file" id="files" multiple /><br /><br />
-      <button type="button" onclick="boardRegister()">게시</button>
-    </form>
-    <div class="result"></div>
+      .main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 70%;
+        margin: auto;
+      }
+      .title {
+        font-size: 30px;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+      }
+      .register {
+        display: flex;
+        flex-direction: column;
+        margin-top: 50px;
+        width: 90%;
+      }
+      .innerRegister {
+        display: flex;
+        justify-content: center;
+        width: 90%;
+      }
+      .innerInfo {
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        margin: 10px;
+      }
+      .imgDiv {
+        border: 1px solid;
+        width: 50px;
+        height: 50px;
+        border-radius: 30px;
+      }
+      img {
+        width: 40px;
+        padding: 5px;
+      }
+      .postForm {
+        display: flex;
+        flex-direction: column;
+        margin-top: 5px;
+      }
+      #pContent {
+        border: 0;
+        font-size: 30px;
+        outline-style: none;
+      }
+    </style>
+  </head>
+  <%- include('roomHeader') %>
+  <body>
+    <div class="main">
+      <div class="register">
+        <div class="title">게시물 작성</div>
+        <div class="innerRegister">
+          <div class="imgDiv"><img src="/user1.png" alt="" /></div>
+          <div class="innerInfo">
+            <div class="nickname"></div>
+
+            <form name="postForm" class="postForm">
+              <textarea
+                id="pContent"
+                placeholder="포도알을 채우기 위해 수행한 미션을 적어주세요."
+              ></textarea>
+              <input type="file" id="files" multiple /><br /><br />
+              <button type="button" onclick="boardRegister()">게시</button>
+            </form>
+            <div class="result"></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 
   <script>
     const user = JSON.parse(localStorage.getItem('user'))
     const room = JSON.parse(localStorage.getItem('room'))
+    const nickname = document.querySelector('.nickname')
+    nickname.innerText = user.nickname
+
+    //textarea 자동 높이 조절
+    const $textarea = document.querySelector('#pContent')
+    $textarea.oninput = (event) => {
+      const $target = event.target
+      $target.style.height = 0
+      $target.style.height = 5 + $target.scrollHeight + 'px'
+    }
 
     const resultBox = document.querySelector('.result')
     async function boardRegister() {
