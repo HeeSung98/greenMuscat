@@ -195,9 +195,8 @@
     async function deleteReplyFunc(index) {
       const POST_pNo = index + 1
       const replyText = document.getElementById(`replyText${index}`)
-      const confirmation = confirm('댓글을 삭제하시겠습니까?')
 
-      if (confirmation) {
+      if (confirm('댓글을 삭제하시겠습니까?')) {
         try {
           const response = await axios.delete(`/room/board/reply/destroy`, {
             headers: {
