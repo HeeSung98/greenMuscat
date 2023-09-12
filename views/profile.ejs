@@ -2,103 +2,93 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/profile.css">
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/profile.css">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <title>Document</title>
 </head>
 
 <body>
-    <h1>프로필 정보 조회, 수정 (모달), 탈퇴 버튼 생성</h1>
-    <div class="profile image">
+  <h1>Profile</h1>
+  <!-- 이미지 -->
+  <div class="profile image">
+    <!-- <img src="" alt="" id="profileImg"> -->
+    <div id="profileImg"></div>
+    <div id="pencil" onclick="changeImg()"><img src="/noun-pencil.svg" alt="프로필 이미지 변경" />
     </div>
+  </div>
+  <div class="content">
+    <!-- 닉네임 -->
     <div class="profile nickname">
     </div>
-    <!-- 모달 창 → 닉네임, 비밀번호 수정 창 & 탈퇴 버튼 -->
-    <!-- 원래 id: edit -->
-    <button type="button" id="edit-modal" onclick="openModal()">내 계정</button>
+    <div id="btn_edit" onclick="location.href='/main/profile/edit'">프로필 수정하기</div>
+  </div>
 
-    <div id="modal" class="modal-overlay">
-        <div class="modal-window">
-            <div class="title">
-                <h2>회원 정보 수정</h2>
-            </div>
-            <div class="close-area">닫기</div>
-            <div class="content">
-                <!-- 이미지 변경 창 -->
-                <form name="edit_form">
-                    <label for="nick">닉네임</label><input type="text" id="nickname">
-                    <label for="password">비밀번호</label><input type="password" id="password">
-                    <button type="button" onclick="edit_profile()">수정</button>
-                    <button type="button" onclick="delete_profile()">탈퇴</button>
-                </form>
-            </div>
-        </div>
-      </div>
-    </div>
-    <script>
-        (async function () {
-            console.log("token", localStorage.getItem('token'))
-            const profile = await axios({
-                method: 'POST',
-                url: '/main/profile',
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`,
-                },
-            })
-            console.log("profile", profile)
-        })
+  <!-- 배지 등등.. -->
+  <div></div>
 
-      const nick = localStorage.getItem('nickname')
-      const nickname = document.querySelector('.nickname')
-      nickname.innerText = nick
+  <!-- 탈퇴 버튼 -->
+  <button type="button" id="btn_delete" onclick="delete_profile()">회원 탈퇴하기</button>
 
-      // 회원 정보 수정
-      async function edit_profile() {
-        const form = document.forms['edit_form']
+  <script>
+    // 유저 정보 가져오기 (닉네임, 프로필 이미지 등)
+    // const img = localStorage.getItem('user')
+    // const profileImg = document.querySelector('.image')
+    // profileImg.innerText = img
 
-            const data = {
-                nickname: form.nickname.value,
-                password: form.password.value
-            }
+    const nick = localStorage.getItem('nickname')
+    const nickname = document.querySelector('.nickname')
+    nickname.innerText = nick
 
-        const response = await axios({
-          method: 'PATCH',
-          url: '/main/profile/edit',
-          data,
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        })
+    // 프로필 이미지 변경
+    async function changeImg() {
+      const data = { mImg }
 
-        resData = response.data
-        if (resData.result) {
-          localStorage.setItem('nickname', resData.nickname)
-          alert('수정 완료!')
-          document.location.reload()
-        } else console.log('수정 실패')
+      const response = await axios({
+        method: 'PATCH',
+        url: '/main/profile/edit',
+        data,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      })
+
+      resData = response.data
+      if (resData.result) {
+        alert('수정 완료!')
+        document.location.reload()
+      } else console.log('수정 실패')
+    }
+
+    // 회원 탈퇴
+    async function delete_profile() {
+      if (!confirm('탈퇴하시겠습니까?')) {
+        return
       }
+      const response = await axios({
+        method: 'DELETE',
+        url: '/main/profile/destroy',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      })
 
-      // 회원 탈퇴
-      async function delete_profile() {
-        if (!confirm('탈퇴하시겠습니까?')) {
-          return
-        }
-        const response = await axios({
-          method: 'DELETE',
-          url: '/main/profile/destroy',
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        })
+      resData = response.data
+      if (resData.result) {
+        alert('회원 탈퇴가 완료되었습니다 :)')
+        document.location.href = '/'
+      } else console.log('회원 탈퇴 실패')
+    }
+  </script>
+</body>
 
-        resData = response.data
-        if (resData.result) {
-          alert('회원 탈퇴가 완료되었습니다 :)')
-          document.location.href = '/'
-        } else console.log('회원 탈퇴 실패')
-      }
-    </script>
-  </body>
+<!-- 
+@copyright
+
+Pencil by Meko from <a href="https://thenounproject.com/browse/icons/term/pencil/" target="_blank" title="Pencil Icons">Noun Project</a> (CC BY 3.0)
+
+-->
+
+
 </html>
