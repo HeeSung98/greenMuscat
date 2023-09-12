@@ -296,7 +296,7 @@ const postReply = async (req, res) => {
   // Reply db에서 게시물 번호에 해당하는 모든 댓글들 조회
   try {
     const allReply = await mReply.findAll({
-      // where: { POST_pNo },
+      where: { POST_pNo },
       include: [
         {
           model: mMember,

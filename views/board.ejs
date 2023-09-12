@@ -1,32 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <script
-      src="https://code.jquery.com/jquery-3.7.0.min.js"
-      integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
-      crossorigin="anonymous"
-    ></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <style>
-      body {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-      }
 
-      .main {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 70%;
-        margin: auto;
-      }
-    </style>
-  </head>
-  <%- include('roomHeader') %>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+    integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 70%;
+      margin: auto;
+    }
+  </style>
+</head>
+<%- include('roomHeader') %>
 
   <body>
     <div class="main">
@@ -36,27 +34,27 @@
       <button onclick="location.href='/room/board/register'">게시물작성</button>
 
       <% for(let i=0; i < data.contentdata.length; i++){ %>
-      <div>
-        <h3><%= [i+1] %>번째 게시글</h3>
-        <div>게시글 내용 : <%= data.contentdata[i]%></div>
-        <div>업로드 된 이미지 : <%= data.imagedata[i]%></div>
-        <button onclick="toggleSections(<%= i %>)">댓글</button>
-        <!-- 댓글들-->
-        <div id="replyText<%= i %>" class="replyText" style="display: none">
-          <div>--- 댓글 ---</div>
-          <div id="previousComments<%= i %>" class="previousComments"></div>
-          <!-- 댓글 입력 -->
-          <form name="addReply<%= i %>">
-            <input
-              type="text"
-              id="inputReply<%= i %>"
-              placeholder="댓글 입력"
-            />
-            <button type="button" onclick="addReplyFunc(<%= i %>)">등록</button>
-          </form>
+        <div>
+          <h3>
+            <%= [i+1] %>번째 게시글
+          </h3>
+          <div>게시글 내용 : <%= data.contentdata[i]%>
+          </div>
+          <div>업로드 된 이미지 : <%= data.imagedata[i]%>
+          </div>
+          <button onclick="toggleSections(<%= i %>)">댓글</button>
+          <!-- 댓글들-->
+          <div id="replyText<%= i %>" class="replyText" style="display: none">
+            <div>--- 댓글 ---</div>
+            <div id="previousComments<%= i %>" class="previousComments"></div>
+            <!-- 댓글 입력 -->
+            <form name="addReply<%= i %>">
+              <input type="text" id="inputReply<%= i %>" placeholder="댓글 입력" />
+              <button type="button" onclick="addReplyFunc(<%= i %>)">등록</button>
+            </form>
+          </div>
         </div>
-      </div>
-      <% } %>
+        <% } %>
     </div>
   </body>
 
@@ -216,4 +214,5 @@
       }
     }
   </script>
+
 </html>
