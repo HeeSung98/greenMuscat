@@ -1,100 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      src="https://code.jquery.com/jquery-3.7.0.min.js"
+      integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 70%;
+        margin: auto;
+      }
+    </style>
+  </head>
+  <%- include('header') %>
+  <body>
+    <div class="main">
+      <h1>게시물 전체 불러오기, 게시물 작성 (상단 조그맣게) -> 모달 창</h1>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
-  <script src="https://code.jquery.com/jquery-3.7.0.min.js"
-    integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <style></style>
-</head>
+      <!-- 게시물작성페이지로 이동 버튼 -->
+      <button onclick="location.href='/main/room/board/register'">
+        게시물작성
+      </button>
 
-<body>
-  <h1>게시물 전체 불러오기, 게시물 작성 (상단 조그맣게) -> 모달 창</h1>
-
-  <!-- 게시물작성페이지로 이동 버튼 -->
-  <button onclick="location.href='/main/room/board/register'">
-    게시물작성
-  </button>
-
-  <!-- <h1><%= data.contentdata%></h1>
+      <!-- <h1><%= data.contentdata%></h1>
     <h1><%= data.imagedata%></h1>
     <h1><%= data.replydata%></h1> -->
 
-  <% for(let i=0; i < data.contentdata.length; i++){ %>
-    <div>
-      <h3>
-        <%= [i+1] %>번째 게시글
-      </h3>
-      <div>게시글 내용 : <%= data.contentdata[i]%>
-      </div>
-      <button onclick="toggleSections(<%= i %>)">댓글</button>
-      <!-- 댓글들-->
-      <div id="replyText<%= i %>" style="display: none;">
-        <div>업로드 된 이미지 : <%= data.imagedata[i]%>
+      <% for(let i=0; i < data.contentdata.length; i++){ %>
+      <div>
+        <h3><%= [i+1] %>번째 게시글</h3>
+        <div>게시글 내용 : <%= data.contentdata[i]%></div>
+        <button onclick="toggleSections(<%= i %>)">댓글</button>
+        <!-- 댓글들-->
+        <div id="replyText<%= i %>" style="display: none">
+          <div>업로드 된 이미지 : <%= data.imagedata[i]%></div>
+          <div>댓글 내용 : <%= data.replydata[i]%></div>
+          <!-- 댓글 입력 -->
+          <form name="addReply">
+            <input type="text" id="inputReply" placeholder="댓글 입력" />
+            <button onclick="addReply(<%= i %>)">댓글 추가</button>
+          </form>
         </div>
-        <div>댓글 내용 : <%= data.replydata[i]%>
-        </div>
-        <!-- 댓글 입력 -->
-        <form name="addReply">
-          <input type="text" id="inputReply" placeholder="댓글 입력" />
-          <button onclick="addReply(<%= i %>)">댓글 추가</button>
-        </form>
-
-        <button>게시</button>
       </div>
+      <% } %>
     </div>
-    </div>
-    <% } %>
-</body>
+  </body>
 
-<script>
-  //댓글 버튼 클릭시 댓글 목록과 댓글 입력창 나타내기
-  function toggleSections(index) {
-    const replyText = document.getElementById(`replyText${index}`);
-    if (replyText.style.display === 'none' || replyText.style.display === '') {
-      replyText.style.display = 'block';
-    } else {
-      replyText.style.display = 'none';
+  <script>
+    //댓글 버튼 클릭시 댓글 목록과 댓글 입력창 나타내기
+    function toggleSections(index) {
+      const replyText = document.getElementById(`replyText${index}`)
+      if (
+        replyText.style.display === 'none' ||
+        replyText.style.display === ''
+      ) {
+        replyText.style.display = 'block'
+      } else {
+        replyText.style.display = 'none'
+      }
     }
-  }
-  //게시글 작성페이지로 이동
-  function register() {
-    window.location.href = '/main/room/board/register'
-  }
-
-  // // 댓글 보이게 할 부분
-  // const reply = document.getElementById(`reply${index}`)
-
-  // // 댓글 정보 보내기
-  // const response = await axios({
-  //   method: 'POST',
-  //   url: '/main/room/board/reply',
-  //   data,
-  // })
-
-  // 댓글 등록
-  async function addReply(index) {
-    const form = document.forms['addReply']
-    // 댓글 값
-    const text = form.inputReply.value
-    const data = {
-      text,
+    //게시글 작성페이지로 이동
+    function register() {
+      window.location.href = '/main/room/board/register'
     }
 
-    const response = await axios({
-      method: 'POST',
-      url: '/main/room/board/reply/register',
-      data,
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    })
-  }
+    // // 댓글 보이게 할 부분
+    // const reply = document.getElementById(`reply${index}`)
 
-  // 본인이 등록한 댓글이면 수정 삭제 버튼 보이고, 수정 삭제 가능하게
-</script>
+    // // 댓글 보이게 할 부분
+    // const reply = document.getElementById(`reply${index}`)
 
+    // // 댓글 정보 보내기
+    // const response = await axios({
+    //   method: 'POST',
+    //   url: '/main/room/board/reply',
+    //   data,
+    // })
+
+    // 댓글 등록
+    async function addReply(index) {
+      const form = document.forms['addReply']
+      // 댓글 값
+      const text = form.inputReply.value
+      const data = {
+        text,
+      }
+
+      const response = await axios({
+        method: 'POST',
+        url: '/main/room/board/reply/register',
+        data,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      })
+    }
+
+    // 본인이 등록한 댓글이면 수정 삭제 버튼 보이고, 수정 삭제 가능하게
+  </script>
 </html>

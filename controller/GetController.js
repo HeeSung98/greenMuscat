@@ -19,7 +19,10 @@ const index = (req, res) => {
 }
 // 로그인 후 메인 페이지 (메인 화면)
 const main = (req, res) => {
-  res.render('main')
+  res.render('main', {
+    header: 'Header.ejs', // 헤더
+    footer: 'footer.ejs', // 풋터
+  })
 }
 // 회원 가입 페이지
 const signUp = (req, res) => {

@@ -4,11 +4,107 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-  </head>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 70%;
+        margin: auto;
+        margin-top: 10%;
+      }
+      .title{
+        font-size: 50px;
+        margin-bottom: 15px;
+      }
+      .loginDiv {
 
+display: flex;
+flex-direction: column;
+align-items: center;
+width: 80%;
+}
+#formSignin{
+  display: flex;
+flex-direction: column;
+width: 80%;
+align-items: center;
+}
+.innerform{
+  display: flex;
+flex-direction: column;
+/* justify-content: center; */
+/* align-content: center; */
+align-items: left;
+width: 80%;
+}
+label{
+  font-size: 13px;
+}
+input {
+  width: 95%;
+  height: 30px;
+  margin-bottom:10px;
+  background: rgb(237, 235, 235);
+  border: 1px solid rgb(196, 196, 196);
+  border-radius: 10px;
+  padding-left: 5%;
+}
+button{
+  width: 50%;
+  height: 30px;
+  margin-bottom:10px;
+  background: rgb(234, 244, 78);
+  border-radius: 10px;
+  border: 0;
+  margin: auto;
+}
+hr {
+  width: 100%;
+  background: #c4c4c4;
+  height: 1px;
+  border: 0;
+}
+.content{
+  text-align: center;
+  margin-bottom: 30px;
+}
+img{
+  width: 100%;
+  margin: auto;
+  margin-bottom: 10px;
+}
+    </style>
+  </head>
+  <%- include('headerMain') %>
   <body>
-    <!-- 로그인 페이지 안에 로그인, 회원가입 -->
-    <a href="/main/signin">로그인</a>
-    <a href="/main/signup">회원가입</a>
+    <div class="main">
+    
+
+        <div class="title">환경에 대한 좋은 습관을 심어주세요</div>
+
+      <div class="loginDiv">
+      
+        <div class="innerform">
+
+        <div class="content">그린머스켓은 환경과 친해지며 자연스럽게 자연과 커넥트되는 친구들과 <br>함께 하는 커뮤니케이션입니다. 
+          환경을 위해 목표를 설정하고 다함께 <br>목표 달성을 위해 달려봐요!
+          
+        </div>
+        <button type="button" id="btn" onclick="signIn()">목표 달성하러 가기</button>
+        <img src="/main.png" alt="">
+      </div>
+    </div>
+    
   </body>
+  <script>
+    function signIn() {
+      window.location.href = '/main/signin'
+    }
+  </script>
 </html>

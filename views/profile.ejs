@@ -19,35 +19,25 @@
     <!-- 원래 id: edit -->
     <button type="button" id="edit-modal" onclick="openModal()">내 계정</button>
 
-    <div id="modal" class="modal-overlay" hidden>
+    <div id="modal" class="modal-overlay">
         <div class="modal-window">
             <div class="title">
                 <h2>회원 정보 수정</h2>
             </div>
-            <div class="close-area" onclick="closeModal()">닫기</div>
+            <div class="close-area">닫기</div>
             <div class="content">
+                <!-- 이미지 변경 창 -->
                 <form name="edit_form">
-                    <!-- 기존 이미지 보여주고, 이미지 변경 가능하게..  -->
-                    <input type="file" id="profileImage"><br>
-                    <label for="nick">닉네임</label><input type="text" id="nickname"><br>
-                    <label for="password">비밀번호</label><input type="password" id="password"><br>
+                    <label for="nick">닉네임</label><input type="text" id="nickname">
+                    <label for="password">비밀번호</label><input type="password" id="password">
                     <button type="button" onclick="edit_profile()">수정</button>
-                    <hr>
-                    <button type="button" onclick="delete_profile()">회원 탈퇴</button>
+                    <button type="button" onclick="delete_profile()">탈퇴</button>
                 </form>
             </div>
         </div>
+      </div>
     </div>
-
-
     <script>
-        function openModal() {
-            document.getElementById('modal').hidden = false
-        }
-
-        function closeModal() {
-            document.getElementById('modal').hidden = true
-        }
         (async function () {
             console.log("token", localStorage.getItem('token'))
             const profile = await axios({
@@ -60,59 +50,55 @@
             console.log("profile", profile)
         })
 
-        const nick = localStorage.getItem('nickname');
-        const nickname = document.querySelector('.nickname')
-        nickname.innerText = nick
+      const nick = localStorage.getItem('nickname')
+      const nickname = document.querySelector('.nickname')
+      nickname.innerText = nick
 
-        // 회원 정보 수정
-        async function edit_profile() {
-            const form = document.forms['edit_form']
+      // 회원 정보 수정
+      async function edit_profile() {
+        const form = document.forms['edit_form']
 
             const data = {
-                // 이미지..
-                profileImage: form.profileImage,
                 nickname: form.nickname.value,
                 password: form.password.value
             }
 
-            const response = await axios({
-                method: 'PATCH',
-                url: '/main/profile/edit',
-                data,
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`,
-                },
-            })
+        const response = await axios({
+          method: 'PATCH',
+          url: '/main/profile/edit',
+          data,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        })
 
-            resData = response.data
-            if (resData.result) {
-                localStorage.setItem('nickname', resData.nickname);
-                alert('수정 완료!')
-                document.location.reload()
-            }
-            else console.log('수정 실패')
+        resData = response.data
+        if (resData.result) {
+          localStorage.setItem('nickname', resData.nickname)
+          alert('수정 완료!')
+          document.location.reload()
+        } else console.log('수정 실패')
+      }
+
+      // 회원 탈퇴
+      async function delete_profile() {
+        if (!confirm('탈퇴하시겠습니까?')) {
+          return
         }
+        const response = await axios({
+          method: 'DELETE',
+          url: '/main/profile/destroy',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        })
 
-        // 회원 탈퇴
-        async function delete_profile() {
-            if (!confirm('탈퇴하시겠습니까?')) {
-                return;
-            }
-            const response = await axios({
-                method: 'DELETE',
-                url: '/main/profile/destroy',
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`,
-                },
-            })
-
-            resData = response.data
-            if (resData.result) {
-                alert('회원 탈퇴가 완료되었습니다 :)');
-                document.location.href = '/';
-            } else console.log('회원 탈퇴 실패')
-        }
+        resData = response.data
+        if (resData.result) {
+          alert('회원 탈퇴가 완료되었습니다 :)')
+          document.location.href = '/'
+        } else console.log('회원 탈퇴 실패')
+      }
     </script>
-</body>
-
+  </body>
 </html>

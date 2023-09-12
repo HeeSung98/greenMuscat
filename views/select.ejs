@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+      .modal {
+        position: absolute;
+        display: none;
+
+        justify-content: center;
+        top: 0;
+        left: 0;
+
+        width: 100%;
+        height: 100%;
+
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+
+      .modal_body {
+        position: absolute;
+        top: 50%;
+
+        width: 400px;
+        height: 600px;
+
+        padding: 40px;
+
+        text-align: center;
+
+        background-color: rgb(255, 255, 255);
+        border-radius: 10px;
+        box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+
+        transform: translateY(-50%);
+      }
+
+      .roomBtn {
+        width: 100px;
+        height: 100px;
+        background-color: antiquewhite;
+        text-align: center;
+        border-style: solid;
+        border-width: 3px;
+        margin: 2vw;
+      }
+    </style>
+    <title>방 선택하기</title>
+  </head>
+
+  <body>
+    <h2></h2>
+    <div style="display: flex">
+      <div class="modal" id="registerModal">
+        <div class="modal_body">
+          <h2>방 생성하기</h2>
+          <form name="roomRegisterForm">
+            <label for="email">이메일: </label>
+            <input type="text" name="email" /><br />
+            <label for="roomTitle">방 이름: </label>
+            <input type="text" name="roomTitle" /><br />
+            <label for="roomCode">입장 코드: </label>
+            <input type="text" name="roomCode" /><br />
+            <label for="roomImg">프로필 이미지: </label>
+            <input type="file" id="roomImg" /><br /><br />
+            <button type="button" onclick="btnRoomRegister()">생성</button>
+            <button type="button" onclick="btnCloseModal(registerModal.id)">
+              닫기
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="modal" id="entranceModal">
+        <div class="modal_body">
+          <h2>방 입장하기</h2>
+          <form name="roomEntranceForm">
+            <label for="email">이메일: </label>
+            <input type="text" name="email" /><br />
+            <label for="roomCode">입장 코드: </label>
+            <input type="text" name="roomCode" /><br /><br />
+            <button type="button" onclick="btnRoomEntrance()">입장</button>
+            <button type="button" onclick="btnCloseModal(entranceModal.id)">
+              닫기
+            </button>
+          </form>
+        </div>
+      </div>
+      <div class="result" id="result"></div>
+      <div class="roomBtn" onclick="btnOpenModal(registerModal.id)">
+        방 생성하기
+      </div>
+      <div class="roomBtn" onclick="btnOpenModal(entranceModal.id)">
+        방 입장하기
+      </div>
+    </div>
+
+    <script>
+      const resultBox = document.querySelector('.result')
+
+      // 모달창 열기
+      function btnOpenModal(id) {
+        document.getElementById(id).style.display = 'flex'
+      }
+
+      // 모달창 닫기
+      function btnCloseModal(id) {
+        document.getElementById(id).style.display = 'none'
+      }
+
+      // 방 생성 폼 데이터
+      async function btnRoomRegister() {
+        const form = document.forms['roomRegisterForm']
+        const file = document.querySelector('#roomImg')
+
+        const data = new FormData()
+        data.append('rTitle', form.roomTitle.value)
+        data.append('code', form.roomCode.value)
+        data.append('email', form.email.value)
+        data.append('file', file.files[0])
+
+        const respone = await axios({
+          method: 'POST',
+          url: '/main/add',
+          data,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+
+        resData = respone.data
+        console.log('resData: ', resData)
+        if (resData.result) {
+          alert(`${resData.message}`)
+          const resultBox = document.querySelector('#result')
+          if (resData.location) {
+            const img = document.createElement('img')
+            img.src = resData.location // aws의 경로는 location으로
+            img.style.width = '500px'
+            resultBox.appendChild(img)
+          }
+          btnCloseModal(registerModal.id)
+          document.location.href = '/room'
+        } else {
+          alert(`${resData.message}`)
+          form.reset()
+        }
+      }
+
+      // 방 입장 폼 데이터
+      async function btnRoomEntrance() {
+        const form = document.forms['roomEntranceForm']
+        const data = {
+          email: form.email.value,
+          code: form.roomCode.value,
+        }
+        console.log('data:', data)
+
+        const respone = await axios({
+          method: 'POST',
+          url: '/main/entrance',
+          data,
+        })
+
+        resData = respone.data
+        console.log('resData: ', resData)
+        if (resData.result) {
+          alert(`${resData.message}`)
+          btnCloseModal(entranceModal.id)
+          document.location.href = '/room'
+        } else {
+          alert(`${resData.message}`)
+          form.reset()
+        }
+      }
+    </script>
+  </body>
+</html>
