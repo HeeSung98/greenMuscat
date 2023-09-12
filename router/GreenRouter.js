@@ -96,9 +96,8 @@ router.post('/main/profile', postController.postProfile)
 //!--------- 메인 페이지 관련 ---------
 // 방 생성 페이지(roomadd)
 router.post('/main/add', uploadRoom.single('file'), postController.postRoomAdd)
-// 방 목록
-router.get('/main/lists', getController.roomList)
-router.post('/main/lists', postController.postroomLists)
+// 방 목록 불러오기
+router.post('/main/lists', postController.postroomList)
 // 방 입장 (RoomEntrance)
 router.post('/main/entrance', postController.postRoomEntrance)
 
