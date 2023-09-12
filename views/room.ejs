@@ -13,35 +13,43 @@
     <button onclick="boardPage()"">게시글 목폭 페이지로 이동하기</button>
     <h1>---------공지사항---------</h1>
     <form name="noticeForm">
-      <label for="rNo">방넘버(임시)</label>
-      <input type="text" id="rNo" /><br />
       <label for="notice">공지사항내용</label>
       <input type="text" id="notice" /><br />
       <button type="button" onclick="noticeRegister()">게시</button>
     </form>
-    <h3>새로운 공지사항 : <%= data %></h3>
+    <h3>
+      새로운 공지사항 :
+      <div id="noticeResult"></div>
+    </h3>
   </body>
 
   <script>
+    const room = JSON.parse(localStorage.getItem('room'))
+    const noticeResult = document.getElementById('noticeResult')
+    noticeResult.innerText = room.notice
+
     function logout() {}
-    function boardPage() {
-      window.location.href = '/room/board'
-    }
     // 공지사항 등록하기
     async function noticeRegister() {
       const form = document.forms['noticeForm']
       const data = {
-        rNo: form.rNo.value,
+        rNo: room.rNo,
         notice: form.notice.value,
       }
+
       const respone = await axios({
         method: 'PATCH',
         url: '/room/notice',
         data,
       })
-      if (respone) {
+      const resData = respone.data
+      console.log('resData:', resData)
+
+      if (resData.result) {
         console.log('새로운 공지사항 등록 성공')
-        document.location.reload()
+        localStorage.setItem('room', JSON.stringify(resData.findedRoom))
+        noticeResult.innerText = room.notice
+        location.reload()
       } else {
         console.log('err')
       }

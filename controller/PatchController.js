@@ -95,14 +95,25 @@ const editNotice = async (req, res) => {
     ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 공지사항 업로드 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
   console.log(req.body)
+  const { rNo, notice } = req.body
   try {
-    const { rNo, notice } = req.body
-    const noticeupdate = await mRoom.update(
+    const updatedRoom = await mRoom.update(
       { notice: notice },
       { where: { rNo: rNo } }
     )
-    if (noticeupdate)
-      res.json({ result: true, message: '공지사항 업로드 성공' })
+    console.log('updatedRoom:', updatedRoom)
+
+    const findedRoom = await mRoom.findOne({
+      where: { rNo },
+    })
+    console.log(' findedRoom: ', findedRoom)
+
+    if (updatedRoom)
+      res.json({
+        result: true,
+        message: '공지사항 업로드 성공',
+        findedRoom,
+      })
   } catch (error) {
     console.log(error)
   }
