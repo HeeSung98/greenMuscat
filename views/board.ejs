@@ -23,7 +23,7 @@
         <div class="board">
           <% for(let i=0; i < data.contentdata.length; i++){ %>
             <div class="innerboard">
-              <div class="imgDiv"><img src="/img/user1.png" alt="" /></div>
+              <div class="imgDiv"><img src="/img/user1.svg" alt="" /></div>
               <div class="boardContent">
                 <div class="userName">
                   <%= data.nicknamedata[i]%>
@@ -31,10 +31,10 @@
                 <div class="content">
                   <%= data.contentdata[i]%>
                 </div>
-                <div><img src="/img/earth.png" alt="" class="contentImg" /></div>
+                <div><img src="/img/earth.svg" alt="" class="contentImg" /></div>
                 <div class="">
-                  <img src="/img/reply.png" alt="댓글" />
-                  <img src="/img/like.png" alt="좋아요" />
+                  <img src="/img/reply.svg" alt="댓글" />
+                  <img src="/img/like.svg" alt="좋아요" />
                 </div>
                 <button onclick="toggleSections(<%= i %>)">댓글</button>
               </div>
@@ -215,3 +215,7 @@
 </script>
 
 </html>
+
+<!-- 
+comment by Alice Design from <a href="https://thenounproject.com/browse/icons/term/comment/" target="_blank" title="comment Icons">Noun Project</a> (CC BY 3.0)
+ -->

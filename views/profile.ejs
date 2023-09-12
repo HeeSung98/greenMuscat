@@ -10,26 +10,29 @@
 </head>
 
 <body>
-  <h1>Profile</h1>
-  <!-- 이미지 -->
-  <div class="profile image">
-    <!-- <img src="" alt="" id="profileImg"> -->
-    <div id="profileImg"></div>
-    <div id="pencil" onclick="changeImg()"><img src="/img/noun-pencil.svg" alt="프로필 이미지 변경" />
-    </div>
-  </div>
-  <div class="content">
-    <!-- 닉네임 -->
-    <div class="profile nickname">
-    </div>
-    <div id="btn_edit" onclick="location.href='/main/profile/edit'">프로필 수정하기</div>
-  </div>
+  <div class="main">
 
-  <!-- 배지 등등.. -->
-  <div></div>
+    <h1>Profile</h1>
+    <!-- 이미지 -->
+    <div class="profile image">
+      <!-- <img src="" alt="" id="profileImg"> -->
+      <div id="profileImg"></div>
+      <div id="pencil" onclick="changeImg()"><img src="/img/pencil.svg" alt="프로필 이미지 변경" />
+      </div>
+    </div>
+    <div class="content">
+      <!-- 닉네임 -->
+      <div class="profile nickname">
+      </div>
+      <div id="btn_edit" onclick="location.href='/main/profile/edit'">프로필 수정하기</div>
+    </div>
 
-  <!-- 탈퇴 버튼 -->
-  <button type="button" id="btn_delete" onclick="delete_profile()">회원 탈퇴하기</button>
+    <!-- 배지 등등.. -->
+    <div></div>
+
+    <!-- 탈퇴 버튼 -->
+    <button type="button" id="btn_delete" onclick="delete_profile()">회원 탈퇴하기</button>
+  </div>
 
   <script>
     // 유저 정보 가져오기 (닉네임, 프로필 이미지 등)

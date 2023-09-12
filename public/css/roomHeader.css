@@ -3,31 +3,36 @@
 * {
   font-family: 'HakgyoansimWoojuR';
 }
+
+#webName,
+.innderHeaderLogin {
+  cursor: pointer;
+  font-weight: bold;
+  font-size: large;
+}
+
 .header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-top: 60px;
   border-bottom: 1px solid #c4c4c4;
+  width: 100%;
+  /* margin-top: 60px; */
+  /* position: absolute; */
 }
-.innderHeader {
-  margin: 10px;
-}
-.innderHeaderLogo {
+
+.innerHeaderLogo {
   margin: 10px;
   width: 50px;
   height: 50px;
-}
-.innderHeaderLogo:hover {
   cursor: pointer;
 }
-.innderHeaderLogin {
+
+.innerHeaderLogin {
   margin: 10px;
   align-items: center;
   display: flex;
 }
-.innderHeaderLogin:hover {
+.innerHeaderLogin:hover {
   font-size: 1em;
   font-weight: 800;
-  cursor: pointer;
 }

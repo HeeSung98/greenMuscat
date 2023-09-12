@@ -1,3 +1,9 @@
+html,
+body {
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
+}
+
 .modal {
   position: absolute;
   display: none;

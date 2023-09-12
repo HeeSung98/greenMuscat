@@ -1,4 +1,9 @@
 @import url('font.css');
+html,
+body {
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
+}
 
 body {
   display: flex;
