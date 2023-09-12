@@ -66,6 +66,8 @@ const board = async (req, res) => {
       ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ post DB에서 가져온 값 담기 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
     )
     //조인한 테이블에서 필요한 값 정의
+    //게시물 닉네임
+    const nicknamedata = posts.map((post) => post.dataValues.MEMBER_email)
     //게시물 내용
     const contentdata = posts.map((post) => post.dataValues.pContent)
     //게시물 이미지
@@ -81,7 +83,9 @@ const board = async (req, res) => {
     console.log('pContent :', contentdata)
     console.log('imagedata :', imagedata)
     console.log('replydata :', replydata)
-    res.render('board', { data: { contentdata, imagedata, replydata } })
+    res.render('board', {
+      data: { nicknamedata, contentdata, imagedata, replydata },
+    })
   } catch (error) {
     console.log(error)
   }

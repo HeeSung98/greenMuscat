@@ -1,60 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      src="https://code.jquery.com/jquery-3.7.0.min.js"
+      integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
-  <script src="https://code.jquery.com/jquery-3.7.0.min.js"
-    integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <style>
-    body {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .main {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 70%;
-      margin: auto;
-    }
-  </style>
-</head>
-<%- include('roomHeader') %>
+      .main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 70%;
+        margin: auto;
+      }
+      .title {
+        font-size: 30px;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+      }
+      .register {
+        display: flex;
+        flex-direction: column;
+        margin-top: 50px;
+        width: 60%;
+      }
+      .board {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        flex-direction: column;
+      }
+      .innerboard {
+        display: flex;
+        margin: 10px;
+      }
+      .innerInfo {
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        margin: 10px;
+      }
+      .imgDiv {
+        border: 1px solid;
+        width: 50px;
+        height: 50px;
+        border-radius: 30px;
+        margin: 5px;
+      }
+      img {
+        width: 40px;
+        padding: 5px;
+      }
+      .boardContent {
+        margin: 5px;
+      }
+      .userName {
+        margin-bottom: 5px;
+        color: gray;
+      }
+      .content {
+        margin-bottom: 5px;
+      }
+      .contentImg {
+        width: 300px;
+      }
+      .postForm {
+        display: flex;
+        flex-direction: column;
+        margin-top: 5px;
+      }
+      #pContent {
+        border: 0;
+        font-size: 30px;
+        outline-style: none;
+      }
+    </style>
+  </head>
+  <%- include('roomHeader') %>
 
   <body>
     <div class="main">
-      <h1>게시물 전체 불러오기, 게시물 작성 (상단 조그맣게) -> 모달 창</h1>
-
-      <!-- 게시물작성페이지로 이동 버튼 -->
-      <button onclick="location.href='/room/board/register'">게시물작성</button>
-
-      <% for(let i=0; i < data.contentdata.length; i++){ %>
-        <div>
-          <h3>
-            <%= [i+1] %>번째 게시글
-          </h3>
-          <div>게시글 내용 : <%= data.contentdata[i]%>
+      <div class="register">
+        <div class="title">게시물</div>
+        <!-- 게시물작성페이지로 이동 버튼 -->
+        <button onclick="location.href='/room/board/register'">
+          게시물작성
+        </button>
+        <div class="board">
+          <% for(let i=0; i < data.contentdata.length; i++){ %>
+          <div class="innerboard">
+            <div class="imgDiv"><img src="/user1.png" alt="" /></div>
+            <div class="boardContent">
+              <div class="userName"><%= data.nicknamedata[i]%></div>
+              <div class="content"><%= data.contentdata[i]%></div>
+              <div><img src="/earth.png" alt="" class="contentImg" /></div>
+              <div class="">
+                <img src="/reply.png" alt="" /> <img src="/like.png" alt="" />
+              </div>
+              <button onclick="toggleSections(<%= i %>)">댓글</button>
+            </div>
+            <!-- 댓글들-->
+            <div id="replyText<%= i %>" class="replyText" style="display: none">
+              <div>--- 댓글 ---</div>
+              <div id="previousComments<%= i %>" class="previousComments"></div>
+              <!-- 댓글 입력 -->
+              <form name="addReply<%= i %>">
+                <input
+                  type="text"
+                  id="inputReply<%= i %>"
+                  placeholder="댓글 입력"
+                />
+                <button type="button" onclick="addReplyFunc(<%= i %>)">
+                  등록
+                </button>
+              </form>
+            </div>
           </div>
-          <div>업로드 된 이미지 : <%= data.imagedata[i]%>
-          </div>
-          <button onclick="toggleSections(<%= i %>)">댓글</button>
-          <!-- 댓글들-->
-          <div id="replyText<%= i %>" class="replyText" style="display: none">
-            <div>--- 댓글 ---</div>
-            <div id="previousComments<%= i %>" class="previousComments"></div>
-            <!-- 댓글 입력 -->
-            <form name="addReply<%= i %>">
-              <input type="text" id="inputReply<%= i %>" placeholder="댓글 입력" />
-              <button type="button" onclick="addReplyFunc(<%= i %>)">등록</button>
-            </form>
-          </div>
+          <% } %>
         </div>
-        <% } %>
+      </div>
     </div>
   </body>
 
@@ -214,5 +290,4 @@
       }
     }
   </script>
-
 </html>
