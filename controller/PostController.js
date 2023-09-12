@@ -132,13 +132,18 @@ const postRoomList = async (req, res) => {
   const { email } = req.body
   try {
     // 입장된 방 이름, 역할, 코드 조회
-    const roomList = await mMembersInRoom.findAll({
+    const findedRoom = await mMembersInRoom.findAll({
       attributes: ['ROOM_rTitle', 'role', 'ROOM_code'],
       where: { MEMBER_email: email },
     })
-    console.log('roomList: ', roomList)
-    if (roomList.length > 0) {
-      res.json({ result: true, message: '방 목록 조회 성공', rooms: roomList })
+    console.log('findedRoom: ', findedRoom)
+
+    if (!findedRoom.length) {
+      res.json({
+        result: true,
+        message: '방 목록 조회 성공',
+        findedRoom,
+      })
     } else {
       res.json({ result: false, message: '입장된 방이 없습니다.' })
     }
@@ -178,6 +183,8 @@ const postRoomAdd = async (req, res) => {
       ROOM_code: createdRoom.code,
       MEMBER_email: email,
     })
+    console.log(createdMIR)
+
     res.json({
       result: true,
       message: '방 생성 완료',
@@ -186,7 +193,7 @@ const postRoomAdd = async (req, res) => {
     })
   } catch (error) {
     console.log('err:', error)
-    res.json({ result: false, message: '중복된 방 코드입니다' })
+    res.json({ result: false, message: '아오' })
   }
 }
 
@@ -195,17 +202,18 @@ const postRoom = async (req, res) => {
   console.log(
     ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 방 입장 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
+  console.log('req.body:', req.body)
   const { code, email } = req.body
   try {
     // 입력한 code 방 존재 여부 조회
     const findedRoom = await mRoom.findOne({
       where: { code },
     })
-    console.log(' findedRoom: ', findedRoom)
+    console.log('findedRoom:', findedRoom)
 
     // 방이 없으면
-    if (!findedRoom) {
-      res.json({ result: false, message: '방이 존재하지 않습니다.' })
+    if (findedRoom == null) {
+      throw new Error('잘못된 코드입니다')
     }
 
     // 입력한 방 입장 여부
@@ -217,15 +225,13 @@ const postRoom = async (req, res) => {
     })
     console.log('findedMIR:', findedMIR)
 
-    // 이미 입장되어 있고 방장이 아닐 경우
-    if (findedMIR.length != 0 && findedMIR[0].role != 'admin') {
-      if (findedMIR.role != 'admin') {
-        throw new Error('이미 입장되어 있습니다')
-      }
+    // 멤버가 입장되어 있는 경우
+    if (findedMIR.length && findedMIR[0].role != 'admin') {
+      throw new Error('이미 입장되어 있습니다')
     }
 
     // 모델에 추가 (멤버)
-    if (findedMIR.role != 'admin') {
+    if (!findedMIR.length) {
       const createdMIR = await mMembersInRoom.create({
         role: 'member',
         ROOM_rTitle: findedRoom.rTitle,
@@ -233,16 +239,19 @@ const postRoom = async (req, res) => {
         ROOM_rNo: findedRoom.rNo,
         MEMBER_email: email,
       })
-    }
+      console.log('createdMIR:', createdMIR)
 
-    res.render('room', {
-      result: true,
-      message: '방 입장 완료',
-      findedRoom,
-    })
+      res.json({ result: true, message: '방 입장 완료', findedRoom })
+    } else {
+      res.render('room', {
+        result: true,
+        message: '방 입장 완료',
+        findedRoom,
+      })
+    }
   } catch (error) {
     console.log('err:', error)
-    res.json({ result: false, message: error })
+    res.json({ result: false, message: String(error) })
   }
 }
 
