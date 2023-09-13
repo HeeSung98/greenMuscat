@@ -1,64 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="/css/main.css" />
+    <title>GreenMuscat</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <link rel="stylesheet" href="/css/main.css">
-  <title>GreenMuscat</title>
-</head>
-
-<body>
-  <%- include('mainHeader') %>
-    <h2>닉네임 👨‍🌾 환영합니다!</h2>
-    <div class="roomBox">
-      <p style="font-size: 20px">포도 농장을 선택해 주세요.</p>
-      <br />
-      <div style="text-align: center">현재 재배 중인 농장이 없어요😢</div>
-      <br />
-      <p style="font-size: 16px">다른 농장을 찾으시나요?</p>
-      <div>
+  <body>
+    <%- include('mainHeader') %>
+    <!-- body 시작 -->
+    <h2 class="mainH2">닉네임의 포도 농장👨‍🌾</h2>
+    <!-- section 시작 -->
+    <section class="top">
+      <div class="roomCard">
+        <div class="roomInfo"></div>
+        <p class="roomInfo">테스트1 / 관리자</p>
+      </div>
+      <div class="roomCard">
+        <div class="roomInfo"></div>
+        <p class="roomInfo">테스트2 / 참여자</p>
+      </div>
+    </section>
+    <section class="bottom">
+      <div class="roomBox">
+        <h3>다른 농장을 찾으시나요?</h3>
         <div class="modal" id="registerModal">
           <div class="modal_body">
-            <h2>방 생성하기</h2>
-            <form name="roomRegisterForm">
-              방 이름:
-              <input type="text" name="roomTitle" /><br /><br />
-              프로필 이미지:
-              <input type="file" id="roomImg" /><br /><br />
-              <button type="button" onclick="btnRoomRegister()">생성</button>
-              <button type="button" onclick="btnCloseModal(registerModal.id)">
+            <h2 class="modalH2">농장 생성하기</h2>
+            <form name="roomRegisterForm" class="roomRegisterForm">
+              <b>농장명:</b>
+              <input type="text" name="roomTitle" />
+              <br />
+              <br />
+              <b>농장 이미지:</b>
+              <input type="file" id="roomImg" />
+            </form>
+            <div class="formBtn">
+              <button
+                type="button"
+                class="button btnPush btnBlueGreen"
+                onclick="btnRoomRegister()"
+              >
+                생성
+              </button>
+              <button
+                type="button"
+                class="button btnPush btnBlueGreen"
+                onclick="btnCloseModal(registerModal.id)"
+              >
                 닫기
               </button>
-            </form>
+            </div>
           </div>
         </div>
-
         <div class="modal" id="entranceModal">
           <div class="modal_body">
-            <h2>방 입장하기</h2>
-            <form name="roomEntranceForm">
-              입장 코드:
-              <input type="text" name="roomCode" /><br /><br />
-              <button type="button" onclick="btnRoomEntrance()">입장</button>
-              <button type="button" onclick="btnCloseModal(entranceModal.id)">
+            <h2 class="modalH2">농장 가기</h2>
+            <form name="roomEntranceForm" class="roomEntranceForm">
+              <b>입장 코드:</b>
+              <input type="text" name="roomCode" />
+            </form>
+            <div class="formBtn">
+              <button
+                type="button"
+                class="button btnPush btnBlueGreen"
+                onclick="btnRoomEntrance()"
+              >
+                입장
+              </button>
+              <button
+                type="button"
+                class="button btnPush btnBlueGreen"
+                onclick="btnCloseModal(entranceModal.id)"
+              >
                 닫기
               </button>
-            </form>
+            </div>
           </div>
         </div>
         <div class="result" id="result"></div>
-        <div class="btnBox" style="text-align: center">
-          <button class="roomBtn" type="button" onclick="btnOpenModal(registerModal.id)">
-            방 생성하기
+        <div class="btnBox">
+          <button
+            class="button btnPush btnBlueGreen"
+            type="button"
+            onclick="btnOpenModal(registerModal.id)"
+          >
+            농장 만들기
           </button>
-          <button class="roomBtn" type="button" onclick="btnOpenModal(entranceModal.id)">
-            방 입장하기
+          <button
+            class="button btnPush btnBlueGreen"
+            type="button"
+            onclick="btnOpenModal(entranceModal.id)"
+          >
+            다른 농장가기
           </button>
         </div>
       </div>
-    </div>
+    </section>
 
     <form action="/room" method="post" name="postRoomForm" hidden>
       <input type="text" name="code" />
@@ -156,6 +196,5 @@
         }
       }
     </script>
-</body>
-
+  </body>
 </html>
