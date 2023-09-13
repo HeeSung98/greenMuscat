@@ -4,27 +4,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="/css/roomHeader.css">
+  <link rel="stylesheet" href="/css/roomHeader.css" />
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <title>Document</title>
-
 </head>
 
 <body>
   <div class="header">
     <div id="webName" onclick="mainPage()">GreenMuscat</div>
-    <div onclick="roomPage()">
-      <img src="/img/home.svg" class="innerHeaderLogo" onclick="mainPage()" />
+    <div class="innerHeaderLogo">
+      <img src="/img/home.svg" onclick="roomPage()" class="img1" />
+      <img src="/img/list.svg" onclick="boardPage()" class="img2" />
+      <img src="/img/board.svg" onclick="registerPage()" class="img3" />
+      <img src="/img/profile.svg" onclick="profilePage()" class="img4" />
     </div>
-    <div onclick="boardPage()">
-      <img src="/img/board.svg" class="innerHeaderLogo" onclick="mainPage()" />
-    </div>
-    <div onclick="profilePage()">
-      <img src="/img/profile.svg" class="innerHeaderLogo" onclick="mainPage()" />
-    </div>
-    <div class="innerHeaderLogin" onclick="loginPage()">login / logout</div>
+    <div class="innerHeaderLogin" onclick="log()">login / logout</div>
   </div>
+
+  <form action="/room/board" method="post" name="postBoardForm" hidden>
+    <input type="text" name="rNo" />
+  </form>
 </body>
 <script>
+  const boardForm = document.forms['postBoardForm'] // 게시글 호출을 위한 히든 폼
+
   //메인페이지 이동
   function mainPage() {
     window.location.href = '/'
@@ -34,17 +37,20 @@
     window.location.href = '/room'
   }
   //게시글 목록으로 이동
-  function boardPage() {
-    window.location.href = '/room/board'
+  async function boardPage() {
+    boardForm.rNo.value = room.rNo
+    boardForm.submit()
+  }
+  //게시글 목록으로 이동
+  function registerPage() {
+    window.location.href = '/room/board/register'
   }
   //마이페이지 목록으로 이동
   function profilePage() {
     window.location.href = '/main/profile'
   }
   //로그아웃
-  async function logout() {
-
-  }
+  async function log() { }
 </script>
 
 </html>
@@ -53,4 +59,6 @@
   Home by Arkinasi from <a href="https://thenounproject.com/browse/icons/term/home/" target="_blank" title="Home Icons">Noun Project</a> (CC BY 3.0)
 
   board by Factoricons from <a href="https://thenounproject.com/browse/icons/term/post/" target="_blank" title="post Icons">Noun Project</a> (CC BY 3.0)
- -->
+ 
+  List by Adrien Coquet from <a href="https://thenounproject.com/browse/icons/term/list/" target="_blank" title="List Icons">Noun Project</a> (CC BY 3.0)
+-->

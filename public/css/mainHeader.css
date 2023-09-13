@@ -3,38 +3,39 @@
 * {
   font-family: 'HakgyoansimWoojuR';
 }
-.header {
-  padding-bottom: 10px;
-  padding-top: 10px;
+
+/* .header {
+  font-weight: bold;
   height: 50px;
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid #c4c4c4;
-}
-
-/* .innerHeader {
-  margin: 10px;
+  align-items: center;
+  padding: 0px 20px;
 } */
 
-/* LOGO */
-.innerHeaderLogo {
-  margin-left: 50px;
+.header {
+  height: 50px;
   display: flex;
-  text-align: center;
-  cursor: pointer;
+  justify-content: space-between;
   align-items: center;
+  padding: 0px 20px;
+  font-weight: bold;
+  position: fixed;
+  top: 0;
+  width: -webkit-fill-available;
+  z-index: 10;
+  background-color: white;
 }
 
-/* 로그인 또는 로그아웃 버튼 */
+/* LOGO */
+.innerHeaderLogo,
 .innerHeaderLogin {
-  margin-right: 50px;
-  align-items: center;
-  display: flex;
   cursor: pointer;
-  text-align: center;
 }
+
 .innerHeaderLogin:hover {
-  color: rgb(187, 245, 72);
+  /* color: rgb(187, 245, 72); */
+  color: greenyellow;
   font-size: 1em;
-  font-weight: 800;
+  /* font-weight: 800; */
 }

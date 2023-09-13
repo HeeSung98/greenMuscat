@@ -81,7 +81,7 @@ router.post('/main/signin', postController.postSignIn)
 // 로그아웃 (SignOut)
 router.post('/main/signout', postController.postSignOut)
 // 회원 정보 수정
-router.get('/main/profile/edit', getController.profileEdit)
+// router.get('/main/profile/edit', getController.profileEdit)
 router.patch(
   '/main/profile/edit',
   uploadProfile.array('files'),
@@ -107,6 +107,7 @@ router.get('/room/', getController.room)
 router.post('/room', postController.postRoom)
 // 방 게시물 목록 페이지 (Board)
 router.get('/room/board', getController.board)
+router.post('/room/board', postController.postBoard)
 // 게시물 업로드 페이지 (get)
 router.get('/room/board/register', getController.boardRegister)
 // 게시물 업로드(Post)
