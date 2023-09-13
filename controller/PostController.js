@@ -216,6 +216,49 @@ const postRoomAdd = async (req, res) => {
   }
 }
 
+const postRoomFind = async (req, res) => {
+  console.log(
+    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 방 탐색 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
+  )
+  console.log('req.body:', req.body)
+  const { code, email } = req.body
+  try {
+    // 입력한 code 방 존재 여부 조회
+    const findedRoom = await mRoom.findOne({
+      where: { code },
+    })
+    console.log('findedRoom:', findedRoom)
+
+    // 방이 없으면
+    if (findedRoom == null) {
+      throw new Error('잘못된 코드입니다')
+    }
+
+    // 입력한 방 입장 여부
+    const findedMIR = await mMembersInRoom.findAll({
+      where: {
+        ROOM_code: code,
+        MEMBER_email: email,
+      },
+    })
+    console.log('findedMIR:', findedMIR)
+
+    // 멤버가 입장되어 있는 경우
+    if (findedMIR.length && findedMIR[0].role != 'admin') {
+      throw new Error('이미 입장되어 있습니다')
+    }
+
+    res.json({
+      result: true,
+      message: '방 탐색 완료',
+      findedRoom,
+    })
+  } catch (error) {
+    console.log('err:', error)
+    res.json({ result: false, message: String(error) })
+  }
+}
+
 // 방 입장
 const postRoom = async (req, res) => {
   console.log(
@@ -260,7 +303,7 @@ const postRoom = async (req, res) => {
       })
       console.log('createdMIR:', createdMIR)
 
-      res.json({ result: true, message: '방 입장 완료', findedRoom })
+      res.render({ result: true, message: '방 입장 완료', findedRoom })
     } else {
       res.render('room', {
         result: true,
@@ -445,6 +488,7 @@ module.exports = {
   postRoomAdd,
   postRoomList,
   // 방 및 게시글
+  postRoomFind,
   postRoom,
   postBoard,
   postBoardRegister,
