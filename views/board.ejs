@@ -27,18 +27,19 @@
         <hr />
         <div class="board">
           <% for(let i=0; i < data.contentdata.length; i++){ %>
-            <div class="innerboard">
-              <div class="imgDiv"><img src="/img/user1.png" alt="" /></div>
+          <div class="innerboard">
+            <div class="imgDiv"><img src="/img/user1.png" alt="" /></div>
+
+            <div>
               <div class="boardContent">
                 <div class="userName"><%= data.nicknamedata[i]%></div>
                 <div class="content"><%= data.contentdata[i]%></div>
                 <div>
                   <img src="/img/earth.png" alt="" class="contentImg" />
                 </div>
-                <div><img src="/img/earth.png" alt="" class="contentImg" /></div>
                 <div class="">
-                  <img src="/img/reply.png" alt="댓글" />
-                  <img src="/img/like.png" alt="좋아요" />
+                  <img src="/img/coment.png" alt="댓글" onclick="toggleSections(<%= i %>)" id="commentBtn"/>
+                  <img src="/img/like.png" alt="좋아요" id="likeBtn"/>
                 </div>
               </div>
               <!-- 댓글들-->
