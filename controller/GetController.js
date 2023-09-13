@@ -38,10 +38,10 @@ const board = async (req, res) => {
   console.log(
     ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 게시물 불러오기 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
+  console.log('req.query:', req.query)
+
   try {
     //post테이블에 값 불러오기
-
-    // const pNo = 3 //임시로 고정값 지정
     const posts = await mPost.findAll({
       //postImage에 등록된 사진도 함께 가져오기 위해 테이블 join
       where: { ROOM_rNo: 1 },
@@ -62,9 +62,6 @@ const board = async (req, res) => {
       ],
     })
 
-    console.log(
-      ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ post DB에서 가져온 값 담기 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
-    )
     //조인한 테이블에서 필요한 값 정의
     //게시물 닉네임
     const nicknamedata = posts.map((post) => post.dataValues.MEMBER_email)

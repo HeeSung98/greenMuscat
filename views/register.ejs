@@ -38,21 +38,15 @@
         </div>
       </div>
     </div>
+
+    <form action="/room/board" method="post" name="postBoardForm" hidden>
+      <input type="text" name="rNo" />
+    </form>
   </body>
 
   <script>
     const user = JSON.parse(localStorage.getItem('user'))
     const room = JSON.parse(localStorage.getItem('room'))
-    const nickname = document.querySelector('.nickname')
-    nickname.innerText = user.nickname
-
-    //textarea 자동 높이 조절
-    const $textarea = document.querySelector('#pContent')
-    $textarea.oninput = (event) => {
-      const $target = event.target
-      $target.style.height = 0
-      $target.style.height = 5 + $target.scrollHeight + 'px'
-    }
 
     const resultBox = document.querySelector('.result')
     async function boardRegister() {
@@ -80,7 +74,8 @@
 
       if (resData.result) {
         alert(resData.message)
-        location.href = '/room/board'
+        boardForm.rNo.value = room.rNo
+        boardForm.submit()
       } else {
         console.log('err')
       }
