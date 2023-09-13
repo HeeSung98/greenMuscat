@@ -95,7 +95,7 @@ const postSignIn = async (req, res) => {
         if (error) return res.status(400).json({ error: 'something wrong' })
       })
       // db에 토큰 저장한 후에는 cookie에 토큰 저장하여 이용자 식별
-      return res
+      res
         .cookie('x_auth', user.token, {
           // 3일간 유지
           maxAge: 1000 * 60 * 60 * 24 * 3,
@@ -104,9 +104,7 @@ const postSignIn = async (req, res) => {
         .status(200)
         .json({ result: true, token, user })
     } else {
-      return res
-        .status(403)
-        .json({ result: false, message: '비밀번호가 일치하지 않습니다' })
+      res.json({ result: false, message: '비밀번호가 일치하지 않습니다' })
     }
   } catch (err) {
     console.log(err)

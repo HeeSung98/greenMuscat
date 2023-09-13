@@ -33,7 +33,6 @@
                 게시
               </button>
             </form>
-            <div class="result"></div>
           </div>
         </div>
       </div>
@@ -48,10 +47,15 @@
     const user = JSON.parse(localStorage.getItem('user'))
     const room = JSON.parse(localStorage.getItem('room'))
 
-    const resultBox = document.querySelector('.result')
     async function boardRegister() {
       const form = document.forms['postForm']
       const files = document.querySelector('#files')
+
+      const contentRegex = /.{10,1000}/
+      if (!contentRegex.test(form.pContent.value)) {
+        alert('내용을 10자 이상 작성해주세요')
+        return false
+      }
 
       const data = new FormData()
       data.append('pContent', form.pContent.value)
