@@ -23,7 +23,7 @@
             <br />함께 하는 커뮤니케이션입니다. 환경을 위해 목표를 설정하고
             다함께 <br />목표 달성을 위해 달려봐요!
           </div>
-          <button type="button" id="btn" onclick="signIn()">
+          <button type="button" id="btn">
             목표 달성하러 가기
           </button>
           <img src="/img/main.svg" alt="people" />
@@ -32,9 +32,27 @@
     </div>
 </body>
 <script>
-  function signIn() {
-    window.location.href = '/main/signin'
+
+  window.addEventListener('load', checkLoginStatus())
+  // 로그인 식별
+  function checkLoginStatus() {
+    const token = localStorage.getItem('token')
+    const btn = document.querySelector('#btn')
+
+    if (token) {
+      btn.onclick = () => {
+        document.location.href = '/main'
+      }
+
+    } else {
+      // 토큰 또는 닉네임이 로컬 스토리지에 없는 경우
+      // 로그인 상태가 아니라고 판별하고 "Guest" 닉네임 사용
+      btn.onclick = () => {
+        window.location.href = '/main/signin'
+      }
+    }
   }
+
 </script>
 
 </html>
