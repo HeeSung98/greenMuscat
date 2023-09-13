@@ -10,15 +10,20 @@
 </head>
 
 <body>
+    <%- include('roomHeader') %>
+        <div class="main">
+            <h2>회원 정보 수정</h2>
+            <div class="content">
+                <form name="edit_form">
+                    <label for="nick">닉네임</label><br>
+                    <input type="text" id="nickname"><br>
+                    <label for="password">비밀번호</label><br>
+                    <input type="password" id="password"><br>
+                    <button type="button" onclick="edit_profile()">수정하기</button>
+                </form>
+            </div>
+        </div>
 
-    <h2>회원 정보 수정</h2>
-    <div class="content">
-        <form name="edit_form">
-            <label for="nick">닉네임</label><input type="text" id="nickname"><br>
-            <label for="password">비밀번호</label><input type="password" id="password"><br>
-            <button type="button" onclick="edit_profile()">수정하기</button>
-        </form>
-    </div>
 </body>
 
 <script>

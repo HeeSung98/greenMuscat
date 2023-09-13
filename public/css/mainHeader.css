@@ -4,12 +4,27 @@
   font-family: 'HakgyoansimWoojuR';
 }
 
+/* .header {
+  font-weight: bold;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 20px;
+} */
+
 .header {
   height: 50px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0px 20px;
+  font-weight: bold;
+  position: fixed;
+  top: 0;
+  width: -webkit-fill-available;
+  z-index: 10;
+  background-color: white;
 }
 
 /* LOGO */
@@ -17,8 +32,10 @@
 .innerHeaderLogin {
   cursor: pointer;
 }
+
 .innerHeaderLogin:hover {
-  color: rgb(187, 245, 72);
+  /* color: rgb(187, 245, 72); */
+  color: greenyellow;
   font-size: 1em;
-  font-weight: 800;
+  /* font-weight: 800; */
 }
