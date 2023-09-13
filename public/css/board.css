@@ -10,7 +10,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 70%;
+  width: 100%;
   margin: auto;
 }
 .title {
@@ -35,13 +35,14 @@ hr {
   display: flex;
   flex-direction: column;
   margin-top: 50px;
-  width: 60%;
+  width: 70%;
 }
 .board {
   display: flex;
   justify-content: center;
   width: 100%;
   flex-direction: column;
+  align-items: center;
 }
 .innerboard {
   display: flex;
