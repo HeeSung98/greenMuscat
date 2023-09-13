@@ -191,7 +191,7 @@ const postRoomAdd = async (req, res) => {
     })
   } catch (error) {
     console.log('err:', error)
-    res.json({ result: false, message: '아오' })
+    res.json({ result: false, message: error })
   }
 }
 
