@@ -7,30 +7,63 @@
 #webName,
 .innerHeaderLogin {
   cursor: pointer;
-  font-weight: bold;
-  font-size: large;
 }
 
-.header {
-  padding-bottom: 10px;
-  padding-top: 10px;
+/* .header {
   height: 50px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  padding: 0px 20px;
+  font-weight: bold;
+} */
+
+.header {
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 20px;
+  font-weight: bold;
+  position: fixed;
+  top: 0;
+  width: -webkit-fill-available;
+  z-index: 10;
+  background-color: white;
 }
 
-.innerHeaderLogo {
-  margin: 10px;
-  width: 50px;
-  height: 50px;
+/* LOGO */
+.innerHeaderLogo,
+.innerHeaderLogin {
   cursor: pointer;
 }
-.innerHeaderLogin {
-  margin: 10px;
-  align-items: center;
+.innerHeaderLogo {
   display: flex;
+  align-items: center;
+  justify-content: space-around;
+  position: relative;
+  width: 50%;
 }
+
+.img1,
+.img2 {
+  width: 30px;
+  height: 30px;
+  margin-top: 7px;
+}
+.img3 {
+  width: 35px;
+  height: 35px;
+  margin-top: 7px;
+}
+.img4 {
+  width: 35px;
+  height: 35px;
+  margin-bottom: 7px;
+}
+
 .innerHeaderLogin:hover {
+  color: rgb(187, 245, 72);
   font-size: 1em;
   font-weight: 800;
 }

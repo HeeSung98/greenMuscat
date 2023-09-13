@@ -1,19 +1,31 @@
 @import url('font.css');
 
-/* * {
-  font-family: 'HakgyoansimWoojuR';
-  text-align: center;
+html,
+body {
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
+}
+
+body {
   display: flex;
   flex-direction: column;
-  align-items: center;
-} */
+  justify-content: center;
+}
+
 .main {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 70%;
+  width: 100%;
   margin: auto;
+  justify-content: space-around;
+  overflow: hidden;
+  height: 100%;
+  /* margin-top: 10%; */
+  position: relative;
+  padding-bottom: 30px;
+  align-items: center;
 }
+
 .title {
   font-size: 30px;
   display: flex;
@@ -25,6 +37,7 @@
   flex-direction: column;
   margin-top: 50px;
   width: 90%;
+  align-items: center;
 }
 .profile {
   display: flex;
@@ -43,7 +56,7 @@
 }
 
 /* 프로필 이미지 변경 */
-#pencil {
+/* #pencil {
   width: 40px;
   height: 40px;
   cursor: pointer;
@@ -55,6 +68,20 @@
   position: absolute;
   align-items: center;
   margin-right: 40%;
+} */
+
+#pencil {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  background-color: white;
+  border: solid 1px gainsboro;
+  border-radius: 50%;
+  bottom: 0;
+  right: 5%;
+  position: absolute;
+  align-items: center;
+  z-index: 1;
 }
 
 #pencil img {
@@ -66,26 +93,26 @@
   margin-top: 20px;
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: center;
+  width: 80%;
 }
 
 /* 닉네임 */
 .nickname {
   font-size: 30px;
-  top: 10px;
   display: flex;
   margin-bottom: 10px;
   justify-content: center;
 }
 
+/* 프로필 수정 버튼 */
 #btn_edit {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 60%;
+  margin-top: 10px;
+  width: 40%;
   cursor: pointer;
-
   height: 30px;
   margin-bottom: 10px;
   background: rgb(234, 244, 78);
@@ -95,7 +122,6 @@
 
 /* 탈퇴 */
 #btn_delete {
-  margin-top: 400px;
   display: flex;
   justify-content: center;
   align-items: center;

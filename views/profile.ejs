@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/css/profile.css" />
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <title>Document</title>
-  </head>
 
-  <body>
-    <%- include('roomHeader') %>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/css/profile.css" />
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <title>Document</title>
+</head>
+
+<body>
+  <%- include('roomHeader') %>
     <div class="main">
       <div class="register">
         <div class="title">Profile</div>
@@ -18,7 +19,7 @@
           <!-- <img src="" alt="" id="profileImg"> -->
           <div id="profileImg"></div>
           <div id="pencil" onclick="changeImg()">
-            <img src="/img/noun-pencil.svg" alt="프로필 이미지 변경" />
+            <img src="/img/pencil.svg" alt="프로필 이미지 변경" />
           </div>
         </div>
         <div class="content">
@@ -92,11 +93,13 @@
         } else console.log('회원 탈퇴 실패')
       }
     </script>
-  </body>
+</body>
 
-  <!-- 
+<!-- 
 @copyright
 
 Pencil by Meko from <a href="https://thenounproject.com/browse/icons/term/pencil/" target="_blank" title="Pencil Icons">Noun Project</a> (CC BY 3.0)
 
---></html>
+-->
+
+</html>
