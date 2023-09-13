@@ -20,12 +20,15 @@
       <input type="file" id="files" multiple /><br /><br />
       <button type="button" onclick="boardRegister()">게시</button>
     </form>
-    <div class="result"></div>
+    <form action="/room/board" method="post" name="postBoardForm" hidden>
+      <input type="text" name="rNo" />
+    </form>
   </body>
 
   <script>
     const user = JSON.parse(localStorage.getItem('user'))
     const room = JSON.parse(localStorage.getItem('room'))
+    const boardForm = document.forms['postBoardForm'] // 게시글 호출을 위한 히든 폼
 
     const resultBox = document.querySelector('.result')
     async function boardRegister() {
@@ -53,7 +56,8 @@
 
       if (resData.result) {
         alert(resData.message)
-        location.href = '/room/board'
+        boardForm.rNo.value = room.rNo
+        boardForm.submit()
       } else {
         console.log('err')
       }

@@ -295,6 +295,59 @@ const postBoardRegister = async (req, res) => {
   }
 }
 
+const postBoard = async (req, res) => {
+  console.log(
+    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 게시물 불러오기 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
+  )
+  console.log('req.body:', req.body)
+  const { rNo } = req.body
+
+  try {
+    //post테이블에 값 불러오기
+    const posts = await mPost.findAll({
+      //postImage에 등록된 사진도 함께 가져오기 위해 테이블 join
+      where: { ROOM_rNo: rNo },
+      include: [
+        //이미지 테이블과 조인
+        {
+          model: mPostImage,
+          required: false,
+          // where: { POST_pNo: pNo },
+        },
+        //댓글테이블
+        {
+          // 시퀄라이즈 조인은 기본 inner join
+          model: mReply, // join할 모델
+          required: false, // outer join으로 설정
+          //where: { POST_pNo: pNo }, // select해서
+        },
+      ],
+    })
+
+    //조인한 테이블에서 필요한 값 정의
+    //게시물 내용
+    const contentdata = posts.map((post) => post.dataValues.pContent)
+    //게시물 이미지
+    const imagedata = posts.map((post) =>
+      post.dataValues.POST_IMAGEs.map((image) => image.path)
+    )
+    //게시물 댓글
+    const replydata = posts.map((post) =>
+      post.dataValues.REPLies.map((reply) => {
+        reply.text, reply.nickname
+      })
+    )
+    console.log('pContent :', contentdata)
+    console.log('imagedata :', imagedata)
+    console.log('replydata :', replydata)
+    res.render('board', {
+      data: { contentdata, imagedata, replydata },
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 // 댓글 정보 보내기
 const postReply = async (req, res) => {
   console.log(
@@ -375,6 +428,7 @@ module.exports = {
   postRoomList,
   // 방 및 게시글
   postRoom,
+  postBoard,
   postBoardRegister,
   // 댓글
   postReply,
