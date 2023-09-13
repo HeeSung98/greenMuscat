@@ -85,7 +85,10 @@ hr {
   border-radius: 30px;
   margin: 5px;
 }
-img {
+#img_user,
+.img_del .contentImg,
+#commentBtn,
+#likeBtn {
   width: 40px;
   padding: 5px;
 }

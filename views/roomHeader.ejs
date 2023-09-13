@@ -16,7 +16,6 @@
       <img src="/img/home.svg" onclick="roomPage()" class="img1" />
       <img src="/img/list.svg" onclick="boardPage()" class="img2" />
       <img src="/img/board.svg" onclick="registerPage()" class="img3" />
-      <img src="/img/door.svg" onclick="roomlistPage()" class="img3" />
       <img src="/img/profile.svg" onclick="profilePage()" class="img4" />
     </div>
     <div class="innerHeaderLogin"></div>
@@ -87,11 +86,6 @@
   //마이페이지 목록으로 이동
   function profilePage() {
     window.location.href = '/main/profile'
-  }
-  // roomlist
-  function roomlistPage() {
-    localStorage.removeItem('room');
-    window.location.href = '/main'
   }
 </script>
 

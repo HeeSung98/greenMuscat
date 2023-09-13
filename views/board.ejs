@@ -19,7 +19,7 @@
       <div class="register">
         <div class="toRegister">
           <!-- 사용자 이미지 -->
-          <div class="imgDiv"><img src="/img/user1.png" alt="" /></div>
+          <div class="imgDiv"><img src="/img/user1.png" alt="" id="img_user" /></div>
           <!-- 버튼들 클릭시 게시물 작성페이지로 이동 -->
           <button id="missionInput" onclick="register()">
             미션을 시작하세요..
@@ -32,7 +32,7 @@
           <% for(let i=data.contentList.length - 1; i>= 0; i--){ %>
             <div class="innerboard">
               <!-- 게시글 작성자 프로필 이미지 -->
-              <div class="imgDiv"><img src="/img/user1.png" alt="" /></div>
+              <div class="imgDiv"><img src="/img/user1.png" alt="" id="img_user" /></div>
               <div class="innerContent">
                 <!-- 게시글 -->
                 <div class="boardContent">
@@ -78,6 +78,7 @@
         </div>
       </div>
     </div>
+    <%- include('roomFooter') %>
 </body>
 
 <script>
@@ -143,7 +144,7 @@
             checkLoginStatus().loggedIn &&
             checkLoginStatus().nickname === reply.nickname
           ) {
-            replyParagraph.innerHTML = `${reply.nickname} : ${reply.text} &nbsp;<img src="/img/delete.png" id="del_btn${index}" onclick="deleteReplyFunc(${index})" style="width: 20px; cursor: pointer;" />`
+            replyParagraph.innerHTML = `${reply.nickname} : ${reply.text} &nbsp;<img src="/img/delete.png" id="del_btn${index}" onclick="deleteReplyFunc(${index})" style="width: 20px; cursor: pointer;" class="img_del" />`
           } else {
             replyParagraph.textContent = `${reply.nickname} : ${reply.text}`
           }
