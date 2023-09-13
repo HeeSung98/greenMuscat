@@ -68,6 +68,26 @@ const board = async (req, res) => {
     //조인한 테이블에서 필요한 값 정의
     //게시물 닉네임
     const nicknamedata = posts.map((post) => post.dataValues.MEMBER_email)
+    //게시물 작성일
+    const datedata = posts.map((post) => {
+      const createdAt = new Date(post.dataValues.createdAt)
+      const now = new Date()
+      const timeDiff = Math.floor((now - createdAt) / 1000) // 초 단위로 시간 차이 계산
+
+      if (timeDiff < 60) {
+        return `${timeDiff}초 전`
+      } else if (timeDiff < 3600) {
+        const minutes = Math.floor(timeDiff / 60)
+        return `${minutes}분 전`
+      } else if (timeDiff < 86400) {
+        const hours = Math.floor(timeDiff / 3600)
+        return `${hours}시간 전`
+      } else {
+        const days = Math.floor(timeDiff / 86400)
+        return `${days}일 전`
+      }
+    })
+
     //게시물 내용
     const contentdata = posts.map((post) => post.dataValues.pContent)
     //게시물 이미지
@@ -84,7 +104,7 @@ const board = async (req, res) => {
     console.log('imagedata :', imagedata)
     console.log('replydata :', replydata)
     res.render('board', {
-      data: { nicknamedata, contentdata, imagedata, replydata },
+      data: { nicknamedata, datedata, contentdata, imagedata, replydata },
     })
   } catch (error) {
     console.log(error)
