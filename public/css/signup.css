@@ -1,27 +1,59 @@
 @import url('/css/font.css');
 
+* {
+  font-family: 'HakgyoansimWoojuR';
+}
+
+html,
+body {
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
+}
+
 body {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
+
 .main {
+  width: 100%;
+  margin: auto;
+  /* justify-content: space-around; */
+  overflow: hidden;
+  height: 100%;
+  position: relative;
+}
+
+.content {
   display: flex;
   flex-direction: column;
+  width: 100%;
   align-items: center;
-  width: 70%;
-  margin: auto;
-  margin-top: 10%;
+  height: 100%;
+  bottom: 0;
+  justify-content: space-around;
+  position: absolute;
 }
+
 .signUp {
-  font-size: 20px;
+  font-size: 30px;
   margin-bottom: 15px;
+  display: flex;
+  width: 100%;
+  height: 10%;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  top: 10%;
 }
 .signUpDiv {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 80%;
+  height: 70%;
+  justify-content: center;
 }
 #formSignup {
   display: flex;

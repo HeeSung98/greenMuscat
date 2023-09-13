@@ -1,21 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <link rel="shortcut icon" href="/img/icon.ico" type="image/x-icon" />
-    <link rel="icon" href="/img/icon.ico" type="image/x-icon" />
-    <title>GreenMuscat</title>
-    <link rel="stylesheet" href="/css/signin.css" />
-  </head>
 
-  <body>
-    <div class="main">
-      <form name="nick" method="post" action="/main/select">
-        <input type="hidden" name="nickname" />
-      </form>
-      <img id="logo" src="/img/logo_siginin.png" alt="logo" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <link rel="shortcut icon" href="/img/icon.ico" type="image/x-icon" />
+  <link rel="icon" href="/img/icon.ico" type="image/x-icon" />
+  <title>GreenMuscat</title>
+  <link rel="stylesheet" href="/css/signin.css" />
+</head>
+
+<body>
+  <div class="main">
+    <form name="nick" method="post" action="/main/select">
+      <input type="hidden" name="nickname" />
+    </form>
+    <div class="content">
+
+      <div class="logoDiv">
+        <img id="logo" src="/img/logo_siginin.png" alt="logo" />
+      </div>
       <div class="loginDiv">
         <form name="form_signin" id="formSignin">
           <div class="innerform">
@@ -38,37 +43,39 @@
         </div>
       </div>
     </div>
-  </body>
+  </div>
+</body>
 
-  <script>
-    async function signIn() {
-      let form = document.forms['form_signin']
-      const email = form.email.value
-      const password = form.password.value
-      const data = {
-        email,
-        password,
-      }
-
-      const respone = await axios({
-        method: 'POST',
-        url: '/main/signin',
-        data,
-      })
-      const resData = respone.data
-      console.log(resData)
-
-      if (resData.result) {
-        alert('로그인 성공')
-        localStorage.setItem('token', resData.token)
-        localStorage.setItem('user', JSON.stringify(resData.user))
-        form = document.forms['postMain']
-        form.email.value = JSON.parse(localStorage.getItem('user')).email
-        form.submit()
-      } else {
-        alert(`${resData.message}`)
-        document.location.reload()
-      }
+<script>
+  async function signIn() {
+    let form = document.forms['form_signin']
+    const email = form.email.value
+    const password = form.password.value
+    const data = {
+      email,
+      password,
     }
-  </script>
+
+    const respone = await axios({
+      method: 'POST',
+      url: '/main/signin',
+      data,
+    })
+    const resData = respone.data
+    console.log(resData)
+
+    if (resData.result) {
+      alert('로그인 성공')
+      localStorage.setItem('token', resData.token)
+      localStorage.setItem('user', JSON.stringify(resData.user))
+      form = document.forms['postMain']
+      form.email.value = JSON.parse(localStorage.getItem('user')).email
+      form.submit()
+    } else {
+      alert(`${resData.message}`)
+      document.location.reload()
+    }
+  }
+</script>
+
 </html>
