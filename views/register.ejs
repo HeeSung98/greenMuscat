@@ -40,15 +40,18 @@
     </form>
 </body>
 
-<<<<<<< HEAD
 <script>
-  const user = JSON.parse(localStorage.getItem('user'))
-  const room = JSON.parse(localStorage.getItem('room'))
+  console.log('room:', room)
 
-  const resultBox = document.querySelector('.result')
   async function boardRegister() {
     const form = document.forms['postForm']
     const files = document.querySelector('#files')
+
+    const contentRegex = /.{10,1000}/
+    if (!contentRegex.test(form.pContent.value)) {
+      alert('내용을 10자 이상 작성해주세요')
+      return false
+    }
 
     const data = new FormData()
     data.append('pContent', form.pContent.value)
@@ -56,47 +59,6 @@
     data.append('ROOM_rNo', room.rNo)
     for (var i = 0; i < files.files.length; i++) {
       data.append('files', files.files[i])
-=======
-  <script>
-    console.log('room:', room)
-
-    async function boardRegister() {
-      const form = document.forms['postForm']
-      const files = document.querySelector('#files')
-
-      const contentRegex = /.{10,1000}/
-      if (!contentRegex.test(form.pContent.value)) {
-        alert('내용을 10자 이상 작성해주세요')
-        return false
-      }
-
-      const data = new FormData()
-      data.append('pContent', form.pContent.value)
-      data.append('MEMBER_email', user.email)
-      data.append('ROOM_rNo', room.rNo)
-      for (var i = 0; i < files.files.length; i++) {
-        data.append('files', files.files[i])
-      }
-
-      const respone = await axios({
-        method: 'POST',
-        data,
-        url: '/room/board/register',
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      resData = respone.data
-      console.log(resData)
-
-      if (resData.result) {
-        alert(resData.message)
-        boardForm.rNo.value = room.rNo
-        boardForm.submit()
-      } else {
-        console.log('err')
-      }
->>>>>>> 985cbf9dedeea8878ca800b7b63ad60e408d422b
     }
 
     const respone = await axios({
@@ -118,6 +80,8 @@
       console.log('err')
     }
   }
+
+
 </script>
 
 </html>

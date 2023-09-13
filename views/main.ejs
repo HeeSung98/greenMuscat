@@ -15,20 +15,22 @@
   <%- include('mainHeader') %>
     <!-- body 시작 -->
     <div class="main">
-      <h2 class="mainH2">닉네임의 포도 농장👨‍🌾</h2>
       <!-- section 시작 -->
       <section class="top">
-        <div class="roomDiv">
-          <button type="button" class="roomBtn btnPush">이미지</button>
-          <p class="btnName"><b>코딩 초등학교 (관리자)</b></p>
-        </div>
-        <div class="roomDiv">
-          <button type="button" class="roomBtn btnPush">이미지</button>
-          <p class="btnName"><b>샛별 유치원 (참여자)</b></p>
-        </div>
-        <div class="roomDiv">
-          <button type="button" class="roomBtn btnPush" onclick="btnOpenModal(registerModal.id)">➕</button>
-          <p class="btnName"><b>농장 만들기</b></p>
+        <h2 class="mainH2"><span id="nickname"></span>의 포도 농장👨‍🌾</h2>
+        <div class="room">
+          <div class="roomDiv">
+            <button type="button" class="roomBtn btnPush">이미지</button>
+            <p class="btnName"><b>코딩 초등학교 (관리자)</b></p>
+          </div>
+          <div class="roomDiv">
+            <button type="button" class="roomBtn btnPush">이미지</button>
+            <p class="btnName"><b>샛별 유치원 (참여자)</b></p>
+          </div>
+          <div class="roomDiv">
+            <button type="button" class="roomBtn btnPush" onclick="btnOpenModal(registerModal.id)">➕</button>
+            <p class="btnName"><b>농장 만들기</b></p>
+          </div>
         </div>
       </section>
       <br>
@@ -92,11 +94,12 @@
       </form>
 
     </div>
-    </div>
 
     <script>
       const entranceForm = document.forms['postRoomForm'] // 방 입장 정보를 위한 히든 폼
       const user = JSON.parse(localStorage.getItem('user'))
+      const nickname = document.querySelector('#nickname')
+      nickname.innerText = `${user.nickname}`
       console.log('user:', user)
 
       // 모달창 열기

@@ -1,30 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/css/profile.css" />
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <title>Document</title>
-  </head>
 
-<<<<<<< HEAD
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="/css/profile.css" />
-  <link rel="shortcut icon" href="/img/icon.ico" type="image/x-icon">
-  <link rel="icon" href="/img/icon.ico" type="image/x-icon">
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <title>GreenMuscat</title>
+  <title>Document</title>
 </head>
 
 <body>
   <%- include('roomHeader') %>
-=======
-  <body>
-    <%- include('roomHeader') %>
->>>>>>> 985cbf9dedeea8878ca800b7b63ad60e408d422b
     <div class="main">
       <div class="register">
         <div class="title">Profile</div>
@@ -45,35 +31,23 @@
               <form name="edit_form" class="editForm">
                 <div class="input">
                   <b>닉네임</b>
-                  <br />
+                  <br>
                   <input type="text" id="nickname" />
-                  <button
-                    type="button"
-                    class="btn_edit"
-                    onclick="edit_profile(1)"
-                  >
+                  <button type="button" class="btn_edit_nick" onclick="edit_profile(1)">
                     수정
                   </button>
                 </div>
-                <br />
+                <br>
                 <div class="input">
                   <b>비밀번호</b>
-                  <br />
+                  <br>
                   <input type="password" id="password" />
-                  <button
-                    type="button"
-                    class="btn_edit"
-                    onclick="edit_profile(2)"
-                  >
+                  <button type="button" class="btn_edit_pass" onclick="edit_profile(2)">
                     수정
                   </button>
                 </div>
               </form>
-              <button
-                type="button"
-                class="button btnPush btnBlueGreen"
-                onclick="btnCloseModal(editModal.id)"
-              >
+              <button type="button" class="button btnPush btnBlueGreen" onclick="btnCloseModal(editModal.id)">
                 닫기
               </button>
             </div>
@@ -92,8 +66,6 @@
       </div>
     </div>
     <script>
-      console.log('room:', room)
-
       // 모달창 열기
       function btnOpenModal(id) {
         document.getElementById(id).style.display = 'flex'
@@ -103,6 +75,7 @@
       function btnCloseModal(id) {
         document.getElementById(id).style.display = 'none'
       }
+
 
       const user = JSON.parse(localStorage.getItem('user'))
       const nickname = document.querySelector('.nickname')
@@ -134,7 +107,7 @@
 
         if (index == 1) {
           const data = {
-            nickname: form.nickname.value,
+            password: form.password.value
           }
 
           const response = await axios({
@@ -153,9 +126,10 @@
             console.log('닉네임 수정 완료')
             document.location.reload()
           } else console.log('닉네임 수정 실패')
+
         } else if (index == 2) {
           const data = {
-            password: form.password.value,
+            password: form.password.value
           }
 
           const response = await axios({
@@ -197,11 +171,13 @@
         } else console.log('회원 탈퇴 실패')
       }
     </script>
-  </body>
+</body>
 
-  <!-- 
+<!-- 
 @copyright
 
 Pencil by Meko from <a href="https://thenounproject.com/browse/icons/term/pencil/" target="_blank" title="Pencil Icons">Noun Project</a> (CC BY 3.0)
 
---></html>
+-->
+
+</html>

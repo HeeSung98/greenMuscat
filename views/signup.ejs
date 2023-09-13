@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<<<<<<< HEAD
 
 <head>
   <meta charset="UTF-8" />
@@ -12,16 +11,6 @@
   <title>GreenMuscat</title>
 </head>
 <%- include('mainHeader') %>
-=======
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/css/signup.css" />
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <title>Document</title>
-  </head>
-  <%- include('mainHeader') %>
->>>>>>> 985cbf9dedeea8878ca800b7b63ad60e408d422b
 
   <body>
     <div class="main">
@@ -29,39 +18,11 @@
       <div class="signUpDiv">
         <form name="form_signup" id="formSignup">
           <div class="innerform">
-            <input
-              type="email"
-              id="email"
-              placeholder="이메일"
-              minlength="5"
-              maxlength="50"
-              required
-            />
+            <input type="email" id="email" placeholder="이메일" minlength="5" maxlength="50" required />
             <br />
-            <input
-              type="text"
-              id="name"
-              placeholder="이름"
-              minlength="2"
-              maxlength="10"
-              required
-            /><br />
-            <input
-              type="text"
-              id="nickname"
-              placeholder="닉네임"
-              minlength="1"
-              maxlength="10"
-              required
-            /><br />
-            <input
-              type="password"
-              id="password"
-              placeholder="비밀번호"
-              minlength="6"
-              maxlength="20"
-              required
-            /><br />
+            <input type="text" id="name" placeholder="이름" minlength="2" maxlength="10" required /><br />
+            <input type="text" id="nickname" placeholder="닉네임" minlength="1" maxlength="10" required /><br />
+            <input type="password" id="password" placeholder="비밀번호" minlength="6" maxlength="20" required /><br />
             <button type="button" onclick="signUp()">회원가입</button>
           </div>
         </form>
@@ -120,4 +81,5 @@
       }
     }
   </script>
+
 </html>
