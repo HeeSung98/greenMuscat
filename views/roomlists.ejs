@@ -1,74 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <style>
-      /* .roomList {
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="/img/icon.ico" type="image/x-icon">
+  <link rel="icon" href="/img/icon.ico" type="image/x-icon">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <style>
+    /* .roomList {
         width: 500px;
         height: 500px;
         border-width: 2px;
         border-style: solid;
         display: none;
       } */
-    </style>
-    <title>방 목록</title>
-  </head>
-  <body>
-    <form name="list">
-      이메일(임시): <input type="text" name="email" />
-      <button type="button" onclick="test()">제출</button>
-    </form>
+  </style>
+  <title>GreenMuscat</title>
+</head>
 
-    <!-- 제출 버튼 누르면 리스트 생성되는 부분 -->
-    <div class="roomList">
-      <!-- <div>
+<body>
+  <form name="list">
+    이메일(임시): <input type="text" name="email" />
+    <button type="button" onclick="test()">제출</button>
+  </form>
+
+  <!-- 제출 버튼 누르면 리스트 생성되는 부분 -->
+  <div class="roomList">
+    <!-- <div>
         <span>example1</span>
       </div>
       <div>
         <span>example2</span>
       </div> -->
-    </div>
-    <script>
-      async function test() {
-        const roombox = document.querySelector('.roomList')
-        const form = document.forms['list']
-        const data = {
-          email: form.email.value,
-        }
+  </div>
+  <script>
+    async function test() {
+      const roombox = document.querySelector('.roomList')
+      const form = document.forms['list']
+      const data = {
+        email: form.email.value,
+      }
 
-        const respone = await axios({
-          method: 'POST',
-          url: '/main/lists',
-          data,
-        })
-        resData = respone.data
-        console.log('resData: ', resData)
-        if (resData.result) {
-          // roombox.style.display = 'block'
-          for (let i = 0; i < resData.rooms.length; i++) {
-            const item = document.createElement('div') // div 생성
-            const text = document.createElement('span') // span 생성
-            text.textContent = `이름: ${resData.rooms[i].ROOM_rTitle}
+      const respone = await axios({
+        method: 'POST',
+        url: '/main/lists',
+        data,
+      })
+      resData = respone.data
+      console.log('resData: ', resData)
+      if (resData.result) {
+        // roombox.style.display = 'block'
+        for (let i = 0; i < resData.rooms.length; i++) {
+          const item = document.createElement('div') // div 생성
+          const text = document.createElement('span') // span 생성
+          text.textContent = `이름: ${resData.rooms[i].ROOM_rTitle}
               역할: ${resData.rooms[i].role}
               코드: ${resData.rooms[i].ROOM_code}`
-            // item = div 안에 요소로 추가
-            item.appendChild(text)
+          // item = div 안에 요소로 추가
+          item.appendChild(text)
 
-            // toDoList div 안에 요소로 추가
-            roombox.appendChild(item)
+          // toDoList div 안에 요소로 추가
+          roombox.appendChild(item)
 
-            // roombox.innerHTML =
-            //   roombox.innerHTML +
-            //   `이름: ${resData.rooms[i].ROOM_rTitle}
-            //   역할: ${resData.rooms[i].role}
-            //   코드: ${resData.rooms[i].ROOM_code}`
-          }
-        } else {
-          alert(`${resData.message}`)
+          // roombox.innerHTML =
+          //   roombox.innerHTML +
+          //   `이름: ${resData.rooms[i].ROOM_rTitle}
+          //   역할: ${resData.rooms[i].role}
+          //   코드: ${resData.rooms[i].ROOM_code}`
         }
+      } else {
+        alert(`${resData.message}`)
       }
-    </script>
-  </body>
+    }
+  </script>
+</body>
+
 </html>
