@@ -81,7 +81,7 @@ router.post('/main/signin', postController.postSignIn)
 // 로그아웃 (SignOut)
 router.post('/main/signout', postController.postSignOut)
 // 회원 정보 수정
-router.get('/main/profile/edit', getController.profileEdit)
+// router.get('/main/profile/edit', getController.profileEdit)
 router.patch(
   '/main/profile/edit',
   uploadProfile.array('files'),

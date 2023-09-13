@@ -139,10 +139,6 @@ const profile = (req, res) => {
   res.render('profile')
 }
 
-const profileEdit = (req, res) => {
-  res.render('profileEdit')
-}
-
 // 선택한 방의 메인 페이지
 const room = async (req, res) => {
   const rNo = 1
@@ -201,7 +197,6 @@ module.exports = {
   signUp,
   signIn,
   profile,
-  profileEdit,
   // 방 및 게시글
   room,
   board,

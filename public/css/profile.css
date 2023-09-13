@@ -120,6 +120,43 @@ body {
   border: 0;
 }
 
+/* Modal */
+.modalH2 {
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  font-family: 'HSSaemaul-Regular';
+  font-size: 30px;
+}
+.modal {
+  position: absolute;
+  display: none;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 20;
+}
+
+.modal_body {
+  box-sizing: content-box;
+  position: absolute;
+  top: 50%;
+  width: 400px;
+  height: 250px;
+  padding: 10px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  box-shadow: 0 10px 15px 0 rgba(34, 36, 38, 0.15);
+  transform: translateY(-50%);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
 /* 탈퇴 */
 #btn_delete {
   display: flex;
