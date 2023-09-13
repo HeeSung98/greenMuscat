@@ -129,7 +129,6 @@
       const entranceForm = document.forms['postRoomForm'] // 방 입장 정보를 위한 히든 폼
       const user = JSON.parse(localStorage.getItem('user'))
       const nickname = document.querySelector('#nickname')
-      nickname.innerText = `${user.nickname}`
       console.log('user:', user)
 
       document.querySelector('#nick').innerHTML =
