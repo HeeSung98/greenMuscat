@@ -44,7 +44,7 @@
   </body>
 
   <script>
-    console.log('room:', room)
+    const user = JSON.parse(localStorage.getItem('user'))
 
     async function boardRegister() {
       const form = document.forms['postForm']
