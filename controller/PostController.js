@@ -261,10 +261,10 @@ const postBoardRegister = async (req, res) => {
     ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 게시물 업로드 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
   console.log('req.body:', req.body)
-  console.log('req.file', req.file)
+  console.log('req.file', req.files)
   let location
   try {
-    location = req.file.location
+    location = req.files.location
   } catch (err) {
     location = null
   }
@@ -281,8 +281,8 @@ const postBoardRegister = async (req, res) => {
     // 게시물 이미지 테이블에 레코드 추가하기
     for (var i = 0; i < req.files.length; i++) {
       const createdPostImage = await mPostImage.create({
-        uuid: files[i].key,
-        path: files[i].location,
+        uuid: req.files[i].key,
+        path: req.files[i].location,
         POST_pNo: createdPost.pNo,
       })
       console.log(`createdPostImage${i}:`, createdPostImage)
@@ -304,44 +304,40 @@ const postBoard = async (req, res) => {
 
   try {
     //post테이블에 값 불러오기
-    const posts = await mPost.findAll({
+    const findedPost = await mPost.findAll({
       //postImage에 등록된 사진도 함께 가져오기 위해 테이블 join
       where: { ROOM_rNo: rNo },
       include: [
-        //이미지 테이블과 조인
+        //이미지 테이블과 조인, 시퀄라이즈 조인은 기본 inner join
         {
-          model: mPostImage,
-          required: false,
-          // where: { POST_pNo: pNo },
+          model: mPostImage, // join할 모델
+          required: false, // outer join으로 설정
         },
         //댓글테이블
         {
-          // 시퀄라이즈 조인은 기본 inner join
-          model: mReply, // join할 모델
-          required: false, // outer join으로 설정
-          //where: { POST_pNo: pNo }, // select해서
+          model: mReply,
+          required: false,
         },
       ],
     })
 
-    //조인한 테이블에서 필요한 값 정의
     //게시물 내용
-    const contentdata = posts.map((post) => post.dataValues.pContent)
+    const contentList = findedPost.map((post) => post.dataValues.pContent)
+    //게시물 작성자
+    const writerList = findedPost.map((post) => post.dataValues.MEMBER_email)
     //게시물 이미지
-    const imagedata = posts.map((post) =>
+    const imagePathList = findedPost.map((post) =>
       post.dataValues.POST_IMAGEs.map((image) => image.path)
     )
-    //게시물 댓글
-    const replydata = posts.map((post) =>
-      post.dataValues.REPLies.map((reply) => {
-        reply.text, reply.nickname
-      })
-    )
-    console.log('pContent :', contentdata)
-    console.log('imagedata :', imagedata)
-    console.log('replydata :', replydata)
+    console.log('contentList :', contentList)
+    console.log('writerList :', writerList)
+    console.log('imagePathLis:', imagePathList)
     res.render('board', {
-      data: { contentdata, imagedata, replydata },
+      data: {
+        contentList,
+        writerList,
+        imagePathList,
+      },
     })
   } catch (error) {
     console.log(error)
@@ -353,7 +349,7 @@ const postReply = async (req, res) => {
   console.log(
     ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 댓글 조회 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
-
+  console.log('req.body:', req.body)
   const { POST_pNo } = req.body
   // Reply db에서 게시물 번호에 해당하는 모든 댓글들 조회
   try {

@@ -16,7 +16,6 @@
       </div>
       <div class="notice">
         <div class="innerNotice">
-          <div>공지사항</div>
           <div class="noticeImg">
             <img
               src="/img/notice.png"
@@ -61,11 +60,8 @@
 
     // toggle
     function toggleSections() {
-      const replyText = document.getElementById(`replyText`)
-
       if (replyText.style.display === 'none') {
         replyText.style.display = 'block'
-        getReplies(index)
       } else {
         replyText.style.display = 'none'
       }
