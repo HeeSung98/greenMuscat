@@ -59,13 +59,6 @@
     async function signUp() {
       const form = document.forms['form_signup']
       const { email, name, nickname, password } = form
-      const data = {
-        email: email.value,
-        name: name.value,
-        nickname: nickname.value,
-        password: password.value,
-        fromSocial: 0,
-      }
 
       const emailRegex =
         /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i
@@ -91,6 +84,14 @@
           '비밀번호는 최소 8자 이상이어야 하며, 영어, 숫자, 특수문자를 포함해야 합니다.'
         )
         return false
+      }
+
+      const data = {
+        email: email.value,
+        name: name.value,
+        nickname: nickname.value,
+        password: password.value,
+        fromSocial: 0,
       }
 
       const signUp = await axios({
