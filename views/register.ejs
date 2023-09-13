@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GreenMuscat</title>
+    <link rel="stylesheet" href="/css/register.css" />
+    <link rel="shortcut icon" href="/img/icon.ico" type="image/x-icon" />
+    <link rel="icon" href="/img/icon.ico" type="image/x-icon" />
+    <script
+      src="https://code.jquery.com/jquery-3.7.0.min.js"
+      integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GreenMuscat</title>
-  <link rel="stylesheet" href="/css/register.css" />
-  <link rel="shortcut icon" href="/img/icon.ico" type="image/x-icon">
-  <link rel="icon" href="/img/icon.ico" type="image/x-icon">
-  <script src="https://code.jquery.com/jquery-3.7.0.min.js"
-    integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-</head>
-
-<body>
-  <%- include('roomHeader') %>
+  <body>
+    <%- include('roomHeader') %>
     <div class="main">
       <div class="register">
         <div class="title">게시물 작성</div>
@@ -24,7 +26,10 @@
             <div class="nickname"></div>
 
             <form name="postForm" class="postForm">
-              <textarea id="pContent" placeholder="포도알을 채우기 위해 수행한 미션을 적어주세요."></textarea>
+              <textarea
+                id="pContent"
+                placeholder="포도알을 채우기 위해 수행한 미션을 적어주세요."
+              ></textarea>
               <input type="file" id="files" multiple /><br /><br />
               <button id="registerBtn" type="button" onclick="boardRegister()">
                 게시
@@ -38,8 +43,9 @@
     <form action="/room/board" method="post" name="postBoardForm" hidden>
       <input type="text" name="rNo" />
     </form>
-</body>
+  </body>
 
+<<<<<<< HEAD
 <script>
   console.log('room:', room)
 
@@ -84,3 +90,47 @@
 </script>
 
 </html>
+=======
+  <script>
+    console.log('room:', room)
+
+    async function boardRegister() {
+      const form = document.forms['postForm']
+      const files = document.querySelector('#files')
+
+      const contentRegex = /.{10,1000}/
+      if (!contentRegex.test(form.pContent.value)) {
+        alert('내용을 10자 이상 작성해주세요')
+        return false
+      }
+
+      const data = new FormData()
+      data.append('pContent', form.pContent.value)
+      data.append('MEMBER_email', user.email)
+      data.append('ROOM_rNo', room.rNo)
+      for (var i = 0; i < files.files.length; i++) {
+        data.append('files', files.files[i])
+      }
+
+      const respone = await axios({
+        method: 'POST',
+        data,
+        url: '/room/board/register',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      resData = respone.data
+      console.log(resData)
+
+      if (resData.result) {
+        alert(resData.message)
+        boardForm.rNo.value = room.rNo
+        boardForm.submit()
+      } else {
+        console.log('err')
+      }
+    }
+  </script>
+</html>
+>>>>>>> 88dc6657df5e20d04fc9090969ff5a4b1c5885d7
