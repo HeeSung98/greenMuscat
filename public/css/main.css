@@ -22,7 +22,9 @@ section {
   width: 70%;
   display: flex;
 }
-.roomCard {
+/* --------------------- */
+/* 기존 룸 버튼 */
+/* .roomCard {
   width: 150px;
   height: 200px;
 }
@@ -33,7 +35,8 @@ div.roomInfo {
 }
 p.roomInfo {
   text-align: center;
-}
+} */
+/* --------------------- */
 h3 {
   text-align: center;
   margin-top: 15px;
@@ -52,7 +55,26 @@ h3 {
   justify-content: center;
   margin-top: 30px;
 }
+
 /* 3d 버튼 */
+button.roomBtn {
+  display: block;
+  position: relative;
+  /* float: left; */
+  width: 200px;
+  height: 200px;
+  padding: 0;
+  /* margin: 10px; */
+  margin-bottom: 15px;
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  /* line-height: 50px; */
+  color: black;
+  border-radius: 5px;
+  transition: all 0.2s;
+}
+
 button.button {
   display: block;
   position: relative;
@@ -63,25 +85,53 @@ button.button {
   font-weight: 600;
   text-align: center;
   /* line-height: 50px; */
-  color: #fff;
+  /* color: #fff; */
   border-radius: 5px;
   transition: all 0.2s;
 }
 
-.btnBlueGreen {
+.btnOk {
+  color: #fff;
   background: #00ae68;
-}
-
-.btnBlueGreen.btnPush {
   box-shadow: 0px 5px 0px 0px #007144;
 }
+
+.btnNo {
+  color: black;
+  background: #cdd8d8d5;
+  box-shadow: 0px 5px 0px 0px #3f4242;
+}
+
+.roomBtn {
+  box-shadow: 0px 7px 0px 0px rgb(209, 209, 209);
+  background: white;
+}
+/* .btnBlueGreen.btnPush {
+  box-shadow: 0px 5px 0px 0px #007144;
+} */
+
 .btnPush:hover {
   margin-top: 15px;
   margin-bottom: 5px;
 }
 
-.btnBlueGreen.btnPush:hover {
+.roomBtn.btnPush:hover {
+  box-shadow: 0px 0px 0px 0px rgb(209, 209, 209);
+}
+
+.btnOk.btnPush:hover {
   box-shadow: 0px 0px 0px 0px #007144;
+}
+
+.btnNo.btnPush:hover {
+  box-shadow: 0px 0px 0px 0px #3f4242;
+}
+
+.roomDiv {
+  width: 100%;
+}
+.btnName {
+  text-align: center;
 }
 
 /* 모달 부분 */
