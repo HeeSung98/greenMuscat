@@ -34,7 +34,8 @@
 }
 
 .innerHeaderLogin:hover {
-  color: rgb(187, 245, 72);
+  /* color: rgb(187, 245, 72); */
+  color: greenyellow;
   font-size: 1em;
   /* font-weight: 800; */
 }
