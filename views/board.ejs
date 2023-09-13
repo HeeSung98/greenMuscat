@@ -17,24 +17,37 @@
     <%- include('roomHeader') %>
     <div class="main">
       <div class="register">
-        <!-- <div class="title">게시물</div> -->
-        <!-- 게시물작성페이지로 이동 버튼 -->
+        <div class="toRegister">
+          <!-- 사용자 이미지 -->
+          <div class="imgDiv"><img src="/user1.png" alt="" /></div>
+          <!-- 버튼들 클릭시 게시물 작성페이지로 이동 -->
+          <button id="missionInput" onclick="register()">
+            미션을 시작하세요..
+          </button>
+          <button id="mission" onclick="register()">게시</button>
+        </div>
+        <hr />
+        <!-- 게시글 목록 -->
         <div class="board">
-          <% for(let i = data.contentList.length - 1; i >= 0; i--){ %>
+          <% for(let i=0; i < data.contentdata.length; i++){ %>
           <div class="innerboard">
+            <!-- 게시글 작성자 프로필 이미지 -->
             <div class="imgDiv"><img src="/img/user1.png" alt="" /></div>
-
-            <div>
+            <div class="innerContent">
+              <!-- 게시글 -->
               <div class="boardContent">
-                <div class="userName"><%= data.writerList[i]%></div>
-                <div class="content"><%= data.contentList[i]%></div>
-                <div>
-                  <img
-                    src="<%= data.imagePathList[i]%>"
-                    alt=""
-                    class="contentImg"
-                  />
+                <!-- 게시글 유저 이름 + 등록시간 -->
+                <div class="userNameDate">
+                  <div class="userName"><%= data.nicknamedata[i]%></div>
+                  <div><%= data.datedata[i]%></div>
                 </div>
+                <!-- 게시글 내용 -->
+                <div class="content"><%= data.contentdata[i]%></div>
+                <div>
+                  <!-- 게시글 첨부된 사진 -->
+                  <img src="/img/earth.png" alt="" class="contentImg" />
+                </div>
+                <!-- 댓글, 좋아요 이미지 버튼 -->
                 <div class="">
                   <img
                     src="/img/reply.svg"
@@ -83,8 +96,6 @@
   </body>
 
   <script>
-    const room = JSON.parse(localStorage.getItem('room'))
-
     // toggle
     function toggleSections(index) {
       const replyText = document.getElementById(`replyText${index}`)
@@ -104,6 +115,12 @@
       $target.style.height = 5 + $target.scrollHeight + 'px'
     }
 
+    // const textarea = useRef()
+
+    // const handleResizeHeight = () => {
+    //   textarea.current.style.height = 'auto';
+    //   textarea.current.style.height = textarea.current.scrollHeight + 'px'
+    // }
     //게시글 작성페이지로 이동
     function register() {
       window.location.href = '/room/board/register'
