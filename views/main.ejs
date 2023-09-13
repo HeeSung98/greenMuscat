@@ -127,6 +127,12 @@
       async function btnRoomRegister() {
         const form = document.forms['roomRegisterForm']
         const file = document.querySelector('#roomImg')
+        const roomTitleRegex = /^[a-zA-Z가-힣\d]{2,30}$/
+        if (!roomTitleRegex.test(form.roomTitle.value)) {
+          alert('방 제목은 2자 이상, 30자 이하로 입력해 주세요.')
+          form.roomTitle.value = ''
+          return false
+        }
 
         const data = new FormData()
         data.append('rTitle', form.roomTitle.value)

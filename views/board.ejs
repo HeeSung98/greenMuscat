@@ -62,10 +62,12 @@
       </div>
 </body>
 
-<script>
-  // toggle
-  function toggleSections(index) {
-    const replyText = document.getElementById(`replyText${index}`)
+  <script>
+    const room = JSON.parse(localStorage.getItem('room'))
+
+    // toggle
+    function toggleSections(index) {
+      const replyText = document.getElementById(`replyText${index}`)
 
     if (replyText.style.display === 'none') {
       replyText.style.display = 'block'

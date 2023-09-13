@@ -42,11 +42,18 @@
     </div>
 </body>
 
+<<<<<<< HEAD
 <script>
   const room = JSON.parse(localStorage.getItem('room'))
   console.log('room:', room)
   const noticeContent = document.querySelector('.noticeContent')
   noticeContent.innerText = room.notice
+=======
+  <script>
+    console.log('room:', room)
+    const noticeContent = document.querySelector('.noticeContent')
+    noticeContent.innerText = room.notice
+>>>>>>> 985cbf9dedeea8878ca800b7b63ad60e408d422b
 
   // toggle
   function toggleSections() {
