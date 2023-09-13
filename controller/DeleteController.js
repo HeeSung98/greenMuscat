@@ -12,7 +12,7 @@ const {
 } = require('../models')
 
 dotenv.config()
-const SECRET = process.env.SECRET_KEY
+const SECRET = process.env.SECRETKEY
 
 // DELETE
 // 회원 탈퇴
@@ -67,7 +67,7 @@ const deleteReply = async (req, res) => {
     const reply = await mReply.findOne({
       where: { MEMBER_email: decodedToken.email },
     })
-    // 조회 되면 댓글 삭제
+    // 조회 되면 댓글 제거
     const delete_reply = await reply.destroy({ where: reNo })
     if (delete_reply) {
       console.log(`${user.nickname}님 댓글 삭제 완료`, delete_reply)
