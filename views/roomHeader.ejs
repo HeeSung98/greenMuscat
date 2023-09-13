@@ -18,7 +18,9 @@
       <img src="/img/board.svg" onclick="registerPage()" class="img3" />
       <img src="/img/profile.svg" onclick="profilePage()" class="img4" />
     </div>
-    <div class="innerHeaderLogin" onclick="log()">login / logout</div>
+    <div class="innerHeaderLogin"></div>
+    <!-- <div class="innerHeaderLogin" onclick="logIn()">로그인</div>
+    <div class="innerHeaderLogin" onclick="logOut()">로그아웃</div> -->
   </div>
 
   <form action="/room/board" method="post" name="postBoardForm" hidden>
@@ -29,7 +31,42 @@
   const boardForm = document.forms['postBoardForm'] // 게시글 호출을 위한 히든 폼
   const room = JSON.parse(localStorage.getItem('room'))
   // const user = JSON.parse(localStorage.getItem('user'))
-  //
+
+  window.addEventListener('load', checkLoginStatus())
+  // 로그인 식별
+  function checkLoginStatus() {
+    const token = localStorage.getItem('token')
+    const div = document.querySelector('.innerHeaderLogin')
+
+    if (token) {
+      // 토큰과 닉네임이 로컬 스토리지에 존재하는 경우
+      // 로그인 상태로 판별하고 해당 닉네임을 사용
+      div.innerText = '로그아웃'
+      div.onclick = async () => {
+        const respone = await axios({
+          method: 'POST',
+          url: '/main/signout',
+        })
+        const resData = respone.data
+        console.log(resData)
+
+        if (resData.logoutSuccess) {
+          console.log('로그아웃 ok')
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          document.location.href = '/'
+        }
+      }
+
+    } else {
+      // 토큰 또는 닉네임이 로컬 스토리지에 없는 경우
+      // 로그인 상태가 아니라고 판별하고 "Guest" 닉네임 사용
+      div.innerText = '로그인'
+      div.onclick = () => {
+        window.location.href = '/main/signin'
+      }
+    }
+  }
 
   //메인페이지 이동
   function mainPage() {
@@ -52,8 +89,13 @@
   function profilePage() {
     window.location.href = '/main/profile'
   }
-  //로그아웃
-  async function log() { }
+  //로그인, 로그아웃
+  function logIn() {
+
+  }
+  async function logOut() {
+
+  }
 </script>
 
 </html>
