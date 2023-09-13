@@ -106,7 +106,6 @@ router.post('/room/find', postController.postRoomFind)
 // 방 입장
 router.post('/room', postController.postRoom)
 // 방 게시물 목록 페이지 (Board)
-router.get('/room/board', getController.board)
 router.post('/room/board', postController.postBoard)
 // 게시물 업로드 페이지 (get)
 router.get('/room/board/register', getController.boardRegister)
