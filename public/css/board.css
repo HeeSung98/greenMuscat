@@ -99,11 +99,14 @@ p {
   align-items: center;
 }
 textarea {
-  border: 0;
-  font-size: 18px;
+  font-size: 13px;
   outline-style: none;
   width: 100%;
   resize: none;
+  padding-bottom: 0px;
+  border-style: none;
+  border-left: 2px solid gainsboro;
+  padding-left: 7px;
 }
 #replyBtn {
   display: flex;
@@ -111,9 +114,8 @@ textarea {
   align-items: center;
   width: 100%;
   cursor: pointer;
-
   height: 30px;
-  margin-bottom: 10px;
+  margin: 5px 0px;
   background: rgb(234, 244, 78);
   border-radius: 10px;
   border: 0;
