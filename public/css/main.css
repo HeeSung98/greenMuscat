@@ -42,7 +42,6 @@ section {
 .top {
   position: relative;
   top: 5%;
-  flex-direction: column;
 }
 .bottom {
   position: relative;
