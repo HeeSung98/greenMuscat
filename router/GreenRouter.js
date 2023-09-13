@@ -101,8 +101,6 @@ router.post('/main/add', uploadRoom.single('file'), postController.postRoomAdd)
 router.post('/main', postController.postRoomList)
 
 //!--------- 방 페이지 관련 ---------
-// 방 메인 페이지 (Room)
-// router.get('/room/', getController.room)
 // 방 탐색
 router.post('/room/find', postController.postRoomFind)
 // 방 입장

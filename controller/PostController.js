@@ -391,11 +391,28 @@ const postBoard = async (req, res) => {
     const imagePathList = findedPost.map((post) =>
       post.dataValues.POST_IMAGEs.map((image) => image.path)
     )
-    const date = findedPost.map((post) => post.dataValues.createdAt)
+    const date = findedPost.map((post) => {
+      const createdAt = new Date(post.dataValues.createdAt)
+      const now = new Date()
+      const timeDiff = Math.floor((now - createdAt) / 1000) // 초 단위로 시간 차이 계산
+
+      if (timeDiff < 60) {
+        return `${timeDiff}초 전`
+      } else if (timeDiff < 3600) {
+        const minutes = Math.floor(timeDiff / 60)
+        return `${minutes}분 전`
+      } else if (timeDiff < 86400) {
+        const hours = Math.floor(timeDiff / 3600)
+        return `${hours}시간 전`
+      } else {
+        const days = Math.floor(timeDiff / 86400)
+        return `${days}일 전`
+      }
+    })
     console.log('contentList :', contentList)
     console.log('writerList :', writerList)
     console.log('imagePathLis:', imagePathList)
-    console.log('findedPost.createdAt:', findedPost.createdAt)
+    console.log('date:', date)
     res.render('board', {
       data: {
         contentList,
