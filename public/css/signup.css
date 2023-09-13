@@ -37,7 +37,6 @@ body {
 }
 
 .signUp {
-  font-size: 30px;
   margin-bottom: 15px;
   display: flex;
   width: 100%;
@@ -47,6 +46,18 @@ body {
   position: relative;
   top: 10%;
 }
+
+span {
+  letter-spacing: 7px;
+  text-align: center;
+  width: 100%;
+  font-family: 'HANAMDAUM';
+  /* height: 100%; */
+  /* font-family: 'HakgyoansimDoldamB'; */
+  /* font-weight: 800; */
+  font-size: xx-large;
+}
+
 .signUpDiv {
   display: flex;
   flex-direction: column;
