@@ -19,7 +19,11 @@
       <section class="top">
         <% for(let i = 0; i < roomList.length; i++) { %>
         <div class="roomDiv">
-          <button type="button" class="roomBtn btnPush">
+          <button
+            type="button"
+            class="roomBtn btnPush"
+            onclick="imgRoomEntrance('<%= roomList[i].ROOM_code %>')"
+          >
             <% if (roomList[i].ROOM_rImg) {%>
             <img src="<%= roomList[i].ROOM_rImg %>" width="50" />
             <% } else {%>
@@ -203,9 +207,9 @@
       // 방 입장 폼 데이터
       async function btnRoomEntrance() {
         const form = document.forms['roomEntranceForm']
-        const roomRegex = /^[A-Z\d]{10}$/
+        const roomRegex = /^[a-zA-Z\d]{10}$/
         if (!roomRegex.test(form.roomCode.value)) {
-          alert('방 코드는 10자의 대문자와 숫자만 허용됩니다')
+          alert('방 코드는 10자의 대소문자와 숫자만 허용됩니다')
           form.roomCode.value = ''
           return false
         }
@@ -218,7 +222,7 @@
 
         const respone = await axios({
           method: 'POST',
-          url: '/room',
+          url: '/room/find',
           data,
         })
         resData = respone.data
@@ -226,8 +230,39 @@
 
         if (resData.result) {
           alert(`${resData.message}`)
+          const entranceForm = document.forms['postRoomForm']
           localStorage.setItem('room', JSON.stringify(resData.findedRoom))
-          location.href = '/room'
+          entranceForm.code.value = resData.findedRoom.code
+          entranceForm.email.value = user.email
+          entranceForm.submit()
+        } else {
+          alert(`${resData.message}`)
+        }
+      }
+
+      // 방 입장 이미지 클릭
+      async function imgRoomEntrance(code) {
+        const data = {
+          email: user.email,
+          code,
+        }
+        console.log('data:', data)
+
+        const respone = await axios({
+          method: 'POST',
+          url: '/room/find',
+          data,
+        })
+        resData = respone.data
+        console.log('resData: ', resData)
+
+        if (resData.result) {
+          alert(`${resData.message}`)
+          const entranceForm = document.forms['postRoomForm']
+          localStorage.setItem('room', JSON.stringify(resData.findedRoom))
+          entranceForm.code.value = resData.findedRoom.code
+          entranceForm.email.value = user.email
+          entranceForm.submit()
         } else {
           alert(`${resData.message}`)
         }
