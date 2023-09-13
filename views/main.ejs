@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="/img/icon.ico" type="image/x-icon" />
+    <link rel="icon" href="/img/icon.ico" type="image/x-icon" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="/css/main.css" />
+    <title>GreenMuscat</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="shortcut icon" href="/img/icon.ico" type="image/x-icon">
-  <link rel="icon" href="/img/icon.ico" type="image/x-icon">
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <link rel="stylesheet" href="/css/main.css" />
-  <title>GreenMuscat</title>
-</head>
-
-<body>
-  <%- include('mainHeader') %>
+  <body>
+    <%- include('mainHeader') %>
     <!-- body 시작 -->
     <div class="main">
       <!-- section 시작 -->
@@ -28,13 +27,19 @@
             <p class="btnName"><b>샛별 유치원 (참여자)</b></p>
           </div>
           <div class="roomDiv">
-            <button type="button" class="roomBtn btnPush" onclick="btnOpenModal(registerModal.id)">➕</button>
+            <button
+              type="button"
+              class="roomBtn btnPush"
+              onclick="btnOpenModal(registerModal.id)"
+            >
+              ➕
+            </button>
             <p class="btnName"><b>농장 만들기</b></p>
           </div>
         </div>
       </section>
-      <br>
-      <br>
+      <br />
+      <br />
       <section class="bottom">
         <div class="roomBox">
           <h3>다른 농장을 찾으시나요?</h3>
@@ -42,7 +47,11 @@
             <button class="button btnPush btnOk" type="button" onclick="btnOpenModal(registerModal.id)">
               농장 만들기
             </button> -->
-          <button class="button btnPush btnOk" type="button" onclick="btnOpenModal(entranceModal.id)">
+          <button
+            class="button btnPush btnOk"
+            type="button"
+            onclick="btnOpenModal(entranceModal.id)"
+          >
             다른 농장가기
           </button>
         </div>
@@ -61,8 +70,18 @@
             <input type="file" id="roomImg" />
           </form>
           <div class="formBtn">
-            <button type="button" class="button btnPush btnOk" onclick="btnRoomRegister()">생성</button>
-            <button type="button" class="button btnPush btnNo" onclick="btnCloseModal(registerModal.id)">
+            <button
+              type="button"
+              class="button btnPush btnOk"
+              onclick="btnRoomRegister()"
+            >
+              생성
+            </button>
+            <button
+              type="button"
+              class="button btnPush btnNo"
+              onclick="btnCloseModal(registerModal.id)"
+            >
               닫기
             </button>
           </div>
@@ -77,10 +96,18 @@
             <input type="text" name="roomCode" />
           </form>
           <div class="formBtn">
-            <button type="button" class="button btnPush btnOk" onclick="btnRoomEntrance()">
+            <button
+              type="button"
+              class="button btnPush btnOk"
+              onclick="btnRoomEntrance()"
+            >
               입장
             </button>
-            <button type="button" class="button btnPush btnNo" onclick="btnCloseModal(entranceModal.id)">
+            <button
+              type="button"
+              class="button btnPush btnNo"
+              onclick="btnCloseModal(entranceModal.id)"
+            >
               닫기
             </button>
           </div>
@@ -92,7 +119,6 @@
         <input type="text" name="code" />
         <input type="text" name="email" />
       </form>
-
     </div>
 
     <script>
@@ -130,8 +156,8 @@
       async function btnRoomRegister() {
         const form = document.forms['roomRegisterForm']
         const file = document.querySelector('#roomImg')
-        const roomTitleRegex = /^[a-zA-Z가-힣\d]{2,30}$/
-        if (!roomTitleRegex.test(form.roomTitle.value)) {
+        const roomRegex = /^[a-zA-Z가-힣\d\s]{2,30}$/
+        if (!roomRegex.test(form.roomTitle.value)) {
           alert('방 제목은 2자 이상, 30자 이하로 입력해 주세요.')
           form.roomTitle.value = ''
           return false
@@ -171,6 +197,13 @@
       // 방 입장 폼 데이터
       async function btnRoomEntrance() {
         const form = document.forms['roomEntranceForm']
+        const roomRegex = /^[A-Z\d]{10}$/
+        if (!roomRegex.test(form.roomCode.value)) {
+          alert('방 코드는 10자의 대문자와 숫자만 허용됩니다')
+          form.roomCode.value = ''
+          return false
+        }
+
         const data = {
           email: user.email,
           code: form.roomCode.value,
@@ -194,6 +227,5 @@
         }
       }
     </script>
-</body>
-
+  </body>
 </html>

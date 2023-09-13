@@ -191,7 +191,7 @@ const postRoomAdd = async (req, res) => {
     })
   } catch (error) {
     console.log('err:', error)
-    res.json({ result: false, message: '아오' })
+    res.json({ result: false, message: error })
   }
 }
 
@@ -327,14 +327,17 @@ const postBoard = async (req, res) => {
     const imagePathList = findedPost.map((post) =>
       post.dataValues.POST_IMAGEs.map((image) => image.path)
     )
+    const date = findedPost.map((post) => post.dataValues.createdAt)
     console.log('contentList :', contentList)
     console.log('writerList :', writerList)
     console.log('imagePathLis:', imagePathList)
+    console.log('findedPost.createdAt:', findedPost.createdAt)
     res.render('board', {
       data: {
         contentList,
         writerList,
         imagePathList,
+        date,
       },
     })
   } catch (error) {
