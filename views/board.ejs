@@ -29,7 +29,7 @@
         <hr />
         <!-- 게시글 목록 -->
         <div class="board">
-          <% for(let i=data.contentList.length - 1; i>= 0; i--){ %>
+          <% for(let i = data.contentList.length - 1; i >= 0; i--){ %>
           <div class="innerboard">
             <!-- 게시글 작성자 프로필 이미지 -->
             <div class="imgDiv"><img src="/img/user1.png" alt="" /></div>
@@ -39,7 +39,7 @@
                 <!-- 게시글 유저 이름 + 등록시간 -->
                 <div class="userNameDate">
                   <div class="userName"><%= data.writerList[i]%></div>
-                  <div><%= data.datedata[i]%></div>
+                  <div><%= data.date[i]%></div>
                 </div>
                 <!-- 게시글 내용 -->
                 <div class="content"><%= data.contentList[i]%></div>
@@ -51,11 +51,49 @@
                     class="contentImg"
                   />
                 </div>
+                <!-- 댓글, 좋아요 이미지 버튼 -->
+                <div class="">
+                  <img
+                    src="/img/reply.svg"
+                    alt="댓글"
+                    onclick="toggleSections(<%= i %>)"
+                    id="commentBtn"
+                  />
+                  <img src="/img/like.svg" alt="좋아요" id="likeBtn" />
+                </div>
+              </div>
+              <!-- 댓글들-->
+              <div
+                id="replyText<%= i %>"
+                class="replyText"
+                style="display: none"
+              >
+                <div
+                  id="previousComments<%= i %>"
+                  class="previousComments"
+                ></div>
+                <!-- 댓글 입력 -->
+                <form name="addReply<%= i %>">
+                  <textarea
+                    type="text"
+                    id="inputReply<%= i %>"
+                    rows="{1}"
+                    onchange="handleResizeHeight()"
+                    placeholder="응원의 한마디 남겨주세요!"
+                  ></textarea>
+                  <button
+                    type="button"
+                    onclick="addReplyFunc(<%= i %>)"
+                    id="replyBtn"
+                  >
+                    등록
+                  </button>
+                </form>
               </div>
             </div>
-            <hr />
-            <% } %>
           </div>
+          <hr />
+          <% } %>
         </div>
       </div>
     </div>
