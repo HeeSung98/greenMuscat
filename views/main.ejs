@@ -24,12 +24,18 @@
           <p class="btnName"><b>샛별 유치원 (참여자)</b></p>
         </div>
         <div class="roomDiv">
-          <button type="button" class="roomBtn btnPush" onclick="btnOpenModal(registerModal.id)">➕</button>
+          <button
+            type="button"
+            class="roomBtn btnPush"
+            onclick="btnOpenModal(registerModal.id)"
+          >
+            ➕
+          </button>
           <p class="btnName"><b>농장 만들기</b></p>
         </div>
       </section>
-      <br>
-      <br>
+      <br />
+      <br />
       <section class="bottom">
         <div class="roomBox">
           <h3>다른 농장을 찾으시나요?</h3>
@@ -37,15 +43,19 @@
             <button class="button btnPush btnOk" type="button" onclick="btnOpenModal(registerModal.id)">
               농장 만들기
             </button> -->
-            <button class="button btnPush btnOk" type="button" onclick="btnOpenModal(entranceModal.id)">
-              다른 농장가기
-            </button>
-          </div>
-        </section>
-        <!-- 모달 부분 -->
-        <!-- 농장 생성하는 modal  -->
-        <div class="modal" id="registerModal">
-          <div class="modal_body">
+          <button
+            class="button btnPush btnOk"
+            type="button"
+            onclick="btnOpenModal(entranceModal.id)"
+          >
+            다른 농장가기
+          </button>
+        </div>
+      </section>
+      <!-- 모달 부분 -->
+      <!-- 농장 생성하는 modal  -->
+      <div class="modal" id="registerModal">
+        <div class="modal_body">
           <h2 class="modalH2">농장 생성하기</h2>
           <form name="roomRegisterForm" class="roomRegisterForm">
             <b>농장명:</b>
@@ -54,54 +64,58 @@
             <br />
             <b>농장 이미지:</b>
             <input type="file" id="roomImg" />
-            </form>
-            <div class="formBtn">
-            <button type="button" class="button btnPush btnOk" onclick="btnRoomRegister()">생성</button>
-                        <button
-                          type="button"
-                          class="button btnPush btnNo"
-                          onclick="btnCloseModal(registerModal.id)"
-                        >
-                          닫기
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-          <!-- 다른 농장 가는 modal -->
-          <div class="modal" id="entranceModal">
-            <div class="modal_body">
-              <h2 class="modalH2">농장 가기</h2>
-              <form name="roomEntranceForm" class="roomEntranceForm">
-                <b>입장 코드:</b>
-                <input type="text" name="roomCode" />
-              </form>
-              <div class="formBtn">
-                <button
-                  type="button"
-                  class="button btnPush btnOk"
-                  onclick="btnRoomEntrance()"
-                >
-                  입장
-                </button>
-                <button
-                  type="button"
-                  class="button btnPush btnNo"
-                  onclick="btnCloseModal(entranceModal.id)"
-                >
-                  닫기
-                </button>
-              </div>
-            </div>
-            <div class="result" id="result"></div>
+          </form>
+          <div class="formBtn">
+            <button
+              type="button"
+              class="button btnPush btnOk"
+              onclick="btnRoomRegister()"
+            >
+              생성
+            </button>
+            <button
+              type="button"
+              class="button btnPush btnNo"
+              onclick="btnCloseModal(registerModal.id)"
+            >
+              닫기
+            </button>
           </div>
-  
-        <form action="/room" method="post" name="postRoomForm" hidden>
-          <input type="text" name="code" />
-          <input type="text" name="email" />
-        </form>
-  
+        </div>
       </div>
-    </div> 
+      <!-- 다른 농장 가는 modal -->
+      <div class="modal" id="entranceModal">
+        <div class="modal_body">
+          <h2 class="modalH2">농장 가기</h2>
+          <form name="roomEntranceForm" class="roomEntranceForm">
+            <b>입장 코드:</b>
+            <input type="text" name="roomCode" />
+          </form>
+          <div class="formBtn">
+            <button
+              type="button"
+              class="button btnPush btnOk"
+              onclick="btnRoomEntrance()"
+            >
+              입장
+            </button>
+            <button
+              type="button"
+              class="button btnPush btnNo"
+              onclick="btnCloseModal(entranceModal.id)"
+            >
+              닫기
+            </button>
+          </div>
+        </div>
+        <div class="result" id="result"></div>
+      </div>
+
+      <form action="/room" method="post" name="postRoomForm" hidden>
+        <input type="text" name="code" />
+        <input type="text" name="email" />
+      </form>
+    </div>
 
     <script>
       const entranceForm = document.forms['postRoomForm'] // 방 입장 정보를 위한 히든 폼
@@ -136,8 +150,8 @@
       async function btnRoomRegister() {
         const form = document.forms['roomRegisterForm']
         const file = document.querySelector('#roomImg')
-        const roomTitleRegex = /^[a-zA-Z가-힣\d]{2,30}$/
-        if (!roomTitleRegex.test(form.roomTitle.value)) {
+        const roomRegex = /^[a-zA-Z가-힣\d\s]{2,30}$/
+        if (!roomRegex.test(form.roomTitle.value)) {
           alert('방 제목은 2자 이상, 30자 이하로 입력해 주세요.')
           form.roomTitle.value = ''
           return false
@@ -177,6 +191,13 @@
       // 방 입장 폼 데이터
       async function btnRoomEntrance() {
         const form = document.forms['roomEntranceForm']
+        const roomRegex = /^[A-Z\d]{10}$/
+        if (!roomRegex.test(form.roomCode.value)) {
+          alert('방 코드는 10자의 대문자와 숫자만 허용됩니다')
+          form.roomCode.value = ''
+          return false
+        }
+
         const data = {
           email: user.email,
           code: form.roomCode.value,
@@ -200,6 +221,5 @@
         }
       }
     </script>
-</body>
-
+  </body>
 </html>
