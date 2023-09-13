@@ -17,17 +17,6 @@
     <%- include('roomHeader') %>
     <div class="main">
       <div class="register">
-        <div class="toRegister">
-          <!-- 사용자 이미지 -->
-          <div class="imgDiv"><img src="/user1.png" alt="" /></div>
-          <!-- 버튼들 클릭시 게시물 작성페이지로 이동 -->
-          <button id="missionInput" onclick="register()">
-            미션을 시작하세요..
-          </button>
-          <button id="mission" onclick="register()">게시</button>
-        </div>
-        <hr />
-        <!-- 게시글 목록 -->
         <div class="board">
           <% for(let i=0; i < data.contentdata.length; i++){ %>
           <div class="innerboard">
