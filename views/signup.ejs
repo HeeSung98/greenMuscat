@@ -69,15 +69,19 @@
         fromSocial: 0,
       }
 
-      const signUp = await axios({
+      const respone = await axios({
         method: 'POST',
         url: '/main/signup',
         data,
       })
+      const resData = respone.data
+      console.log('resData:', resData)
 
-      if (signUp.data.result) {
+      if (resData.result) {
         alert('회원가입이 완료되었습니다')
         document.location.href = 'signin'
+      } else {
+        alert(resData.message)
       }
     }
   </script>

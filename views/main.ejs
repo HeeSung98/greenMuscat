@@ -14,28 +14,32 @@
     <%- include('mainHeader') %>
     <!-- body 시작 -->
     <div class="main">
+      <h2 class="mainH2" id="nick">닉네임의 포도 농장👨‍🌾</h2>
       <!-- section 시작 -->
       <section class="top">
-        <h2 class="mainH2"><span id="nickname"></span>의 포도 농장👨‍🌾</h2>
-        <div class="room">
-          <div class="roomDiv">
-            <button type="button" class="roomBtn btnPush">이미지</button>
-            <p class="btnName"><b>코딩 초등학교 (관리자)</b></p>
-          </div>
-          <div class="roomDiv">
-            <button type="button" class="roomBtn btnPush">이미지</button>
-            <p class="btnName"><b>샛별 유치원 (참여자)</b></p>
-          </div>
-          <div class="roomDiv">
-            <button
-              type="button"
-              class="roomBtn btnPush"
-              onclick="btnOpenModal(registerModal.id)"
-            >
-              ➕
-            </button>
-            <p class="btnName"><b>농장 만들기</b></p>
-          </div>
+        <% for(let i = 0; i < roomList.length; i++) { %>
+        <div class="roomDiv">
+          <button type="button" class="roomBtn btnPush">
+            <% if (roomList[i].ROOM_rImg) {%>
+            <img src="<%= roomList[i].ROOM_rImg %>" width="50" />
+            <% } else {%>
+            <img src="/img/earth.svg" width="50" />
+            <% } %>
+          </button>
+          <p class="btnName">
+            <b><%= roomList[i].ROOM_rTitle %></b>
+          </p>
+        </div>
+        <% } %>
+        <div class="roomDiv">
+          <button
+            type="button"
+            class="roomBtn btnPush"
+            onclick="btnOpenModal(registerModal.id)"
+          >
+            ➕
+          </button>
+          <p class="btnName"><b>농장 만들기</b></p>
         </div>
       </section>
       <br />
@@ -127,6 +131,9 @@
       const nickname = document.querySelector('#nickname')
       nickname.innerText = `${user.nickname}`
       console.log('user:', user)
+
+      document.querySelector('#nick').innerHTML =
+        user.nickname + '의 포도 농장👨‍🌾'
 
       // 모달창 열기
       function btnOpenModal(id) {
