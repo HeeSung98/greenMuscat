@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/roomFooter.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="footer">
+        <img src="/img/door.svg" onclick="roomlistPage()" class="img_footer" />
+    </div>
+    <form action="/room/board" method="post" name="postBoardForm" hidden>
+        <input type="text" name="rNo" />
+    </form>
+    <form method="post" action="/main" name="postMain" hidden>
+        <input type="text" name="email" />
+    </form>
+</body>
+<script>
+    // const room = JSON.parse(localStorage.getItem('room'))
+    // roomlist
+    function roomlistPage() {
+        const form = document.forms['postMain']
+        form.email.value = JSON.parse(localStorage.getItem('user')).email
+        localStorage.removeItem('room');
+        form.submit()
+        // window.location.href = '/main'
+    }
+</script>
+
+</html>
+
+<!-- 
+  Door by Andrejs Kirma from <a href="https://thenounproject.com/browse/icons/term/door/" target="_blank" title="Door Icons">Noun Project</a> (CC BY 3.0)
+-->
