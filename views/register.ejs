@@ -81,25 +81,6 @@
     }
   }
 
-  const respone = await axios({
-    method: 'POST',
-    data,
-    url: '/room/board/register',
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  })
-  resData = respone.data
-  console.log(resData)
-
-  if (resData.result) {
-    alert(resData.message)
-    boardForm.rNo.value = room.rNo
-    boardForm.submit()
-  } else {
-    console.log('err')
-  }
-  }
 </script>
 
 </html>

@@ -31,18 +31,18 @@
               <form name="edit_form" class="editForm">
                 <div class="input">
                   <b>닉네임</b>
-                  <br />
+                  <br>
                   <input type="text" id="nickname" />
-                  <button type="button" class="btn_edit" onclick="edit_profile(1)">
+                  <button type="button" class="btn_edit_nick" onclick="edit_profile(1)">
                     수정
                   </button>
                 </div>
-                <br />
+                <br>
                 <div class="input">
                   <b>비밀번호</b>
-                  <br />
+                  <br>
                   <input type="password" id="password" />
-                  <button type="button" class="btn_edit" onclick="edit_profile(2)">
+                  <button type="button" class="btn_edit_pass" onclick="edit_profile(2)">
                     수정
                   </button>
                 </div>
@@ -66,8 +66,6 @@
       </div>
     </div>
     <script>
-      console.log('room:', room)
-
       // 모달창 열기
       function btnOpenModal(id) {
         document.getElementById(id).style.display = 'flex'
@@ -77,6 +75,7 @@
       function btnCloseModal(id) {
         document.getElementById(id).style.display = 'none'
       }
+
 
       const user = JSON.parse(localStorage.getItem('user'))
       const nickname = document.querySelector('.nickname')
@@ -108,7 +107,7 @@
 
         if (index == 1) {
           const data = {
-            nickname: form.nickname.value,
+            password: form.password.value
           }
 
           const response = await axios({
@@ -127,9 +126,10 @@
             console.log('닉네임 수정 완료')
             document.location.reload()
           } else console.log('닉네임 수정 실패')
+
         } else if (index == 2) {
           const data = {
-            password: form.password.value,
+            password: form.password.value
           }
 
           const response = await axios({
