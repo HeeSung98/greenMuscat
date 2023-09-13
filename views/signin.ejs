@@ -1,40 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <title>Document</title>
-    <link rel="stylesheet" href="/css/signin.css" />
-  </head>
-  <%- include('mainHeader') %>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <title>Document</title>
+  <link rel="stylesheet" href="/css/signin.css" />
+</head>
+<%- include('mainHeader') %>
 
   <body>
     <div class="main">
-      <form name="nick" method="post" action="/main/select">
-        <div class="login">로그인</div>
+      <form name="nick" method="post" action="/main/select" id="nick">
+        <div class="login">로고 넣기</div>
         <input type="hidden" name="nickname" />
       </form>
       <div class="loginDiv">
         <form name="form_signin" id="formSignin">
           <div class="innerform">
             <label for="email">이메일</label>
-
             <input type="email" id="email" placeholder="이메일" />
-
-            <div id="err_email" class="err"></div>
             <label for="password">비밀번호</label>
-
             <input type="password" id="password" placeholder="비밀번호" />
-
-            <div id="err_password" class="err"></div>
             <button type="button" id="btn" onclick="signIn()">로그인</button>
-            <hr />
-            <div class="Q">그린머스켓이 처음이신가요?</div>
-            <a href="/main/signup">회원가입</a>
-            <img src="/img/earth.svg" alt="" />
           </div>
         </form>
+        <hr />
+        <div class="bottom">
+          <div class="Q">그린머스켓이 처음이신가요?</div>
+          <a href="/main/signup">회원가입</a>
+          <br>
+          <img src="/img/earth.svg" alt="" />
+        </div>
       </div>
     </div>
   </body>
@@ -68,4 +66,5 @@
       }
     }
   </script>
+
 </html>

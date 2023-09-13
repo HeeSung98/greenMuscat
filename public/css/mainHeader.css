@@ -3,35 +3,19 @@
 * {
   font-family: 'HakgyoansimWoojuR';
 }
+
 .header {
-  padding-bottom: 10px;
-  padding-top: 10px;
   height: 50px;
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid #c4c4c4;
+  align-items: center;
+  padding: 0px 20px;
 }
-
-/* .innerHeader {
-  margin: 10px;
-} */
 
 /* LOGO */
-.innerHeaderLogo {
-  margin-left: 50px;
-  display: flex;
-  text-align: center;
-  cursor: pointer;
-  align-items: center;
-}
-
-/* 로그인 또는 로그아웃 버튼 */
+.innerHeaderLogo,
 .innerHeaderLogin {
-  margin-right: 50px;
-  align-items: center;
-  display: flex;
   cursor: pointer;
-  text-align: center;
 }
 .innerHeaderLogin:hover {
   color: rgb(187, 245, 72);

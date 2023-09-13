@@ -1,3 +1,9 @@
+html,
+body {
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
+}
+
 body {
   /* height: 100vh; */
   display: flex;
@@ -19,23 +25,29 @@ body {
   padding-bottom: 30px;
 }
 
+#nick {
+  position: absolute;
+  top: 10%;
+}
+
 .loginDiv {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 80%;
+  position: absolute;
 }
+
 #formSignin {
   display: flex;
   flex-direction: column;
   width: 80%;
   align-items: center;
 }
+
 .innerform {
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
-  /* align-content: center; */
   align-items: left;
   width: 80%;
 }
@@ -49,7 +61,7 @@ input {
   background: rgb(237, 235, 235);
   border: 1px solid rgb(196, 196, 196);
   border-radius: 10px;
-  padding-left: 5%;
+  padding-left: 4%;
 }
 button {
   width: 100%;
@@ -61,16 +73,20 @@ button {
   cursor: pointer;
 }
 hr {
-  width: 100%;
-  background: #c4c4c4;
-  height: 1px;
-  border: 0;
+  width: 70%;
+  background: gainsboro;
+}
+
+/* bottom (선 기준 아래) */
+.bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .Q {
-  text-align: center;
+  margin: 10px;
 }
 img {
   width: 20%;
   margin: auto;
-  margin-bottom: 10px;
 }

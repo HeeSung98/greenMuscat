@@ -5,20 +5,18 @@
 }
 
 #webName,
-.innderHeaderLogin {
+.innerHeaderLogin {
   cursor: pointer;
   font-weight: bold;
   font-size: large;
 }
 
 .header {
+  padding-bottom: 10px;
+  padding-top: 10px;
+  height: 50px;
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid #c4c4c4;
-  width: 100%;
-  position: relative;
-  /* margin-top: 60px; */
-  /* position: absolute; */
 }
 
 .innerHeaderLogo {
@@ -27,7 +25,6 @@
   height: 50px;
   cursor: pointer;
 }
-
 .innerHeaderLogin {
   margin: 10px;
   align-items: center;
