@@ -51,20 +51,33 @@ const postSignUp = async (req, res) => {
   console.log(
     ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 회원가입 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
+  console.log('req.body:', req.body)
+  const { email, name, nickname, password, fromSocial } = req.body
+  const hash = await bcryptPassword(password) // 비밀번호 암호화
+
   try {
-    const { email, name, nickname, password, fromSocial } = req.body
-    const hash = await bcryptPassword(password) // 비밀번호 암호화
-    const createUser = await mMember.create({
+    const findedUser = await mMember.findOne({
+      where: { email },
+    })
+    console.log('findedUser:', findedUser)
+
+    if (findedUser) {
+      throw new Error('이미 가입된 회원입니다')
+    }
+
+    const createdUser = await mMember.create({
       email,
       name,
       nickname,
       password: hash,
       fromSocial,
     })
-    if (createUser) res.json({ result: true, message: '회원 가입 성공' })
+
+    console.log('createdUser:', createdUser)
+    res.json({ result: true, message: '회원 가입 성공' })
   } catch (error) {
     console.log(error)
-    res.json({ result: false })
+    res.json({ result: false, message: String(error) })
   }
 }
 
@@ -126,27 +139,35 @@ const postRoomList = async (req, res) => {
   console.log(
     ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 방 목록 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
-  console.log(' req.body : ', req.body)
+  console.log('req.body:', req.body)
   const { email } = req.body
   try {
     // 입장된 방 이름, 역할, 코드 조회
-    const findedRoom = await mMembersInRoom.findAll({
+    const findedMir = await mMembersInRoom.findAll({
       attributes: ['ROOM_rTitle', 'role', 'ROOM_code'],
       where: { MEMBER_email: email },
-    })
-    console.log('findedRoom: ', findedRoom)
 
-    if (!findedRoom.length) {
-      res.json({
-        result: true,
-        message: '방 목록 조회 성공',
-        findedRoom,
-      })
-    } else {
-      res.json({ result: false, message: '입장된 방이 없습니다.' })
-    }
+      include:
+        //방 테이블과 조인, 시퀄라이즈 조인은 기본 inner join
+        {
+          model: mRoom, // join할 모델
+          required: false, // outer join으로 설정
+          attributes: ['rImg'],
+        },
+    })
+    console.log('findedMir: ', findedMir)
+
+    const roomList = findedMir.map((room) => ({
+      ROOM_rTitle: room.dataValues.ROOM_rTitle,
+      ROOM_code: room.dataValues.ROOM_code,
+      role: room.dataValues.ROOM_rTitle,
+      ROOM_rImg: room.dataValues.ROOM.rImg,
+    }))
+    console.log('roomList:', roomList)
+
+    res.render('main', { result: true, roomList })
   } catch (error) {
-    res.json({ error })
+    res.render('404', { result: false, error })
   }
 }
 
