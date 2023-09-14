@@ -109,10 +109,10 @@
 
       if (user) {
         // user 정보를 사용하여 프로필 초기화
-        const mlmg = user.mlmg;
+        const mImg = user.mImg;
         const myProfile = document.getElementById('myProfile');
-        if (mlmg) {
-          myProfile.src = mlmg;
+        if (mImg) {
+          myProfile.src = mImg;
         } else {
           myProfile.src = '/img/user1.png';
         }
@@ -140,21 +140,22 @@
         formData.append('type', 'profileImage');
         formData.append('file', selectedFile);
         try {
-          const response = axios.patch('/main/profile/edit', formData, {
+          const response = await axios.patch('/main/profile/edit', formData, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('token')}`,
               'Content-Type': 'multipart/form-data',
             },
-          })
+          });
 
-          const resData = reponse.data
+
+          const resData = response.data
           if (resData.result) {
-            alert('프로필 이미지가 변경되었습니다.');
             localStorage.setItem('user', JSON.stringify(resData.user))
             document.location.reload()
-            if (resData.mImg) {
+            alert('프로필 이미지가 변경되었습니다.');
+            if (resData.user) {
               // 이미지 업데이트
-              document.getElementById('myProfile').src = user.mImg;
+              document.getElementById('myProfile').src = resData.user.mImg;
             }
           } else {
             console.error('이미지 업로드 실패:', resData.message);
