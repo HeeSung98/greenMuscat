@@ -111,7 +111,11 @@ const postSignIn = async (req, res) => {
       res
         .cookie('x_auth', user.token, {
           // 3일간 유지
-          maxAge: 1000 * 60 * 60 * 24 * 3,
+          // maxAge: 1000 * 60 * 60 * 24 * 3,
+          // httpOnly: true,
+
+          // 30분간 유지
+          MaxAge: 1000 * 60 * 30,
           httpOnly: true,
         })
         .status(200)
