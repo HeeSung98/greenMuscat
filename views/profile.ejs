@@ -52,6 +52,15 @@
       const user = JSON.parse(localStorage.getItem('user'))
       const nickname = document.querySelector('.nickname')
       nickname.innerText = `닉네임 : ${user.nickname}`
+      //접속중인 사용자 프로필 가져오기
+      const mlmg = user.mlmg
+      const myProfile = document.querySelector('#myProfile')
+      if (mlmg) {
+        myProfile.src = mlmg
+      } else {
+        // mlmg 값이 없을 때, 기본 이미지 경로를 설정합니다.
+        myProfile.src = '/img/user1.png'
+      }
       // 프로필 이미지 변경
       async function changeImg() {
         const data = { mImg }

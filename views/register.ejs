@@ -48,6 +48,8 @@
     const user = JSON.parse(localStorage.getItem('user'))
     const room = JSON.parse(localStorage.getItem('room'))
 
+    const nickname = document.querySelector('.nickname')
+    nickname.innerText = `${user.nickname}`
     const resultBox = document.querySelector('.result')
     async function boardRegister() {
       const form = document.forms['postForm']
