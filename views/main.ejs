@@ -123,14 +123,15 @@
         <div class="result" id="result"></div>
       </div>
 
-      <form action="/room" method="post" name="postRoomForm" hidden>
+      <form action="/room" method="post" name="entranceForm" hidden>
         <input type="text" name="code" />
         <input type="text" name="email" />
+        <input type="number" name="firstEntrance" />
       </form>
     </div>
 
     <script>
-      const entranceForm = document.forms['postRoomForm'] // 방 입장 정보를 위한 히든 폼
+      const entranceForm = document.forms['entranceForm'] // 방 입장 정보를 위한 히든 폼
       const user = JSON.parse(localStorage.getItem('user'))
       const nickname = document.querySelector('#nickname')
       console.log('user:', user)
@@ -192,11 +193,11 @@
 
         if (resData.result) {
           alert(`${resData.message}`)
-          const entranceForm = document.forms['postRoomForm']
           console.log('createdRoom: ', resData.createdRoom)
           localStorage.setItem('room', JSON.stringify(resData.createdRoom))
           entranceForm.code.value = resData.createdRoom.code
           entranceForm.email.value = user.email
+          entranceForm.firstEntrance.value = 1
           entranceForm.submit()
         } else {
           alert(`${resData.message}`)
@@ -230,10 +231,10 @@
 
         if (resData.result) {
           alert(`${resData.message}`)
-          const entranceForm = document.forms['postRoomForm']
           localStorage.setItem('room', JSON.stringify(resData.findedRoom))
           entranceForm.code.value = resData.findedRoom.code
           entranceForm.email.value = user.email
+          entranceForm.firstEntrance.value = 1
           entranceForm.submit()
         } else {
           alert(`${resData.message}`)
@@ -255,17 +256,13 @@
         })
         resData = respone.data
         console.log('resData: ', resData)
+        localStorage.setItem('room', JSON.stringify(resData.findedRoom))
 
-        if (resData.result) {
-          alert(`${resData.message}`)
-          const entranceForm = document.forms['postRoomForm']
-          localStorage.setItem('room', JSON.stringify(resData.findedRoom))
-          entranceForm.code.value = resData.findedRoom.code
-          entranceForm.email.value = user.email
-          entranceForm.submit()
-        } else {
-          alert(`${resData.message}`)
-        }
+        entranceForm.code.value = code
+        entranceForm.email.value = user.email
+        entranceForm.firstEntrance.value = 0
+        console.log(entranceForm)
+        entranceForm.submit()
       }
     </script>
   </body>
