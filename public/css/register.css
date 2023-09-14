@@ -20,7 +20,7 @@ body {
 .register {
   display: flex;
   flex-direction: column;
-  margin-top: 50px;
+  margin-top: 75px; /* 기존 50px */
   width: 70%;
 }
 .innerRegister {

@@ -11,27 +11,51 @@
 
   <body>
     <%- include('mainHeader') %>
+    <div id="start">
+      <p id="title">Welcome to GreenMuscat Farm</p>
+    </div>
     <div class="main">
-      <div class="title">환경에 대한 좋은 습관을 심어주세요</div>
+      <div class="left">
+        <img src="/img/leaf.png" alt="잎" /><span>환경을 나타내는 그린</span>
+      </div>
+      <div class="center">➕</div>
+      <div class="right">
+        <img src="/img/grape.png" alt="포도" /><span>칭찬스티커의 포도</span>
+        <!-- <img src="/img/main.svg" alt="people" /> -->
+      </div>
+    </div>
+    <div class="title">
+      환경을 생각하는 행동을 칭찬하기 위해 그린머스캣이 만들어졌어요
+    </div>
+    <div class="content">
+      ↓ 친구들과 함께 환경 농부가 되어 그린머스캣 농장을 가꾸어 수확하여 보세요
+      ↓
+    </div>
 
-      <div class="loginDiv">
-        <div class="innerform">
-          <div class="content">
-            그린머스켓은 환경과 친해지며 자연스럽게 자연과 커넥트되는 친구들과
-            <br />함께 하는 커뮤니케이션입니다. 환경을 위해 목표를 설정하고
-            다함께 <br />목표 달성을 위해 달려봐요!
-          </div>
-          <button type="button" id="btn">목표 달성하러 가기</button>
-          <form method="post" action="/main" name="postMain" hidden>
-            <input type="text" name="email" />
-          </form>
-          <img src="/img/main.svg" alt="people" />
-        </div>
+    <div class="loginDiv">
+      <div class="innerform">
+        <button type="button" id="btn">그린머스캣 수확하러 가기</button>
+
+        <!-- -------------------------------------------------------------- -->
+        <!-- 로그인 정보 얻기 위한 폼 -->
+        <form method="post" action="/main" name="postMain" hidden>
+          <input type="text" name="email" />
+        </form>
+        <!-- -------------------------------------------------------------- -->
       </div>
     </div>
   </body>
   <script>
     window.addEventListener('load', checkLoginStatus())
+    // 맨 처음에 뜨는 화면
+    const startDiv = document.querySelector('#start')
+    window.addEventListener('load', () => {
+      if (startDiv.getAttribute('class', 'remove')) {
+        startDiv.removeAttribute('class', 'remove')
+      } else {
+        startDiv.setAttribute('class', 'remove')
+      }
+    })
     // 로그인 식별
     function checkLoginStatus() {
       const token = localStorage.getItem('token')
