@@ -16,7 +16,21 @@ const SECRET = process.env.SECRET_KEY
 
 // 회원 정보 수정
 const editProfile = async (req, res) => {
+  console.log(
+    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 회원 정보 수정 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
+  )
+  console.log('req.body:', req.body)
+  console.log('req.file', req.file)
+  let location
+  try {
+    location = req.file.location
+  } catch (err) {
+    location = null
+  }
+  const { nickname, password } = req.body
   const authHeader = req.headers.authorization
+  const hash = await bcryptPassword(password) // 비밀번호 암호화
+
   if (!authHeader) {
     res.json({ result: false, message: '인증 정보가 필요합니다.' })
     return
@@ -30,67 +44,38 @@ const editProfile = async (req, res) => {
   try {
     const decodedToken = jwt.verify(token, SECRET)
 
-    const user = await mMember.findOne({
+    const findedUser = await mMember.findOne({
       where: { email: decodedToken.email },
     })
+    console.log('findedUser:', findedUser)
 
-    if (!user) {
-      res.json({ result: false, message: '회원을 찾을 수 없습니다.' })
-      return
+    let updatedUser
+    if (nickname) {
+      updatedUser = await findedUser.update({
+        nickname,
+      })
     }
-
-    const { type, file, nickname, password } = req.body
-
-    // 닉네임 수정
-    if (type === 'nickname' && nickname) {
-      await user.update({ nickname })
+    if (password) {
+      updatedUser = await findedUser.update({
+        password: hash,
+      })
     }
-    // 비밀번호 수정
-    else if (type === 'password' && password) {
-      const hash = await bcryptPassword(password)
-      await user.update({ password: hash })
+    if (location) {
+      updatedUser = await findedUser.update({
+        mImg: location,
+      })
     }
-    // 예외
-    else {
-      res.status(400).json({ result: false, message: '잘못된 요청입니다.' })
-      return
-    }
+    console.log('updatedUser:', updatedUser)
 
     res.json({
       result: true,
       message: '회원 정보 수정 성공',
+      updatedUser,
     })
   } catch (error) {
-    console.error('오류:', error)
+    console.log(error)
     res.json({ result: false, message: string(error) })
   }
-}
-
-// 회원 정보 수정
-const editProfileImage = async (req, res) => {
-  const authHeader = req.headers.authorization
-  if (!authHeader) {
-    res.json({ result: false, message: '인증 정보가 필요합니다.' })
-    return
-  }
-  const [bearer, token] = authHeader.split(' ')
-  if (bearer !== 'Bearer') {
-    res.json({ result: false, message: '인증 방식이 틀렸습니다.' })
-    return
-  }
-
-  try {
-    const decodedToken = jwt.verify(token, SECRET)
-
-    const user = await mMember.findOne({
-      where: { email: decodedToken.email },
-    })
-
-    if (!user) {
-      res.json({ result: false, message: '회원을 찾을 수 없습니다.' })
-      return
-    }
-  } catch (error) {}
 }
 
 // 댓글 수정
@@ -155,7 +140,6 @@ const editNotice = async (req, res) => {
 module.exports = {
   // 프로필
   editProfile,
-  editProfileImage,
   // 댓글
   editReply,
   // 공지사항

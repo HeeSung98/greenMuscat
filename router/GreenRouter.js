@@ -81,20 +81,18 @@ router.post('/main/signin', postController.postSignIn)
 // 로그아웃 (SignOut)
 router.post('/main/signout', postController.postSignOut)
 // 회원 정보 수정
-router.patch('/main/profile/edit', patchController.editProfile)
-// 회원 프로필 사진 수정
 router.patch(
-  '/main/profile/editImage',
+  '/room/profile/edit',
   uploadProfile.single('file'),
-  patchController.editProfileImage
+  patchController.editProfile
 )
 
 // 회원 탈퇴
-router.delete('/main/profile/destroy', deleteController.deleteProfile)
+router.delete('/room/profile/destroy', deleteController.deleteProfile)
 // 마이 페이지 (Profile)
-router.get('/main/profile', getController.profile)
+router.get('/room/profile', getController.profile)
 //? 프로필 정보 보내기
-router.post('/main/profile', postController.postProfile)
+router.post('/room/profile', postController.postProfile)
 
 //!--------- 메인 페이지 관련 ---------
 // 방 생성 페이지(roomadd)

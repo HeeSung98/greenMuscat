@@ -127,20 +127,13 @@
 
   <script>
     //접속중인 사용자 프로필 가져오기
-    const mlmg = user.mlmg
     const myProfile = document.querySelector('#img_user')
-    if (mlmg) {
-      myProfile.src = mlmg
+    if (user.mImg) {
+      myProfile.src = user.mImg
     } else {
       // mlmg 값이 없을 때, 기본 이미지 경로를 설정합니다.
       myProfile.src = '/img/user1.png'
     }
-
-    // const contentImg = document.querySelector(".contentImg")
-    // const imgSrc = contentImg.attr("src").trim()
-    // if (imgSrc === null) {
-    //   contentImg.style.display = 'none'
-    // }
 
     //textarea 자동 높이 조절
     const $textarea = document.querySelector('textarea')
@@ -302,6 +295,11 @@
     }
 
     async function like(index, pNo, likeFlag) {
+      if (userRole != 'admin') {
+        alert('관리자만 좋아요를 누를 수 있습니다')
+        return
+      }
+
       // likeFlag가 False라면 좋아요가 눌리지 않은 상태
       if (!likeFlag) {
         if (confirm('좋아요를 누르고 포도를 채울까요?')) {

@@ -1,229 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/profile.css" />
+    <link rel="shortcut icon" href="/img/icon.ico" type="image/x-icon" />
+    <link rel="icon" href="/img/icon.ico" type="image/x-icon" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="/css/signin.css" />
+    <title>GreenMuscat</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="/css/profile.css" />
-  <link rel="shortcut icon" href="/img/icon.ico" type="image/x-icon" />
-  <link rel="icon" href="/img/icon.ico" type="image/x-icon" />
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <title>GreenMuscat</title>
-</head>
-
-<body>
-  <%- include('roomHeader') %>
+  <body>
+    <%- include('roomHeader') %>
     <div class="main">
       <div class="register">
         <div class="title">Profile</div>
         <!-- 이미지 -->
         <div class="profile image">
           <div id="profileImg"><img src="" alt="" id="myProfile" /></div>
-          <div id="pencil" onclick="btnOpenModal(editP.id)">
+          <div id="pencil" onclick="editProfile()">
             <img src="/img/pencil.svg" alt="프로필 이미지 변경" />
           </div>
         </div>
-        <!--  -->
-        <div class="modal" id="editP">
-          <div class="modal_body">
-            <h2 class="modalH2">프로필 이미지 수정</h2>
-            <form name="edit_img" class="editForm">
-              <!-- 이미지 수정 -->
-              <div class="input">
-                <input type="file" id="selectedFile" accept="image/*" />
-                <button type="button" class="btn_edit_img" onclick="handleImageChange()">
-                  수정
-                </button>
-              </div>
-            </form>
-
-            <button type="button" class="button btnPush btnBlueGreen" onclick="btnCloseModal(editP.id)">
-              닫기
+      </div>
+      <div class="loginDiv">
+        <div class="innerform" style="justify-content: center">
+          <label for="email">프로필 사진</label>
+          <input
+            type="file"
+            id="profileImgFile"
+            style="
+              width: 60%;
+              height: 30px;
+              margin-bottom: 10px;
+              background: rgb(237, 235, 235);
+              border: 1px solid rgb(196, 196, 196);
+              border-radius: 10px;
+              padding-left: 4%;
+            "
+          />
+          <label for="nickname">닉네임</label>
+          <input
+            type="text"
+            id="nickname"
+            style="
+              width: 60%;
+              height: 30px;
+              margin-bottom: 10px;
+              background: rgb(237, 235, 235);
+              border: 1px solid rgb(196, 196, 196);
+              border-radius: 10px;
+              padding-left: 4%;
+            "
+          />
+          <label for="password">비밀번호</label>
+          <input
+            type="password"
+            id="password"
+            style="
+              width: 60%;
+              height: 30px;
+              margin-bottom: 10px;
+              background: rgb(237, 235, 235);
+              border: 1px solid rgb(196, 196, 196);
+              border-radius: 10px;
+              padding-left: 4%;
+            "
+          />
+          <div>
+            <button
+              type="button"
+              id="btn"
+              onclick="editProfile()"
+              style="width: 20%"
+            >
+              수정하기
+            </button>
+            <button
+              type="button"
+              id="btn"
+              onclick="deleteProfile()"
+              style="width: 20%"
+            >
+              탈퇴하기
             </button>
           </div>
         </div>
-
-        <div class="content">
-          <!-- 닉네임 표시 -->
-          <div class="nickname">
-          </div>
-          <div class="modal" id="editModal">
-            <div class="modal_body">
-              <h2 class="modalH2">회원 정보 수정하기</h2>
-              <form name="edit_nick" class="editForm">
-                <!-- 닉네임 수정 -->
-                <div class="input">
-                  <b>닉네임</b>
-                  <br />
-                  <input type="text" id="nickname" />
-                  <button type="button" class="btn_edit_nick" onclick="submitForm('nickname')">
-                    수정
-                  </button>
-                </div>
-              </form>
-              <br />
-              <form name="edit_password">
-                <div class="input">
-                  <b>비밀번호</b>
-                  <br />
-                  <input type="password" id="password" />
-                  <button type="button" class="btn_edit_pass" onclick="submitForm('password')">
-                    수정
-                  </button>
-                </div>
-
-              </form>
-              <button type="button" class="button btnPush btnBlueGreen" onclick="btnCloseModal(editModal.id)">
-                닫기
-              </button>
-            </div>
-          </div>
-        </div>
-        <div id="btn_edit" onclick="btnOpenModal(editModal.id)">
-          프로필 수정하기
-        </div>
-        <!-- 배지 등등.. -->
-      </div>
-
-      <div>
-        <button type="button" id="btn_delete" onclick="delete_profile()">
-          회원 탈퇴하기
-        </button>
       </div>
     </div>
 
     <script>
-      // 모달창 열기
-      function btnOpenModal(id) {
-        document.getElementById(id).style.display = 'flex'
-      }
-
-      // 모달창 닫기
-      function btnCloseModal(id) {
-        document.getElementById(id).style.display = 'none'
-      }
-
-
-      // user 정보 가져오기
-      // const user = JSON.parse(localStorage.getItem('user'));
-
-      if (user) {
-        // user 정보를 사용하여 프로필 초기화
-        const mImg = user.mImg;
-        const myProfile = document.getElementById('myProfile');
-        if (mImg) {
-          myProfile.src = mImg;
-        } else {
-          myProfile.src = '/img/user1.png';
-        }
-
-        const nicknameInput = document.querySelector('.nickname');
-        nicknameInput.innerText = user.nickname;
-
+      if (user.mImg) {
+        myProfile.src = user.mImg
       } else {
-        console.log('User 정보를 찾을 수 없습니다.');
+        myProfile.src = '/img/user1.png'
       }
+
+      const passwordRegex =
+        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@#$%^&+=!])[A-Za-z\d@#$%^&+=!]{8,}$/
 
       // 프로필 이미지 변경
-      async function handleImageChange() {
-        const selectedFileInput = document.getElementById('selectedFile');
-
-        if (!selectedFileInput) {
-          console.log('selectedFile 요소를 찾을 수 없습니다')
-          return;
+      async function editProfile() {
+        if (password.value && !passwordRegex.test(password.value)) {
+          alert(
+            '비밀번호는 최소 8자 이상이어야 하며, 영어, 숫자, 특수문자를 포함해야 합니다.'
+          )
+          return false
         }
 
-        const selectedFile = selectedFileInput.files[0]
-        if (!selectedFile) return
+        const file = document.querySelector('#profileImgFile')
 
-        const formData = new FormData();
-        formData.append('type', 'profileImage');
-        formData.append('file', selectedFile);
-        try {
-          const response = await axios.patch('/main/profile/edit', formData, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`,
-              'Content-Type': 'multipart/form-data',
-            },
-          });
+        const data = new FormData()
+        data.append('file', file.files[0])
+        data.append('nickname', document.querySelector('#nickname').value)
+        data.append('password', document.querySelector('#password').value)
 
+        const respone = await axios({
+          method: 'PATCH',
+          url: '/room/profile/edit',
+          data,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+        const resData = respone.data
+        console.log('resData:', resData)
 
-          const resData = response.data
-          if (resData.result) {
-            localStorage.setItem('user', JSON.stringify(resData.user))
-            document.location.reload()
-            alert('프로필 이미지가 변경되었습니다.');
-            if (resData.user) {
-              // 이미지 업데이트
-              document.getElementById('myProfile').src = resData.user.mImg;
-            }
-          } else {
-            console.error('이미지 업로드 실패:', resData.message);
-          }
-        } catch (error) {
-          console.log(error)
+        if (resData.result) {
+          alert(resData.message)
+          localStorage.setItem('user', JSON.stringify(resData.updatedUser))
+          location.reload()
+        } else {
+          alert(resData.message)
         }
       }
 
       // 닉네임, 비밀번호 수정
       async function submitForm(type) {
-        let data;
-
-        switch (type) {
-          case 'nickname':
-            const form1 = document.forms['edit_nick']
-            const nickname = form1.nickname.value;
-            if (!nickname) {
-              alert('새로운 닉네임을 입력해주세요.');
-              return;
-            }
-            data = { type: 'nickname', nickname };
-            break;
-
-          case 'password':
-            const form2 = document.forms['edit_password']
-            const password = form2.password.value;
-            if (!password) {
-              alert('새로운 비밀번호를 입력해주세요.');
-              return;
-            }
-            data = { type: 'password', password };
-            break;
-
-          default:
-            alert('잘못된 요청입니다.');
-            return;
-        }
-
         try {
-          const response = await axios.patch('/main/profile/edit', data, {
+          const response = await axios.patch('/room/profile/edit', data, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('token')}`,
               'Content-Type': 'application/json',
             },
-          });
+          })
 
-          const resData = response.data;
+          const resData = response.data
           if (resData.result) {
             localStorage.setItem('user', JSON.stringify(resData.user))
             document.location.reload()
-            alert('수정이 완료되었습니다.');
+            alert('수정이 완료되었습니다.')
           } else {
-            console.error('수정 실패:', resData.message);
+            console.error('수정 실패:', resData.message)
           }
         } catch (error) {
-          console.error('오류:', error);
+          console.error('오류:', error)
         }
       }
 
       // 회원 탈퇴
-      async function delete_profile() {
+      async function deleteProfile() {
         if (!confirm('탈퇴하시겠습니까?')) {
           return
         }
         const response = await axios({
           method: 'DELETE',
-          url: '/main/profile/destroy',
+          url: '/room/profile/destroy',
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
@@ -239,16 +183,12 @@
           document.location.href = '/'
         } else console.log('회원 탈퇴 실패')
       }
-
-
     </script>
-</body>
+  </body>
 
-<!-- 
+  <!-- 
 @copyright
 
 Pencil by Meko from <a href="https://thenounproject.com/browse/icons/term/pencil/" target="_blank" title="Pencil Icons">Noun Project</a> (CC BY 3.0)
 
--->
-
-</html>
+--></html>

@@ -1,145 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/roomHeader.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Document</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="/css/roomHeader.css" />
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <title>Document</title>
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/roomHeader.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Document</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="/css/roomHeader.css" />
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <title>Document</title>
-</head>
+  <body>
+    <div class="header">
+      <div
+        class="innerLog"
+        style="
+          display: flex;
+          width: 100%;
+          justify-content: space-between;
+          align-items: center;
+        "
+      >
+        <img
+          src="/img/logo.png"
+          alt="GreenMuscat"
+          onclick="mainPage()"
+          id="webName"
+        />
+        <div class="innerHeaderLogin">로그아웃</div>
+      </div>
 
-<body>
-  <div class="header">
-    <div class="innerLog" style="
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
-">
-      <img src="/img/logo.png" alt="GreenMuscat" onclick="mainPage()" id="webName" />
-      <div class="innerHeaderLogin">로그아웃</div>
+      <div class="innerHeaderLogo">
+        <img src="/img/home.svg" onclick="roomPage()" class="img1" />
+        <img src="/img/list.svg" onclick="boardPage()" class="img2" />
+        <img src="/img/board.svg" onclick="registerPage()" class="img3" />
+        <img src="/img/profile.svg" onclick="profilePage()" class="img4" />
+        <img src="/img/gear.svg" onclick="alertCode()" class="img5" />
+      </div>
+
+      <div
+        style="
+          position: absolute;
+          width: 100%;
+          display: flex;
+          justify-content: flex-end;
+          padding-right: 40px;
+          top: 60px;
+        "
+      >
+        <div class="code" style="cursor: default; display: none">
+          입장 코드: cFELOS31t1
+        </div>
+      </div>
     </div>
 
-    <div class="innerHeaderLogo">
-      <img src="/img/home.svg" onclick="roomPage()" class="img1">
-      <img src="/img/list.svg" onclick="boardPage()" class="img2">
-      <img src="/img/board.svg" onclick="registerPage()" class="img3">
-      <img src="/img/profile.svg" onclick="profilePage()" class="img4">
-      <img src="/img/gear.svg" onclick="alertCode()" class="img5">
-      <!-- <img src="/img/gear.svg" class="img5" /> -->
-    </div>
+    <form action="/room" method="post" name="postRoomForm" hidden>
+      <input type="text" name="code" />
+      <input type="text" name="email" />
+    </form>
+    <form action="/room/board" method="post" name="postBoardForm" hidden>
+      <input type="text" name="rNo" />
+    </form>
+  </body>
+  <script>
+    const room = JSON.parse(localStorage.getItem('room'))
+    const user = JSON.parse(localStorage.getItem('user'))
+    const userRole = localStorage.getItem('userRole')
+    console.log('room:', room)
+    console.log('user:', user)
+    console.log('userRole:', userRole)
 
-    <div
-      style="position: absolute; width: 100%; display: flex; justify-content: flex-end; padding-right: 40px; top: 60px;">
-      <div class="code" style="cursor: default; display: none;">입장 코드:
-        cFELOS31t1</div>
-    </div>
-  </div>
+    window.addEventListener('load', checkLoginStatus())
 
-  <form action="/room" method="post" name="postRoomForm" hidden>
-    <input type="text" name="code" />
-    <input type="text" name="email" />
-  </form>
-  <form action="/room/board" method="post" name="postBoardForm" hidden>
-    <input type="text" name="rNo" />
-  </form>
-</body>
-<script>
-  const room = JSON.parse(localStorage.getItem('room'))
-  const user = JSON.parse(localStorage.getItem('user'))
-  const userRole = localStorage.getItem('userRole')
-  console.log('room:', room)
-  console.log('user:', user)
-  console.log('userRole:', userRole)
+    // 로그인 식별
+    function checkLoginStatus() {
+      const token = localStorage.getItem('token')
+      const div = document.querySelector('.innerHeaderLogin')
 
-  window.addEventListener('load', checkLoginStatus())
+      if (token) {
+        // 토큰과 닉네임이 로컬 스토리지에 존재하는 경우
+        // 로그인 상태로 판별하고 해당 닉네임을 사용
+        div.innerText = '로그아웃'
+        div.onclick = async () => {
+          const respone = await axios({
+            method: 'POST',
+            url: '/main/signout',
+          })
+          const resData = respone.data
+          console.log(resData)
 
-  // 로그인 식별
-  function checkLoginStatus() {
-    const token = localStorage.getItem('token')
-    const div = document.querySelector('.innerHeaderLogin')
-
-    if (token) {
-      // 토큰과 닉네임이 로컬 스토리지에 존재하는 경우
-      // 로그인 상태로 판별하고 해당 닉네임을 사용
-      div.innerText = '로그아웃'
-      div.onclick = async () => {
-        const respone = await axios({
-          method: 'POST',
-          url: '/main/signout',
-        })
-        const resData = respone.data
-        console.log(resData)
-
-        if (resData.logoutSuccess) {
-          console.log('로그아웃 ok')
-          localStorage.removeItem('token')
-          localStorage.removeItem('user')
-          localStorage.removeItem('room')
-          localStorage.removeItem('nickname')
-          document.location.href = '/'
+          if (resData.logoutSuccess) {
+            console.log('로그아웃 ok')
+            localStorage.removeItem('token')
+            localStorage.removeItem('user')
+            localStorage.removeItem('room')
+            localStorage.removeItem('nickname')
+            document.location.href = '/'
+          }
+        }
+      } else {
+        // 토큰 또는 닉네임이 로컬 스토리지에 없는 경우
+        // 로그인 상태가 아니라고 판별하고 "Guest" 닉네임 사용
+        div.innerText = '로그인'
+        div.onclick = () => {
+          window.location.href = '/main/signin'
         }
       }
-    } else {
-      // 토큰 또는 닉네임이 로컬 스토리지에 없는 경우
-      // 로그인 상태가 아니라고 판별하고 "Guest" 닉네임 사용
-      div.innerText = '로그인'
-      div.onclick = () => {
-        window.location.href = '/main/signin'
+    }
+
+    //메인페이지 이동
+    function mainPage() {
+      window.location.href = '/'
+    }
+    //room 메인페이지로 이동
+    function roomPage() {
+      const roomForm = document.forms['postRoomForm'] // 방 페이지 이동을 위한 히든 폼
+      roomForm.code.value = room.code
+      roomForm.email.value = user.email
+      roomForm.submit()
+    }
+    //게시글 목록으로 이동
+    async function boardPage() {
+      const boardForm = document.forms['postBoardForm'] // 게시글 호출을 위한 히든 폼
+      boardForm.rNo.value = room.rNo
+      boardForm.submit()
+    }
+    //게시글 목록으로 이동
+    function registerPage() {
+      window.location.href = '/room/board/register'
+    }
+    //마이페이지 목록으로 이동
+    function profilePage() {
+      window.location.href = '/main/profile'
+    }
+
+    // 방코드 알려주기
+    const code = document.querySelector('.code')
+    function alertCode() {
+      if (code.style.display === 'none') {
+        code.style.display = 'block'
+        code.innerText = `입장 코드: ${room.code}`
+      } else {
+        code.style.display = 'none'
       }
     }
-  }
-
-
-  //메인페이지 이동
-  function mainPage() {
-    window.location.href = '/'
-  }
-  //room 메인페이지로 이동
-  function roomPage() {
-    const roomForm = document.forms['postRoomForm'] // 방 페이지 이동을 위한 히든 폼
-    roomForm.code.value = room.code
-    roomForm.email.value = user.email
-    roomForm.submit()
-  }
-  //게시글 목록으로 이동
-  async function boardPage() {
-    const boardForm = document.forms['postBoardForm'] // 게시글 호출을 위한 히든 폼
-    boardForm.rNo.value = room.rNo
-    boardForm.submit()
-  }
-  //게시글 목록으로 이동
-  function registerPage() {
-    window.location.href = '/room/board/register'
-  }
-  //마이페이지 목록으로 이동
-  function profilePage() {
-    window.location.href = '/main/profile'
-  }
-
-  // 방코드 알려주기
-  const code = document.querySelector('.code')
-  function alertCode() {
-
-    if (code.style.display === 'none') {
-      code.style.display = 'block'
-      code.innerText = `입장 코드: ${room.code}`
-    } else {
-      code.style.display = 'none'
-    }
-
-  }
-</script>
-
+  </script>
 </html>
 
 <!-- 

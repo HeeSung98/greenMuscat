@@ -397,7 +397,7 @@ const postBoard = async (req, res) => {
     //게시물 내용
     const contentList = findedPost.map((post) => post.dataValues.pContent)
     //게시물 작성자
-    const writerList = findedPost.map((post) => post.dataValues.MEMBER_email)
+    const writerList = findedPost.map((post) => post.dataValues.MEMBER.nickname)
     //게시물 작성자 프로필 사진
     const profileList = findedPost.map((post) => post.dataValues.MEMBER.mImg)
     //게시물 작성일
