@@ -97,15 +97,15 @@ const editNotice = async (req, res) => {
   console.log(req.body)
   const { rNo, notice } = req.body
   try {
+    const findedRoom = await mRoom.findOne({
+      where: { rNo },
+    })
     const updatedRoom = await mRoom.update(
       { notice: notice },
       { where: { rNo: rNo } }
     )
     console.log('updatedRoom:', updatedRoom)
 
-    const findedRoom = await mRoom.findOne({
-      where: { rNo },
-    })
     console.log(' findedRoom: ', findedRoom)
 
     if (updatedRoom)
