@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/css/profile.css" />
-    <link rel="shortcut icon" href="/img/icon.ico" type="image/x-icon" />
-    <link rel="icon" href="/img/icon.ico" type="image/x-icon" />
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <title>GreenMuscat</title>
-  </head>
 
-  <body>
-    <%- include('roomHeader') %>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/css/profile.css" />
+  <link rel="shortcut icon" href="/img/icon.ico" type="image/x-icon" />
+  <link rel="icon" href="/img/icon.ico" type="image/x-icon" />
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <title>GreenMuscat</title>
+</head>
+
+<body>
+  <%- include('roomHeader') %>
     <div class="main">
       <div class="register">
         <div class="title">Profile</div>
         <!-- 이미지 -->
         <div class="profile image">
-          <!-- <img src="" alt="" id="profileImg"> -->
-          <div id="profileImg"></div>
+          <div id="profileImg"><img src="" alt="" id="myProfile" /></div>
           <div id="pencil" onclick="changeImg()">
             <img src="/img/pencil.svg" alt="프로필 이미지 변경" />
           </div>
@@ -34,11 +34,7 @@
                   <b>닉네임</b>
                   <br />
                   <input type="text" id="nickname" />
-                  <button
-                    type="button"
-                    class="btn_edit_nick"
-                    onclick="edit_profile(1)"
-                  >
+                  <button type="button" class="btn_edit_nick" onclick="edit_profile(1)">
                     수정
                   </button>
                 </div>
@@ -47,20 +43,12 @@
                   <b>비밀번호</b>
                   <br />
                   <input type="password" id="password" />
-                  <button
-                    type="button"
-                    class="btn_edit_pass"
-                    onclick="edit_profile(2)"
-                  >
+                  <button type="button" class="btn_edit_pass" onclick="edit_profile(2)">
                     수정
                   </button>
                 </div>
               </form>
-              <button
-                type="button"
-                class="button btnPush btnBlueGreen"
-                onclick="btnCloseModal(editModal.id)"
-              >
+              <button type="button" class="button btnPush btnBlueGreen" onclick="btnCloseModal(editModal.id)">
                 닫기
               </button>
             </div>
@@ -92,6 +80,7 @@
       const user = JSON.parse(localStorage.getItem('user'))
       const nickname = document.querySelector('.nickname')
       nickname.innerText = `닉네임 : ${user.nickname}`
+
       //접속중인 사용자 프로필 가져오기
       const mlmg = user.mlmg
       const myProfile = document.querySelector('#myProfile')
@@ -190,11 +179,13 @@
         } else console.log('회원 탈퇴 실패')
       }
     </script>
-  </body>
+</body>
 
-  <!-- 
+<!-- 
 @copyright
 
 Pencil by Meko from <a href="https://thenounproject.com/browse/icons/term/pencil/" target="_blank" title="Pencil Icons">Noun Project</a> (CC BY 3.0)
 
---></html>
+-->
+
+</html>

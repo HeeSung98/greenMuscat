@@ -14,6 +14,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin: 0;
 }
 
 .main {
@@ -21,7 +22,7 @@ body {
   margin: auto;
   justify-content: space-around;
   overflow: hidden;
-  height: 90%;
+  height: 100%;
   position: relative;
 }
 
@@ -30,7 +31,7 @@ body {
   flex-direction: column;
   align-items: center;
   height: 100%;
-  justify-content: space-around;
+  justify-content: center;
 }
 .logoDiv {
   display: flex;
@@ -107,7 +108,7 @@ hr {
 }
 img {
   width: 20%;
-  margin: auto;
+  /* margin: auto; */
 }
 a {
   text-decoration: none;

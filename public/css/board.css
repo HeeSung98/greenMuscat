@@ -1,9 +1,16 @@
 @import url('font.css');
 
+html,
+body {
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
+}
+
 body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin: 0;
 }
 
 .main {
@@ -86,8 +93,22 @@ hr {
   border-radius: 30px;
   margin: 5px;
 }
-#img_user,
-.img_del .contentImg,
+
+#img_user {
+  border-radius: 50%;
+  width: 100%;
+  object-fit: cover;
+  height: 100%;
+}
+
+.contentImg {
+  border-radius: 5%;
+  width: 100%;
+  object-fit: cover;
+  height: 100%;
+}
+
+.img_del,
 #commentBtn,
 #likeBtn {
   width: 40px;

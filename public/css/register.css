@@ -2,6 +2,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin: 0;
 }
 .main {
   display: flex;
@@ -42,6 +43,20 @@ body {
 img {
   width: 40px;
   padding: 5px;
+}
+
+/* #img_user {
+  border-radius: 50%;
+  width: 100%;
+  object-fit: cover;
+  height: 100%;
+} */
+
+.contentImg {
+  border-radius: 5%;
+  width: 100%;
+  object-fit: cover;
+  height: 100%;
 }
 .postForm {
   display: flex;
