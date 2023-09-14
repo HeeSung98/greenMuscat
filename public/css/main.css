@@ -108,6 +108,7 @@ h3 {
 button.roomBtn {
   display: block;
   margin: 0;
+  margin-right: 10px;
   margin-bottom: 15px;
   padding: 0;
   /* position: relative; */

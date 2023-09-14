@@ -14,7 +14,7 @@
 } */
 
 .header {
-  height: 50px;
+  height: 60px; /* 기존 50px */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -28,6 +28,10 @@
 }
 
 /* LOGO */
+.innerHeaderLogo {
+  width: 77px;
+}
+
 .innerHeaderLogo,
 .innerHeaderLogin {
   cursor: pointer;
