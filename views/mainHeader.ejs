@@ -4,8 +4,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>Document</title>
+  <link rel="shortcut icon" href="/img/icon.ico" type="image/x-icon">
+  <link rel="icon" href="/img/icon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/css/mainHeader.css">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <title>GreenMuscat</title>
   <style>
     @font-face {
       font-family: 'HSSaemaul-Regular';
@@ -63,11 +66,46 @@
       <img src="/home.png" class="innderHeaderLogo" onclick="mainPage()" />
     </div>
 
-    <div class="innderHeaderLogin" onclick="loginPage()">login or logout</div>
+    <div class="innerHeaderLogin"></div>
   </div>
 </body>
 <script>
-  const room = JSON.parse(localStorage.getItem('room'))
+  // const user = JSON.parse(localStorage.getItem('user'))
+  window.addEventListener('load', checkLoginStatus())
+  // 로그인 식별
+  function checkLoginStatus() {
+    const token = localStorage.getItem('token')
+    const div = document.querySelector('.innerHeaderLogin')
+
+    if (token) {
+      // 토큰과 닉네임이 로컬 스토리지에 존재하는 경우
+      // 로그인 상태로 판별하고 해당 닉네임을 사용
+      div.innerText = '로그아웃'
+      div.onclick = async () => {
+        const respone = await axios({
+          method: 'POST',
+          url: '/main/signout',
+        })
+        const resData = respone.data
+        console.log(resData)
+
+        if (resData.logoutSuccess) {
+          console.log('로그아웃 ok')
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          document.location.href = '/'
+        }
+      }
+
+    } else {
+      // 토큰 또는 닉네임이 로컬 스토리지에 없는 경우
+      // 로그인 상태가 아니라고 판별하고 "Guest" 닉네임 사용
+      div.innerText = '로그인'
+      div.onclick = () => {
+        window.location.href = '/main/signin'
+      }
+    }
+  }
 
   //로그인 이동
   function loginPage() {
@@ -80,6 +118,23 @@
   //메인페이지 이동
   function mainPage() {
     window.location.href = '/'
+  }
+  //로그인, 로그아웃
+  function logIn() {
+    // window.location.href = '/main/signin'
+  }
+  async function logOut() {
+    // const respone = await axios({
+    //   method: 'POST',
+    //   url: '/main/signout',
+    // })
+    // const resData = respone.data
+    // console.log(resData)
+
+    // if (resData.logoutSuccess) {
+    //   console.log('로그아웃 ok')
+    //   document.location.href = '/main'
+    // }
   }
 </script>
 

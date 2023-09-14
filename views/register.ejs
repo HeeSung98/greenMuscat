@@ -43,21 +43,59 @@
     <form action="/room/board" method="post" name="postBoardForm" hidden>
       <input type="text" name="rNo" />
     </form>
+<<<<<<< HEAD
   </body>
 
 <<<<<<< HEAD
 <script>
   console.log('room:', room)
+=======
 
-  async function boardRegister() {
-    const form = document.forms['postForm']
-    const files = document.querySelector('#files')
+    <%- include('roomFooter') %>
+  </body>
+>>>>>>> hyeiis
 
-    const contentRegex = /.{10,1000}/
-    if (!contentRegex.test(form.pContent.value)) {
-      alert('내용을 10자 이상 작성해주세요')
-      return false
+  <script>
+    const user = JSON.parse(localStorage.getItem('user'))
+
+    async function boardRegister() {
+      const form = document.forms['postForm']
+      const files = document.querySelector('#files')
+
+      const contentRegex = /.{5,1000}/
+      if (!contentRegex.test(form.pContent.value)) {
+        alert('내용을 5자 이상 작성해주세요')
+        return false
+      }
+
+      const data = new FormData()
+      data.append('pContent', form.pContent.value)
+      data.append('MEMBER_email', user.email)
+      data.append('ROOM_rNo', room.rNo)
+      for (var i = 0; i < files.files.length; i++) {
+        data.append('files', files.files[i])
+      }
+
+      const respone = await axios({
+        method: 'POST',
+        data,
+        url: '/room/board/register',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      resData = respone.data
+      console.log(resData)
+
+      if (resData.result) {
+        alert(resData.message)
+        boardForm.rNo.value = room.rNo
+        boardForm.submit()
+      } else {
+        console.log('err')
+      }
     }
+<<<<<<< HEAD
 
     const data = new FormData()
     data.append('pContent', form.pContent.value)
@@ -134,3 +172,7 @@
   </script>
 </html>
 >>>>>>> 88dc6657df5e20d04fc9090969ff5a4b1c5885d7
+=======
+  </script>
+</html>
+>>>>>>> hyeiis

@@ -98,15 +98,14 @@ router.post('/main/profile', postController.postProfile)
 // 방 생성 페이지(roomadd)
 router.post('/main/add', uploadRoom.single('file'), postController.postRoomAdd)
 // 방 목록 불러오기
-router.post('/main/lists', postController.postRoomList)
+router.post('/main', postController.postRoomList)
 
 //!--------- 방 페이지 관련 ---------
-// 방 메인 페이지 (Room)
-router.get('/room/', getController.room)
-// 방 이미지 수정 (Room)
+// 방 탐색
+router.post('/room/find', postController.postRoomFind)
+// 방 입장
 router.post('/room', postController.postRoom)
 // 방 게시물 목록 페이지 (Board)
-router.get('/room/board', getController.board)
 router.post('/room/board', postController.postBoard)
 // 게시물 업로드 페이지 (get)
 router.get('/room/board/register', getController.boardRegister)

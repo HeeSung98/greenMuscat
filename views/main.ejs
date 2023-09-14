@@ -15,23 +15,31 @@
   <%- include('mainHeader') %>
     <!-- body 시작 -->
     <div class="main">
+      <h2 class="mainH2" id="nick">닉네임의 포도 농장👨‍🌾</h2>
       <!-- section 시작 -->
       <section class="top">
-        <h2 class="mainH2"><span id="nickname"></span>의 포도 농장👨‍🌾</h2>
-        <div class="room">
+        <% for(let i=0; i < roomList.length; i++) { %>
           <div class="roomDiv">
-            <button type="button" class="roomBtn btnPush">이미지</button>
-            <p class="btnName"><b>코딩 초등학교 (관리자)</b></p>
+            <button type="button" class="roomBtn btnPush" onclick="imgRoomEntrance('<%= roomList[i].ROOM_code %>')">
+              <% if (roomList[i].ROOM_rImg) {%>
+                <img src="<%= roomList[i].ROOM_rImg %>" width="50" />
+                <% } else {%>
+                  <img src="/img/earth.svg" width="50" />
+                  <% } %>
+            </button>
+            <p class="btnName">
+              <b>
+                <%= roomList[i].ROOM_rTitle %>
+              </b>
+            </p>
           </div>
-          <div class="roomDiv">
-            <button type="button" class="roomBtn btnPush">이미지</button>
-            <p class="btnName"><b>샛별 유치원 (참여자)</b></p>
-          </div>
-          <div class="roomDiv">
-            <button type="button" class="roomBtn btnPush" onclick="btnOpenModal(registerModal.id)">➕</button>
-            <p class="btnName"><b>농장 만들기</b></p>
-          </div>
-        </div>
+          <% } %>
+            <div class="roomDiv">
+              <button type="button" class="roomBtn btnPush" onclick="btnOpenModal(registerModal.id)">
+                ➕
+              </button>
+              <p class="btnName"><b>농장 만들기</b></p>
+            </div>
       </section>
       <br />
       <br />
@@ -100,8 +108,10 @@
       const entranceForm = document.forms['postRoomForm'] // 방 입장 정보를 위한 히든 폼
       const user = JSON.parse(localStorage.getItem('user'))
       const nickname = document.querySelector('#nickname')
-      nickname.innerText = `${user.nickname}`
       console.log('user:', user)
+
+      document.querySelector('#nick').innerHTML =
+        user.nickname + '의 포도 농장👨‍🌾'
 
       // 모달창 열기
       function btnOpenModal(id) {
@@ -131,7 +141,7 @@
       async function btnRoomRegister() {
         const form = document.forms['roomRegisterForm']
         const file = document.querySelector('#roomImg')
-        const roomRegex = /^[a-zA-Z가-힣\d\s]{2,30}$/
+        const roomRegex = /.{2,30}/
         if (!roomRegex.test(form.roomTitle.value)) {
           alert('방 제목은 2자 이상, 30자 이하로 입력해 주세요.')
           form.roomTitle.value = ''
@@ -172,9 +182,9 @@
       // 방 입장 폼 데이터
       async function btnRoomEntrance() {
         const form = document.forms['roomEntranceForm']
-        const roomRegex = /^[A-Z\d]{10}$/
+        const roomRegex = /^[a-zA-Z\d]{10}$/
         if (!roomRegex.test(form.roomCode.value)) {
-          alert('방 코드는 10자의 대문자와 숫자만 허용됩니다')
+          alert('방 코드는 10자의 대소문자와 숫자만 허용됩니다')
           form.roomCode.value = ''
           return false
         }
@@ -187,7 +197,7 @@
 
         const respone = await axios({
           method: 'POST',
-          url: '/room',
+          url: '/room/find',
           data,
         })
         resData = respone.data
@@ -195,8 +205,39 @@
 
         if (resData.result) {
           alert(`${resData.message}`)
+          const entranceForm = document.forms['postRoomForm']
           localStorage.setItem('room', JSON.stringify(resData.findedRoom))
-          location.href = '/room'
+          entranceForm.code.value = resData.findedRoom.code
+          entranceForm.email.value = user.email
+          entranceForm.submit()
+        } else {
+          alert(`${resData.message}`)
+        }
+      }
+
+      // 방 입장 이미지 클릭
+      async function imgRoomEntrance(code) {
+        const data = {
+          email: user.email,
+          code,
+        }
+        console.log('data:', data)
+
+        const respone = await axios({
+          method: 'POST',
+          url: '/room/find',
+          data,
+        })
+        resData = respone.data
+        console.log('resData: ', resData)
+
+        if (resData.result) {
+          alert(`${resData.message}`)
+          const entranceForm = document.forms['postRoomForm']
+          localStorage.setItem('room', JSON.stringify(resData.findedRoom))
+          entranceForm.code.value = resData.findedRoom.code
+          entranceForm.email.value = user.email
+          entranceForm.submit()
         } else {
           alert(`${resData.message}`)
         }

@@ -15,7 +15,7 @@
   <%- include('roomHeader') %>
     <div class="main">
       <div style="height: 300px">
-        <h1>커다란 포도 들어갈 위치</h1>
+        <h1 id="rTitle">커다란 포도 들어갈 위치</h1>
       </div>
       <div class="notice">
         <div class="innerNotice">
@@ -40,14 +40,17 @@
       </div>
       <p class="noticeContent"></p>
     </div>
+    <%- include('roomFooter') %>
 </body>
 
 <script>
   console.log('room:', room)
   const noticeContent = document.querySelector('.noticeContent')
   noticeContent.innerText = room.notice
+  const rTitle = document.querySelector('#rTitle')
+  rTitle.innerHTML = room.rTitle
 
-  // toggleㄴ
+  // toggle
   function toggleSections() {
     if (replyText.style.display === 'none') {
       replyText.style.display = 'block'
