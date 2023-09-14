@@ -268,7 +268,7 @@ const postRoomFind = async (req, res) => {
   }
 }
 
-// 방 입장
+// 방 입장: 코드로 입장과 방 생성 입장 및 이미지 버튼으로 방 입장 모두 사용
 const postRoom = async (req, res) => {
   console.log(
     ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 방 입장 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
@@ -313,8 +313,10 @@ const postRoom = async (req, res) => {
       })
       console.log('createdMIR:', createdMIR)
 
-      res.render({ result: true, message: '방 입장 완료', findedRoom })
-    } else {
+      res.render('room', { result: true, message: '방 입장 완료', findedRoom })
+    }
+    // 관리자는 방을 생성할 때 MIR 모델에 추가했기 때문에 바로 입장
+    else {
       res.render('room', {
         result: true,
         message: '방 입장 완료',
