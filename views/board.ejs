@@ -22,7 +22,7 @@
         <div class="toRegister">
           <!-- 사용자 이미지 -->
           <div class="imgDiv">
-            <img src="" alt="" id="img_user" />
+            <img id="img_user" />
           </div>
           <!-- 버튼들 클릭시 게시물 작성페이지로 이동 -->
           <button id="missionInput" onclick="register()">
@@ -34,36 +34,22 @@
         <!-- 게시글 목록 -->
         <div class="board">
           <% for(let i=data.contentList.length - 1; i>= 0; i--){ %>
-            <div class="innerboard">
-              <!-- 게시글 작성자 프로필 이미지 -->
-              <div class="imgDiv">
-                <img src="<%= data.profileList[i] || '/img/user1.png' %>" alt="" id="img_user" />
-              </div>
-              <div class="innerContent">
-                <!-- 게시글 -->
-                <div class="boardContent">
-                  <!-- 게시글 유저 이름 + 등록시간 -->
-                  <div class="userNameDate">
-                    <div class="userName">
-                      <%= data.writerList[i]%>
-                    </div>
-                    <div>
-                      <%= data.date[i]%>
-                    </div>
-                  </div>
-                  <!-- 게시글 내용 -->
-                  <div class="content">
-                    <%= data.contentList[i]%>
-                  </div>
-                  <div>
-                    <!-- 게시글 첨부된 사진 -->
-                    <img src="<%= data.imagePathList[i]%>" alt="" class="contentImg" />
-                  </div>
-                  <!-- 댓글, 좋아요 이미지 버튼 -->
-                  <div class="btn">
-                    <img src="/img/reply.svg" alt="댓글" onclick="toggleSections(<%= i %>)" id="commentBtn" />
-                    <img src="/img/like.svg" alt="좋아요" id="likeBtn" />
-                  </div>
+          <div class="innerboard">
+            <!-- 게시글 작성자 프로필 이미지 -->
+            <div class="imgDiv">
+              <img
+                src="<%= data.profileList[i] || '/img/user1.png' %>"
+                alt=""
+                id="img_user"
+              />
+            </div>
+            <div class="innerContent">
+              <!-- 게시글 -->
+              <div class="boardContent">
+                <!-- 게시글 유저 이름 + 등록시간 -->
+                <div class="userNameDate">
+                  <div class="userName"><%= data.writerList[i]%></div>
+                  <div><%= data.date[i]%></div>
                 </div>
                 <!-- 게시글 내용 -->
                 <div class="content"><%= data.contentList[i]%></div>
@@ -86,59 +72,70 @@
                   <img src="/img/like.svg" alt="좋아요" id="likeBtn" />
                 </div>
               </div>
-              <!-- 댓글들-->
-              <div
-                id="replyText<%= i %>"
-                class="replyText"
-                style="display: none"
-              >
-                <div
-                  id="previousComments<%= i %>"
-                  class="previousComments"
-                ></div>
-                <!-- 댓글 입력 -->
-                <form name="addReply<%= i %>">
-                  <textarea
-                    type="text"
-                    id="inputReply<%= i %>"
-                    rows="{1}"
-                    onchange="handleResizeHeight()"
-                    placeholder="응원의 한마디 남겨주세요!"
-                  ></textarea>
-                  <button
-                    type="button"
-                    onclick="addReplyFunc(<%= i %>)"
-                    id="replyBtn"
-                  >
-                    등록
-                  </button>
-                </form>
+              <!-- 게시글 내용 -->
+              <div class="content"><%= data.contentList[i]%></div>
+              <div>
+                <!-- 게시글 첨부된 사진 -->
+                <img
+                  src="<%= data.imagePathList[i]%>"
+                  alt=""
+                  class="contentImg"
+                />
+              </div>
+              <!-- 댓글, 좋아요 이미지 버튼 -->
+              <div class="btn">
+                <img
+                  src="/img/reply.svg"
+                  alt="댓글"
+                  onclick="toggleSections(<%= i %>)"
+                  id="commentBtn"
+                />
+                <img src="/img/like.svg" alt="좋아요" id="likeBtn" />
               </div>
             </div>
+            <!-- 댓글들-->
+            <div id="replyText<%= i %>" class="replyText" style="display: none">
+              <div id="previousComments<%= i %>" class="previousComments"></div>
+              <!-- 댓글 입력 -->
+              <form name="addReply<%= i %>">
+                <textarea
+                  type="text"
+                  id="inputReply<%= i %>"
+                  rows="{1}"
+                  onchange="handleResizeHeight()"
+                  placeholder="응원의 한마디 남겨주세요!"
+                ></textarea>
+                <button
+                  type="button"
+                  onclick="addReplyFunc(<%= i %>)"
+                  id="replyBtn"
+                >
+                  등록
+                </button>
+              </form>
+            </div>
           </div>
-          <hr />
-          <% } %>
         </div>
+        <hr />
+        <% } %>
       </div>
     </div>
     <%- include('roomFooter') %>
   </body>
 
-<script>
-  const user = JSON.parse(localStorage.getItem('user'))
-  //접속중인 사용자 프로필 가져오기
-  const mlmg = user.mlmg
-  const myProfile = document.querySelector('#img_user')
-  if (mlmg) {
-    myProfile.src = mlmg
-  } else {
-    // mlmg 값이 없을 때, 기본 이미지 경로를 설정합니다.
-    myProfile.src = '/img/user1.png'
-  }
+  <script>
+    const mlmg = user.mlmg
+    const myProfile = document.querySelector('#img_user')
+    if (mlmg) {
+      myProfile.src = mlmg
+    } else {
+      // mlmg 값이 없을 때, 기본 이미지 경로를 설정합니다.
+      myProfile.src = '/img/user1.png'
+    }
 
-  // toggle
-  function toggleSections(index) {
-    const replyText = document.getElementById(`replyText${index}`)
+    // toggle
+    function toggleSections(index) {
+      const replyText = document.getElementById(`replyText${index}`)
 
       if (replyText.style.display === 'none') {
         replyText.style.display = 'block'
