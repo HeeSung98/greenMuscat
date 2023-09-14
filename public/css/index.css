@@ -13,7 +13,7 @@ body {
 }
 
 #start {
-  display: flex; /*flex*/
+  display: flex;
   align-items: center;
   justify-content: center;
   margin: 0;
@@ -27,18 +27,32 @@ body {
   font-size: -webkit-xxx-large;
   z-index: 15;
   cursor: pointer;
-  transition: 2.5s ease-in;
+  /* transition: 2.5s ease-in; */
+  animation: opacity 2.5s ease forwards;
+}
+
+@keyframes opacity {
+  0% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
 }
 
 #title {
   font-family: 'LOTTERIACHAB';
   font-size: -webkit-xxx-large;
 }
-.remove {
-  /* 맨 처음 화면 없애주는 것 */
+/* .remove {
+  맨 처음 화면 없애주는 것
   visibility: hidden;
   opacity: 0;
-}
+} */
 
 .main {
   margin: 0;
@@ -141,7 +155,7 @@ input {
 }
 
 /* 필요한 css 인가요?? */
-#formSignin {
+/* #formSignin {
   display: flex;
   flex-direction: column;
   width: 80%;
@@ -157,4 +171,4 @@ hr {
 
 label {
   font-size: 13px;
-}
+} */
