@@ -21,14 +21,17 @@
     <div class="innerHeaderLogin"></div>
   </div>
 
+  <form action="/room" method="post" name="postRoomForm" hidden>
+    <input type="text" name="code" />
+    <input type="text" name="email" />
+  </form>
   <form action="/room/board" method="post" name="postBoardForm" hidden>
     <input type="text" name="rNo" />
   </form>
 </body>
 <script>
-  const boardForm = document.forms['postBoardForm'] // 게시글 호출을 위한 히든 폼
   const room = JSON.parse(localStorage.getItem('room'))
-  // const user = JSON.parse(localStorage.getItem('user'))
+  const user = JSON.parse(localStorage.getItem('user'))
 
   window.addEventListener('load', checkLoginStatus())
   // 로그인 식별
@@ -50,14 +53,11 @@
 
         if (resData.logoutSuccess) {
           console.log('로그아웃 ok')
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
-          // localStorage.removeItem('nickname');
-          localStorage.removeItem('room');
+          localStorage.removeItem('token')
+          localStorage.removeItem('user')
           document.location.href = '/'
         }
       }
-
     } else {
       // 토큰 또는 닉네임이 로컬 스토리지에 없는 경우
       // 로그인 상태가 아니라고 판별하고 "Guest" 닉네임 사용
@@ -74,10 +74,14 @@
   }
   //room 메인페이지로 이동
   function roomPage() {
-    window.location.href = '/room'
+    const roomForm = document.forms['postRoomForm'] // 방 페이지 이동을 위한 히든 폼
+    roomForm.code.value = room.code
+    roomForm.email.value = user.email
+    roomForm.submit()
   }
   //게시글 목록으로 이동
   async function boardPage() {
+    const boardForm = document.forms['postBoardForm'] // 게시글 호출을 위한 히든 폼
     boardForm.rNo.value = room.rNo
     boardForm.submit()
   }
