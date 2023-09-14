@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GreenMuscat</title>
-    <link rel="shortcut icon" href="/img/icon.ico" type="image/x-icon" />
-    <link rel="icon" href="/img/icon.ico" type="image/x-icon" />
-    <link rel="stylesheet" href="/css/index.css" />
-  </head>
 
-  <body>
-    <%- include('mainHeader') %>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GreenMuscat</title>
+  <link rel="shortcut icon" href="/img/icon.ico" type="image/x-icon" />
+  <link rel="icon" href="/img/icon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="/css/index.css" />
+</head>
+
+<body>
+  <%- include('mainHeader') %>
     <div class="main">
       <div class="title">환경에 대한 좋은 습관을 심어주세요</div>
-
       <div class="loginDiv">
         <div class="innerform">
           <div class="content">
@@ -29,27 +29,28 @@
         </div>
       </div>
     </div>
-  </body>
-  <script>
-    window.addEventListener('load', checkLoginStatus())
-    // 로그인 식별
-    function checkLoginStatus() {
-      const token = localStorage.getItem('token')
-      const btn = document.querySelector('#btn')
+</body>
+<script>
+  window.addEventListener('load', checkLoginStatus())
+  // 로그인 식별
+  function checkLoginStatus() {
+    const token = localStorage.getItem('token')
+    const btn = document.querySelector('#btn')
 
-      if (token) {
-        btn.onclick = () => {
-          const form = document.forms['postMain']
-          form.email.value = JSON.parse(localStorage.getItem('user')).email
-          form.submit()
-        }
-      } else {
-        // 토큰 또는 닉네임이 로컬 스토리지에 없는 경우
-        // 로그인 상태가 아니라고 판별하고 "Guest" 닉네임 사용
-        btn.onclick = () => {
-          window.location.href = '/main/signin'
-        }
+    if (token) {
+      btn.onclick = () => {
+        const form = document.forms['postMain']
+        form.email.value = JSON.parse(localStorage.getItem('user')).email
+        form.submit()
+      }
+    } else {
+      // 토큰 또는 닉네임이 로컬 스토리지에 없는 경우
+      // 로그인 상태가 아니라고 판별하고 "Guest" 닉네임 사용
+      btn.onclick = () => {
+        window.location.href = '/main/signin'
       }
     }
-  </script>
+  }
+</script>
+
 </html>
