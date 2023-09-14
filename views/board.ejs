@@ -72,26 +72,6 @@
                   <img src="/img/like.svg" alt="좋아요" id="likeBtn" />
                 </div>
               </div>
-              <!-- 게시글 내용 -->
-              <div class="content"><%= data.contentList[i]%></div>
-              <div>
-                <!-- 게시글 첨부된 사진 -->
-                <img
-                  src="<%= data.imagePathList[i]%>"
-                  alt=""
-                  class="contentImg"
-                />
-              </div>
-              <!-- 댓글, 좋아요 이미지 버튼 -->
-              <div class="btn">
-                <img
-                  src="/img/reply.svg"
-                  alt="댓글"
-                  onclick="toggleSections(<%= i %>)"
-                  id="commentBtn"
-                />
-                <img src="/img/like.svg" alt="좋아요" id="likeBtn" />
-              </div>
             </div>
             <!-- 댓글들-->
             <div id="replyText<%= i %>" class="replyText" style="display: none">
