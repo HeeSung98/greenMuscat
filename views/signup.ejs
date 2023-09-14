@@ -1,33 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/signup.css" />
+    <link rel="shortcut icon" href="/img/icon.ico" type="image/x-icon" />
+    <link rel="icon" href="/img/icon.ico" type="image/x-icon" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>GreenMuscat</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="/css/signup.css">
-  <link rel="shortcut icon" href="/img/icon.ico" type="image/x-icon">
-  <link rel="icon" href="/img/icon.ico" type="image/x-icon">
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <title>GreenMuscat</title>
-</head>
-
-<%- include('mainHeader') %>
+  <%- include('mainHeader') %>
 
   <body>
     <div class="main">
       <div class="content">
-
         <div class="signUp">
           <span>회원가입</span>
         </div>
         <div class="signUpDiv">
           <form name="form_signup" id="formSignup">
             <div class="innerform">
-              <input type="email" id="email" placeholder="이메일" minlength="5" maxlength="50" required />
+              <input
+                type="email"
+                id="email"
+                placeholder="이메일"
+                minlength="5"
+                maxlength="50"
+                required
+              />
               <br />
-              <input type="text" id="name" placeholder="이름" minlength="2" maxlength="10" required /><br />
-              <input type="text" id="nickname" placeholder="닉네임" minlength="1" maxlength="10" required /><br />
-              <input type="password" id="password" placeholder="비밀번호" minlength="6" maxlength="20" required /><br />
+              <input
+                type="text"
+                id="name"
+                placeholder="이름"
+                minlength="2"
+                maxlength="10"
+                required
+              /><br />
+              <input
+                type="text"
+                id="nickname"
+                placeholder="닉네임"
+                minlength="1"
+                maxlength="10"
+                required
+              /><br />
+              <input
+                type="password"
+                id="password"
+                placeholder="비밀번호"
+                minlength="6"
+                maxlength="20"
+                required
+              /><br />
               <button type="button" onclick="signUp()">회원가입</button>
             </div>
           </form>
@@ -84,12 +110,11 @@
       console.log('resData:', resData)
 
       if (resData.result) {
-        alert('회원가입이 완료되었습니다')
+        alert('회원가입이 완료되었습니다.')
         document.location.href = 'signin'
       } else {
         alert(resData.message)
       }
     }
   </script>
-
 </html>

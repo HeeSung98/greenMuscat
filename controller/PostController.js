@@ -94,7 +94,7 @@ const postSignIn = async (req, res) => {
       where: { email },
     })
     if (!user) {
-      res.json({ result: false, message: '사용자가 존재하지 않습니다' })
+      res.json({ result: false, message: '사용자가 존재하지 않습니다.' })
       return
     }
     // 비밀번호 확인
@@ -122,7 +122,7 @@ const postSignIn = async (req, res) => {
         .status(200)
         .json({ result: true, token, user })
     } else {
-      res.json({ result: false, message: '비밀번호가 일치하지 않습니다' })
+      res.json({ result: false, message: '비밀번호가 일치하지 않습니다.' })
     }
   } catch (err) {
     console.log(err)
@@ -211,7 +211,7 @@ const postRoomAdd = async (req, res) => {
 
     res.json({
       result: true,
-      message: '방 생성 완료',
+      message: '농장이 생성되었습니다.',
       location,
       createdRoom,
     })
