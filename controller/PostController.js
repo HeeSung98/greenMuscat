@@ -298,7 +298,7 @@ const postRoom = async (req, res) => {
     console.log('findedMIR:', findedMIR)
 
     // 멤버가 입장되어 있는 경우
-    if (findedMIR.length && findedMIR[0].role != 'admin') {
+    if (firstEntrance && findedMIR.length && findedMIR[0].role != 'admin') {
       throw new Error('이미 입장되어 있습니다')
     }
 
