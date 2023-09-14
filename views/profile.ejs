@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/css/profile.css" />
-    <link rel="shortcut icon" href="/img/icon.ico" type="image/x-icon" />
-    <link rel="icon" href="/img/icon.ico" type="image/x-icon" />
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <title>GreenMuscat</title>
-  </head>
 
-  <body>
-    <%- include('roomHeader') %>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/css/profile.css" />
+  <link rel="shortcut icon" href="/img/icon.ico" type="image/x-icon" />
+  <link rel="icon" href="/img/icon.ico" type="image/x-icon" />
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <title>GreenMuscat</title>
+</head>
+
+<body>
+  <%- include('roomHeader') %>
     <div class="main">
       <div class="register">
         <div class="title">Profile</div>
@@ -19,7 +20,8 @@
         <div class="profile image">
           <div id="profileImg"><img src="" alt="" id="myProfile" /></div>
           <div id="pencil" onclick="changeImg()">
-            <img src="/img/pencil.svg" alt="프로필 이미지 변경" />
+            <input type="file" id="selectedFile" style="display: none;" />
+            <img src="/img/pencil.svg" alt="프로필 이미지 변경" onclick="document.getElementById('selectedFile').click();" />
           </div>
         </div>
         <div class="content">
@@ -33,11 +35,7 @@
                   <b>닉네임</b>
                   <br />
                   <input type="text" id="nickname" />
-                  <button
-                    type="button"
-                    class="btn_edit_nick"
-                    onclick="edit_profile(1)"
-                  >
+                  <button type="button" class="btn_edit_nick" onclick="edit_profile(1)">
                     수정
                   </button>
                 </div>
@@ -46,20 +44,12 @@
                   <b>비밀번호</b>
                   <br />
                   <input type="password" id="password" />
-                  <button
-                    type="button"
-                    class="btn_edit_pass"
-                    onclick="edit_profile(2)"
-                  >
+                  <button type="button" class="btn_edit_pass" onclick="edit_profile(2)">
                     수정
                   </button>
                 </div>
               </form>
-              <button
-                type="button"
-                class="button btnPush btnBlueGreen"
-                onclick="btnCloseModal(editModal.id)"
-              >
+              <button type="button" class="button btnPush btnBlueGreen" onclick="btnCloseModal(editModal.id)">
                 닫기
               </button>
             </div>
@@ -100,9 +90,15 @@
         // mlmg 값이 없을 때, 기본 이미지 경로를 설정합니다.
         myProfile.src = '/img/user1.png'
       }
+
       // 프로필 이미지 변경
       async function changeImg() {
-        const data = { mImg }
+        const file = document.querySelector('#selectedFile')
+        const data = {
+          mImg: file,
+          nickname,
+          password
+        }
 
         const response = await axios({
           method: 'PATCH',
@@ -184,16 +180,22 @@
 
         const resData = response.data
         if (resData.result) {
+          localStorage.removeItem('token')
+          localStorage.removeItem('user')
+          localStorage.removeItem('room')
+          localStorage.removeItem('nickname')
           alert('회원 탈퇴가 완료되었습니다 :)')
           document.location.href = '/'
         } else console.log('회원 탈퇴 실패')
       }
     </script>
-  </body>
+</body>
 
-  <!-- 
+<!-- 
 @copyright
 
 Pencil by Meko from <a href="https://thenounproject.com/browse/icons/term/pencil/" target="_blank" title="Pencil Icons">Noun Project</a> (CC BY 3.0)
 
---></html>
+-->
+
+</html>
