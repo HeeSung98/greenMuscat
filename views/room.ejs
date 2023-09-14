@@ -63,7 +63,7 @@
     const noticeContent = document.querySelector('.noticeContent')
     noticeContent.innerText = room.notice
     const rTitle = document.querySelector('#rTitle')
-    rTitle.innerHTML = `${room.rTitle} 포도`
+    rTitle.innerHTML = `${room.rTitle}`
 
     //포도알 이미지 채우기
     const muscatFull = document.getElementById('muscatFull')
@@ -73,7 +73,7 @@
     }
     // 예시: %에 따라 이미지 나타내기
     //(달성한 포도값 / 토탈 포도알 값) * 100
-    const percentage = (16 / 20) * 100
+    const percentage = (room.muscatTotal / 20) * 100
     updateClipPath(percentage)
 
     // toggle
@@ -112,7 +112,7 @@
         console.log('새로운 공지사항 등록 성공')
         localStorage.setItem('room', JSON.stringify(resData.findedRoom))
         console.log('resData.findedRoom.notice:', resData.findedRoom.notice)
-        window.location.href = 'room'
+        location.reload()
       } else {
         console.log('err')
       }

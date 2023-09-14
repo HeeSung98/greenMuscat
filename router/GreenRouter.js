@@ -81,17 +81,12 @@ router.post('/main/signin', postController.postSignIn)
 // 로그아웃 (SignOut)
 router.post('/main/signout', postController.postSignOut)
 // 회원 정보 수정
-// router.get('/main/profile/edit', getController.profileEdit)
-// router.patch(
-//   '/main/profile/edit',
-//   uploadProfile.array('files'),
-//   patchController.editProfile
-// )
-// 라우터 설정
+router.patch('/main/profile/edit', patchController.editProfile)
+// 회원 프로필 사진 수정
 router.patch(
-  '/main/profile/edit',
-  uploadProfile.array('file'),
-  patchController.editProfile
+  '/main/profile/editImage',
+  uploadProfile.single('file'),
+  patchController.editProfileImage
 )
 
 // 회원 탈퇴

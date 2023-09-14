@@ -328,7 +328,9 @@
           const resData = respone.data
           console.log('resData:', resData)
 
+          localStorage.setItem('room', JSON.stringify(resData.updatedRoom))
           location.reload()
+
           return
         }
       } else {
@@ -355,10 +357,11 @@
           })
           const resData = respone.data
           console.log('resData:', resData)
-        }
 
-        location.reload()
-        return
+          localStorage.setItem('room', JSON.stringify(resData.updatedRoom))
+          location.reload()
+          return
+        }
       }
     }
   </script>
