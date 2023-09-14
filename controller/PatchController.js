@@ -43,7 +43,7 @@ const editProfile = async (req, res) => {
 
     if (type === 'profileImage' && file) {
       // 프로필 이미지 수정
-      await user.update({ mImg: file })
+      console.log('user', user)
     } else if (type === 'nickname' && nickname) {
       // 닉네임 수정
       await user.update({ nickname })
