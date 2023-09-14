@@ -11,14 +11,25 @@
 
 <body>
   <div class="header">
-    <div id="webName" onclick="mainPage()">GreenMuscat</div>
-    <div class="innerHeaderLogo">
-      <img src="/img/home.svg" onclick="roomPage()" class="img1" />
-      <img src="/img/list.svg" onclick="boardPage()" class="img2" />
-      <img src="/img/board.svg" onclick="registerPage()" class="img3" />
-      <img src="/img/profile.svg" onclick="profilePage()" class="img4" />
+    <div class="innerLog" style="
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+">
+      <div id="webName" onclick="mainPage()">GreenMuscat</div>
+      <div class="innerHeaderLogin">로그아웃</div>
     </div>
-    <div class="innerHeaderLogin"></div>
+
+    <div class="innerHeaderLogo">
+      <img src="/img/home.svg" onclick="roomPage()" class="img1">
+      <img src="/img/list.svg" onclick="boardPage()" class="img2">
+      <img src="/img/board.svg" onclick="registerPage()" class="img3">
+      <img src="/img/profile.svg" onclick="profilePage()" class="img4">
+      <img src="/img/gear.svg" onclick="alertCode()" class="img5">
+      <div class="code" style="display: block; position: absolute; top: 60px; cursor: default;">입장 코드: cFELOS31t1</div>
+      <!-- <img src="/img/gear.svg" class="img5" /> -->
+    </div>
+
   </div>
 
   <form action="/room" method="post" name="postRoomForm" hidden>
@@ -34,6 +45,7 @@
   const user = JSON.parse(localStorage.getItem('user'))
 
   window.addEventListener('load', checkLoginStatus())
+
   // 로그인 식별
   function checkLoginStatus() {
     const token = localStorage.getItem('token')
@@ -95,6 +107,22 @@
   function profilePage() {
     window.location.href = '/main/profile'
   }
+
+  // 방코드 알려주기
+  const code = document.querySelector('.code')
+  window.addEventListener('load', code.style.display = 'none')
+  function alertCode() {
+
+    if (code.style.display === 'none') {
+      code.style.display = 'block'
+      code.style.position = 'absolute'
+      code.style.top = '60px'
+      code.innerText = `입장 코드: ${room.code}`
+    } else {
+      code.style.display = 'none'
+    }
+
+  }
 </script>
 
 </html>
@@ -107,4 +135,6 @@
   List by Adrien Coquet from <a href="https://thenounproject.com/browse/icons/term/list/" target="_blank" title="List Icons">Noun Project</a> (CC BY 3.0)
 
   Door by Andrejs Kirma from <a href="https://thenounproject.com/browse/icons/term/door/" target="_blank" title="Door Icons">Noun Project</a> (CC BY 3.0)
+
+  Gear by Anna Rocca from <a href="https://thenounproject.com/browse/icons/term/gear/" target="_blank" title="Gear Icons">Noun Project</a> (CC BY 3.0)
 -->
