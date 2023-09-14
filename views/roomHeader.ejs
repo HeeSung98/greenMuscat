@@ -52,6 +52,8 @@
           console.log('로그아웃 ok')
           localStorage.removeItem('token');
           localStorage.removeItem('user');
+          localStorage.removeItem('nickname');
+          localStorage.removeItem('room');
           document.location.href = '/'
         }
       }
