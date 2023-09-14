@@ -66,6 +66,12 @@ section {
   justify-content: space-around;
 }
 
+#rImg_1 {
+  object-fit: cover;
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
+}
+
 /* .roomDiv {
   margin-left: 15px;
   margin-right: 15px;
