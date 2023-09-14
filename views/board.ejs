@@ -70,12 +70,23 @@
                     onclick="toggleSections('<%= i %>', '<%= data.pNoList[i] %>')"
                     id="commentBtn"
                   />
+                  <% if(data.approvedList[i]) {%>
+                  <img
+                    src="/img/like_fill.svg"
+                    alt="좋아요"
+                    onclick="like('<%= i %>',
+                  '<%= data.pNoList[i] %>', <%= data.approvedList[i] %>)"
+                    id="likeBtn"
+                  />
+                  <% } else { %>
                   <img
                     src="/img/like.svg"
                     alt="좋아요"
-                    onclick="like('<%= i %>', '<%= data.pNoList[i] %>')"
+                    onclick="like('<%= i %>',
+                  '<%= data.pNoList[i] %>', <%= data.approvedList[i] %>)"
                     id="likeBtn"
                   />
+                  <% } %>
                 </div>
               </div>
               <!-- 댓글들-->
@@ -290,9 +301,65 @@
       }
     }
 
-    async function like(index, pNo) {
-      const userRole = localStorage.getItem('userRole')
-      console.log(pNo, userRole)
+    async function like(index, pNo, likeFlag) {
+      // likeFlag가 False라면 좋아요가 눌리지 않은 상태
+      if (!likeFlag) {
+        if (confirm('좋아요를 누르고 포도를 채울까요?')) {
+          const userRole = localStorage.getItem('userRole')
+          console.log(pNo, userRole)
+          let isAdmin = true
+          if (userRole == 'admin') {
+            isAdmin = true
+          } else {
+            isAdmin = false
+          }
+          const data = {
+            pNo,
+            isAdmin,
+            likeFlag,
+          }
+          console.log('data:', data)
+
+          const respone = await axios({
+            method: 'POST',
+            url: '/room/board/like',
+            data,
+          })
+          const resData = respone.data
+          console.log('resData:', resData)
+
+          location.reload()
+          return
+        }
+      } else {
+        if (confirm('좋아요를 취소할까요?')) {
+          const userRole = localStorage.getItem('userRole')
+          console.log(pNo, userRole)
+          let isAdmin = true
+          if (userRole == 'admin') {
+            isAdmin = true
+          } else {
+            isAdmin = false
+          }
+          const data = {
+            pNo,
+            isAdmin,
+            likeFlag,
+          }
+          console.log('data:', data)
+
+          const respone = await axios({
+            method: 'POST',
+            url: '/room/board/like',
+            data,
+          })
+          const resData = respone.data
+          console.log('resData:', resData)
+        }
+
+        location.reload()
+        return
+      }
     }
   </script>
 </html>
