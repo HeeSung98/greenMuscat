@@ -4,8 +4,9 @@
   font-family: 'HakgyoansimWoojuR';
 }
 
-#webName,
-.innerHeaderLogin {
+.header > img,
+.innerHeaderLogin,
+#webName {
   cursor: pointer;
 }
 
