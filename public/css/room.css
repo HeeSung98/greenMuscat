@@ -21,13 +21,13 @@ body {
   justify-content: space-around;
   overflow: hidden;
   height: 90%;
-  /* margin-top: 10%; */
+  margin-top: 5%;
   position: relative;
-  padding-bottom: 30px;
+  /* padding-bottom: 30px; */
 }
 .muscat {
   display: flex;
-  width: 100%;
+  width: 80%;
   height: 100%;
   flex-direction: column;
   /* margin-top: 40%; */
@@ -66,7 +66,6 @@ body {
 
   object-fit: cover;
   z-index: 1; */
-
   position: absolute;
   top: 0;
   left: 0;
@@ -87,7 +86,7 @@ body {
 }
 
 .notice {
-  width: 90%;
+  width: 80%;
 }
 .innerNotice {
 }

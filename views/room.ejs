@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <link rel="shortcut icon" href="/img/icon.ico" type="image/x-icon" />
-    <link rel="icon" href="/img/icon.ico" type="image/x-icon" />
-    <title>GreenMuscat</title>
-    <link rel="stylesheet" href="/css/room.css" />
-  </head>
 
-  <body>
-    <%- include('roomHeader') %>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <link rel="shortcut icon" href="/img/icon.ico" type="image/x-icon" />
+  <link rel="icon" href="/img/icon.ico" type="image/x-icon" />
+  <title>GreenMuscat</title>
+  <link rel="stylesheet" href="/css/room.css" />
+</head>
+
+<body>
+  <%- include('roomHeader') %>
     <div class="main">
       <div class="muscat">
         <h1 id="rTitle">커다란 포도 들어갈 위치</h1>
@@ -23,29 +24,16 @@
       <div class="notice">
         <div class="innerNotice">
           <div class="noticeImg">
-            <img
-              src="/img/notice.png"
-              alt=""
-              onclick="toggleSections()"
-              id="noticeImg"
-            />
+            <img src="/img/notice.png" alt="" onclick="toggleSections()" id="noticeImg" />
           </div>
 
           <div id="replyText" class="replyText" style="display: none">
             <form name="noticeForm">
               <div class="noticeDiv">
                 <div class="noticeInputDiv">
-                  <textarea
-                    id="notice"
-                    class="noticeInput"
-                    placeholder="공지사항을 작셍해주세요"
-                  ></textarea>
+                  <textarea id="notice" class="noticeInput" placeholder="공지사항을 작셍해주세요"></textarea>
                 </div>
-                <button
-                  type="button"
-                  onclick="noticeRegister()"
-                  class="registerBtn"
-                >
+                <button type="button" onclick="noticeRegister()" class="registerBtn">
                   게시
                 </button>
               </div>
@@ -53,69 +41,70 @@
           </div>
         </div>
         <hr />
+        <p class="noticeContent"></p>
       </div>
-      <p class="noticeContent"></p>
     </div>
     <%- include('roomFooter') %>
-  </body>
+</body>
 
-  <script>
-    const noticeContent = document.querySelector('.noticeContent')
-    noticeContent.innerText = room.notice
-    const rTitle = document.querySelector('#rTitle')
-    rTitle.innerHTML = `${room.rTitle}`
+<script>
+  const noticeContent = document.querySelector('.noticeContent')
+  noticeContent.innerText = room.notice
+  const rTitle = document.querySelector('#rTitle')
+  rTitle.innerHTML = `${room.rTitle}`
 
-    //포도알 이미지 채우기
-    const muscatFull = document.getElementById('muscatFull')
-    function updateClipPath(percentage) {
-      // percentage 값에 따라 이미지의 clip-path 조절
-      muscatFull.style.clipPath = `polygon(0 0, ${percentage}% 0, ${percentage}% 100%, 0 100%)`
+  //포도알 이미지 채우기
+  const muscatFull = document.getElementById('muscatFull')
+  function updateClipPath(percentage) {
+    // percentage 값에 따라 이미지의 clip-path 조절
+    muscatFull.style.clipPath = `polygon(0 0, ${percentage}% 0, ${percentage}% 100%, 0 100%)`
+  }
+  // 예시: %에 따라 이미지 나타내기
+  //(달성한 포도값 / 토탈 포도알 값) * 100
+  const percentage = (room.muscatTotal / 20) * 100
+  updateClipPath(percentage)
+
+  // toggle
+  function toggleSections() {
+    if (replyText.style.display === 'none') {
+      replyText.style.display = 'block'
+    } else {
+      replyText.style.display = 'none'
     }
-    // 예시: %에 따라 이미지 나타내기
-    //(달성한 포도값 / 토탈 포도알 값) * 100
-    const percentage = (room.muscatTotal / 20) * 100
-    updateClipPath(percentage)
+  }
 
-    // toggle
-    function toggleSections() {
-      if (replyText.style.display === 'none') {
-        replyText.style.display = 'block'
-      } else {
-        replyText.style.display = 'none'
-      }
+  //textarea 자동 높이 조절
+  const $textarea = document.querySelector('#notice')
+  $textarea.oninput = (event) => {
+    const $target = event.target
+    $target.style.height = 0
+    $target.style.height = 5 + $target.scrollHeight + 'px'
+  }
+
+  // 공지사항 등록하기
+  async function noticeRegister() {
+    const form = document.forms['noticeForm']
+    const data = {
+      rNo: room.rNo,
+      notice: form.notice.value,
     }
 
-    //textarea 자동 높이 조절
-    const $textarea = document.querySelector('#notice')
-    $textarea.oninput = (event) => {
-      const $target = event.target
-      $target.style.height = 0
-      $target.style.height = 5 + $target.scrollHeight + 'px'
+    const respone = await axios({
+      method: 'PATCH',
+      url: '/room/notice',
+      data,
+    })
+    const resData = respone.data
+    console.log('resData:', resData)
+    if (resData.result) {
+      console.log('새로운 공지사항 등록 성공')
+      localStorage.setItem('room', JSON.stringify(resData.findedRoom))
+      console.log('resData.findedRoom.notice:', resData.findedRoom.notice)
+      location.reload()
+    } else {
+      console.log('err')
     }
+  }
+</script>
 
-    // 공지사항 등록하기
-    async function noticeRegister() {
-      const form = document.forms['noticeForm']
-      const data = {
-        rNo: room.rNo,
-        notice: form.notice.value,
-      }
-
-      const respone = await axios({
-        method: 'PATCH',
-        url: '/room/notice',
-        data,
-      })
-      const resData = respone.data
-      console.log('resData:', resData)
-      if (resData.result) {
-        console.log('새로운 공지사항 등록 성공')
-        localStorage.setItem('room', JSON.stringify(resData.findedRoom))
-        console.log('resData.findedRoom.notice:', resData.findedRoom.notice)
-        location.reload()
-      } else {
-        console.log('err')
-      }
-    }
-  </script>
 </html>
