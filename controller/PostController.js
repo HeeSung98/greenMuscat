@@ -397,29 +397,15 @@ const postBoard = async (req, res) => {
     const writerList = findedPost.map((post) => post.dataValues.MEMBER_email)
     //게시물 작성자 프로필 사진
     const profileList = findedPost.map((post) => post.dataValues.MEMBER.mImg)
-    //게시물 작성일
-    const dateList = findedPost.map((post) => {
-      const createdAt = new Date(post.dataValues.createdAt)
-      const now = new Date()
-      const timeDiff = Math.floor((now - createdAt) / 1000) // 초 단위로 시간 차이 계산
-
-      if (timeDiff < 60) {
-        return `${timeDiff}초 전`
-      } else if (timeDiff < 3600) {
-        const minutes = Math.floor(timeDiff / 60)
-        return `${minutes}분 전`
-      } else if (timeDiff < 86400) {
-        const hours = Math.floor(timeDiff / 3600)
-        return `${hours}시간 전`
-      } else {
-        const days = Math.floor(timeDiff / 86400)
-        return `${days}일 전`
-      }
-    })
+    //게시물 좋아요
+    const likeList = findedPost.map((post) => post.dataValues.like)
+    //게시물 승인 여부
+    const approvedList = findedPost.map((post) => post.dataValues.approved)
     //게시물 이미지
     const imagePathList = findedPost.map((post) =>
       post.dataValues.POST_IMAGEs.map((image) => image.path)
     )
+    //게시물 작성일
     const date = findedPost.map((post) => {
       const createdAt = new Date(post.dataValues.createdAt)
       const now = new Date()
@@ -441,7 +427,7 @@ const postBoard = async (req, res) => {
     console.log('contentList :', contentList)
     console.log('dateList :', dateList)
     console.log('writerList :', writerList)
-    console.log('imagePathLis:', imagePathList)
+    console.log('imagePathList:', imagePathList)
     console.log('date:', date)
     res.render('board', {
       data: {
@@ -455,6 +441,16 @@ const postBoard = async (req, res) => {
     })
   } catch (error) {
     console.log(error)
+  }
+}
+
+// 좋아요
+const like = async (req, res) => {
+  console.log(
+    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 좋아요 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
+  )
+  console.log('req.body:', req.body)
+  {
   }
 }
 
