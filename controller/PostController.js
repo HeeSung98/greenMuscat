@@ -11,6 +11,7 @@ const {
   mReply,
   mPostImage,
 } = require('../models')
+const { SharedIniFileCredentials } = require('aws-sdk')
 
 dotenv.config()
 const SECRET = process.env.SECRET_KEY
@@ -249,14 +250,18 @@ const postRoomFind = async (req, res) => {
 
     // 멤버가 입장되어 있는 경우
     if (findedMIR.length && findedMIR[0].role != 'admin') {
-      throw new Error('이미 입장되어 있습니다')
+      res.json({
+        result: true,
+        message: '입장되어 있습니다',
+        findedRoom,
+      })
+    } else {
+      res.json({
+        result: true,
+        message: '입장되어 있지 않습니다',
+        findedRoom,
+      })
     }
-
-    res.json({
-      result: true,
-      message: '방 탐색 완료',
-      findedRoom,
-    })
   } catch (error) {
     console.log('err:', error)
     res.json({ result: false, message: String(error) })
@@ -270,6 +275,7 @@ const postRoom = async (req, res) => {
   )
   console.log('req.body:', req.body)
   const { code, email } = req.body
+  firstEntrance = Boolean(req.body.firstEntrance)
   try {
     // 입력한 code 방 존재 여부 조회
     const findedRoom = await mRoom.findOne({
@@ -434,22 +440,92 @@ const postBoard = async (req, res) => {
       }
     })
     console.log('contentList :', contentList)
-    console.log('dateList :', dateList)
     console.log('writerList :', writerList)
-    console.log('imagePathLis:', imagePathList)
+    console.log('profileList:', profileList)
+    console.log('imagePathList:', imagePathList)
+    console.log('likeList:', likeList)
+    console.log('approvedList:', approvedList)
     console.log('date:', date)
     res.render('board', {
       data: {
         contentList,
-        dateList,
         writerList,
         profileList,
         imagePathList,
+        likeList,
+        approvedList,
         date,
       },
     })
   } catch (error) {
     console.log(error)
+  }
+}
+
+// 좋아요
+const postLike = async (req, res) => {
+  console.log(
+    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 좋아요 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
+  )
+  console.log('req.body:', req.body)
+  const { pNo } = req.body
+  const likeFlag = Boolean(req.body.likeFlag)
+  const isAdmin = Boolean(req.body.isAdmin)
+
+  try {
+    const findedPost = await mPost.findOne({
+      where: { pNo },
+    })
+    console.log('findedPost:', findedPost)
+
+    const findedRoom = await mRoom.findOne({
+      where: { rNo: findedPost.dataValues.ROOM_rNo },
+    })
+    console.log('findedRoom:', findedRoom)
+
+    // 좋아요를 누르지 않은 상황
+    if (!likeFlag) {
+      await findedPost.update({
+        like: findedPost.like + 1,
+      })
+    }
+    // 좋아요를 이미 누른 상황
+    else {
+      await findedPost.update({
+        like: findedPost.like - 1,
+      })
+    }
+
+    if (isAdmin) {
+      if (!likeFlag) {
+        await findedPost.update({
+          approved: true,
+        })
+        await findedRoom.update({
+          muscatTotal: findedRoom.muscatTotal + 1,
+        })
+      } else {
+        await findedPost.update({
+          approved: false,
+        })
+        await findedRoom.update({
+          muscatTotal: findedRoom.muscatTotal - 1,
+        })
+      }
+    }
+
+    const updatedPost = await mPost.findOne({
+      where: { pNo },
+    })
+    const updatedRoom = await mRoom.findOne({
+      where: { rNo: findedPost.dataValues.ROOM_rNo },
+    })
+    console.log('updatedPost:', updatedPost)
+    console.log('updatedRoom:', updatedRoom)
+
+    res.json({ result: true, updatedPost, updatedRoom })
+  } catch (err) {
+    res.json({ result: false, message: String(err) })
   }
 }
 
@@ -536,6 +612,7 @@ module.exports = {
   postRoom,
   postBoard,
   postBoardRegister,
+  postLike,
   // 댓글
   postReply,
   postRegisterReply,

@@ -14,7 +14,7 @@ const POST = (sequelize) => {
         allowNull: false,
       },
       like: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.BIGINT(20),
         defaultValue: 0,
       },
       approved: {
