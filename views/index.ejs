@@ -48,14 +48,14 @@
   <script>
     window.addEventListener('load', checkLoginStatus())
     // 맨 처음에 뜨는 화면
-    const startDiv = document.querySelector('#start')
-    window.addEventListener('load', () => {
-      if (startDiv.getAttribute('class', 'remove')) {
-        startDiv.removeAttribute('class', 'remove')
-      } else {
-        startDiv.setAttribute('class', 'remove')
-      }
-    })
+    // const startDiv = document.querySelector('#start')
+    // window.addEventListener('load', () => {
+    //   if (startDiv.getAttribute('class', 'remove')) {
+    //     startDiv.removeAttribute('class', 'remove')
+    //   } else {
+    //     startDiv.setAttribute('class', 'remove')
+    //   }
+    // })
     // 로그인 식별
     function checkLoginStatus() {
       const token = localStorage.getItem('token')
