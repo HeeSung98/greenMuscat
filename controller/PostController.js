@@ -102,7 +102,7 @@ const postSignIn = async (req, res) => {
     console.log(compare)
     if (compare) {
       // 비밀번호 일치
-      const token = jwt.sign({ email }, SECRET, { expiresIn: '3d' }) // email에 해당하는 token 발급. 3일 유효
+      const token = jwt.sign({ email }, SECRET, { expiresIn: '1d' }) // email에 해당하는 token 발급. 3일 유효
       // 해당 유저에게 token 할당 후 저장
       user.token = token
       user.save((error, user) => {

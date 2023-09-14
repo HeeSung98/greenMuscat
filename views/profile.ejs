@@ -19,35 +19,59 @@
         <!-- 이미지 -->
         <div class="profile image">
           <div id="profileImg"><img src="" alt="" id="myProfile" /></div>
-          <div id="pencil" onclick="changeImg()">
-            <input type="file" id="selectedFile" style="display: none;" />
-            <img src="/img/pencil.svg" alt="프로필 이미지 변경" onclick="document.getElementById('selectedFile').click();" />
+          <div id="pencil" onclick="btnOpenModal(editP.id)">
+            <img src="/img/pencil.svg" alt="프로필 이미지 변경" />
           </div>
         </div>
+        <!--  -->
+        <div class="modal" id="editP">
+          <div class="modal_body">
+            <h2 class="modalH2">프로필 이미지 수정</h2>
+            <form name="edit_img" class="editForm">
+              <!-- 이미지 수정 -->
+              <div class="input">
+                <input type="file" id="selectedFile" accept="image/*" />
+                <button type="button" class="btn_edit_img" onclick="handleImageChange()">
+                  수정
+                </button>
+              </div>
+            </form>
+
+            <button type="button" class="button btnPush btnBlueGreen" onclick="btnCloseModal(editP.id)">
+              닫기
+            </button>
+          </div>
+        </div>
+
         <div class="content">
-          <!-- 닉네임 -->
-          <div class="nickname"></div>
+          <!-- 닉네임 표시 -->
+          <div class="nickname">
+          </div>
           <div class="modal" id="editModal">
             <div class="modal_body">
               <h2 class="modalH2">회원 정보 수정하기</h2>
-              <form name="edit_form" class="editForm">
+              <form name="edit_nick" class="editForm">
+                <!-- 닉네임 수정 -->
                 <div class="input">
                   <b>닉네임</b>
                   <br />
                   <input type="text" id="nickname" />
-                  <button type="button" class="btn_edit_nick" onclick="edit_profile(1)">
+                  <button type="button" class="btn_edit_nick" onclick="submitForm('nickname')">
                     수정
                   </button>
                 </div>
-                <br />
+              </form>
+              <br />
+              <form name="edit_password">
                 <div class="input">
                   <b>비밀번호</b>
                   <br />
                   <input type="password" id="password" />
-                  <button type="button" class="btn_edit_pass" onclick="edit_profile(2)">
+                  <button type="button" class="btn_edit_pass" onclick="submitForm('password')">
                     수정
                   </button>
                 </div>
+
               </form>
               <button type="button" class="button btnPush btnBlueGreen" onclick="btnCloseModal(editModal.id)">
                 닫기
@@ -67,6 +91,7 @@
         </button>
       </div>
     </div>
+
     <script>
       // 모달창 열기
       function btnOpenModal(id) {
@@ -78,90 +103,115 @@
         document.getElementById(id).style.display = 'none'
       }
 
-      const nickname = document.querySelector('.nickname')
-      nickname.innerText = `닉네임 : ${user.nickname}`
 
-      //접속중인 사용자 프로필 가져오기
-      const mlmg = user.mlmg
-      const myProfile = document.querySelector('#myProfile')
-      if (mlmg) {
-        myProfile.src = mlmg
+      // user 정보 가져오기
+      // const user = JSON.parse(localStorage.getItem('user'));
+
+      if (user) {
+        // user 정보를 사용하여 프로필 초기화
+        const mlmg = user.mlmg;
+        const myProfile = document.getElementById('myProfile');
+        if (mlmg) {
+          myProfile.src = mlmg;
+        } else {
+          myProfile.src = '/img/user1.png';
+        }
+
+        const nicknameInput = document.querySelector('.nickname');
+        nicknameInput.innerText = user.nickname;
+
       } else {
-        // mlmg 값이 없을 때, 기본 이미지 경로를 설정합니다.
-        myProfile.src = '/img/user1.png'
+        console.log('User 정보를 찾을 수 없습니다.');
       }
 
       // 프로필 이미지 변경
-      async function changeImg() {
-        const file = document.querySelector('#selectedFile')
-        const data = {
-          mImg: file,
-          nickname,
-          password
+      async function handleImageChange() {
+        const selectedFileInput = document.getElementById('selectedFile');
+
+        if (!selectedFileInput) {
+          console.log('selectedFile 요소를 찾을 수 없습니다')
+          return;
         }
 
-        const response = await axios({
-          method: 'PATCH',
-          url: '/main/profile/edit',
-          data,
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        })
+        const selectedFile = selectedFileInput.files[0]
+        if (!selectedFile) return
 
-        const resData = response.data
-        if (resData.result) {
-          alert('수정 완료!')
-          document.location.reload()
-        } else console.log('수정 실패')
+        const formData = new FormData();
+        formData.append('type', 'profileImage');
+        formData.append('file', selectedFile);
+        try {
+          const response = axios.patch('/main/profile/edit', formData, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+              'Content-Type': 'multipart/form-data',
+            },
+          })
+
+          const resData = reponse.data
+          if (resData.result) {
+            alert('프로필 이미지가 변경되었습니다.');
+            localStorage.setItem('user', JSON.stringify(resData.user))
+            document.location.reload()
+            if (resData.mImg) {
+              // 이미지 업데이트
+              document.getElementById('myProfile').src = user.mImg;
+            }
+          } else {
+            console.error('이미지 업로드 실패:', resData.message);
+          }
+        } catch (error) {
+          console.log(error)
+        }
       }
 
-      // 회원 정보 수정
-      async function edit_profile(index) {
-        const form = document.forms['edit_form']
+      // 닉네임, 비밀번호 수정
+      async function submitForm(type) {
+        let data;
 
-        if (index == 1) {
-          const data = {
-            password: form.password.value,
-          }
+        switch (type) {
+          case 'nickname':
+            const form1 = document.forms['edit_nick']
+            const nickname = form1.nickname.value;
+            if (!nickname) {
+              alert('새로운 닉네임을 입력해주세요.');
+              return;
+            }
+            data = { type: 'nickname', nickname };
+            break;
 
-          const response = await axios({
-            method: 'PATCH',
-            url: '/main/profile/edit',
-            data,
+          case 'password':
+            const form2 = document.forms['edit_password']
+            const password = form2.password.value;
+            if (!password) {
+              alert('새로운 비밀번호를 입력해주세요.');
+              return;
+            }
+            data = { type: 'password', password };
+            break;
+
+          default:
+            alert('잘못된 요청입니다.');
+            return;
+        }
+
+        try {
+          const response = await axios.patch('/main/profile/edit', data, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('token')}`,
+              'Content-Type': 'application/json',
             },
-          })
+          });
 
-          const resData = response.data
+          const resData = response.data;
           if (resData.result) {
-            localStorage.setItem('nickname', resData.nickname)
-            alert('수정 완료!')
-            console.log('닉네임 수정 완료')
+            localStorage.setItem('user', JSON.stringify(resData.user))
             document.location.reload()
-          } else console.log('닉네임 수정 실패')
-        } else if (index == 2) {
-          const data = {
-            password: form.password.value,
+            alert('수정이 완료되었습니다.');
+          } else {
+            console.error('수정 실패:', resData.message);
           }
-
-          const response = await axios({
-            method: 'PATCH',
-            url: '/main/profile/edit',
-            data,
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
-          })
-
-          const resData = response.data
-          if (resData.result) {
-            localStorage.setItem('password', resData.password)
-            alert('수정 완료!')
-            console.log('비밀번호 수정 완료')
-            document.location.reload()
-          } else console.log('비밀번호 수정 실패')
+        } catch (error) {
+          console.error('오류:', error);
         }
       }
 
@@ -188,6 +238,8 @@
           document.location.href = '/'
         } else console.log('회원 탈퇴 실패')
       }
+
+
     </script>
 </body>
 
