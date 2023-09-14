@@ -375,9 +375,8 @@ const postBoard = async (req, res) => {
           model: mPostImage, // join할 모델
           required: false, // outer join으로 설정
         },
-        //댓글테이블
         {
-          model: mReply,
+          model: mMember,
           required: false,
         },
       ],
@@ -387,6 +386,27 @@ const postBoard = async (req, res) => {
     const contentList = findedPost.map((post) => post.dataValues.pContent)
     //게시물 작성자
     const writerList = findedPost.map((post) => post.dataValues.MEMBER_email)
+    //게시물 작성자 프로필 사진
+    const profileList = findedPost.map((post) => post.dataValues.MEMBER.mImg)
+    //게시물 작성일
+    const dateList = findedPost.map((post) => {
+      const createdAt = new Date(post.dataValues.createdAt)
+      const now = new Date()
+      const timeDiff = Math.floor((now - createdAt) / 1000) // 초 단위로 시간 차이 계산
+
+      if (timeDiff < 60) {
+        return `${timeDiff}초 전`
+      } else if (timeDiff < 3600) {
+        const minutes = Math.floor(timeDiff / 60)
+        return `${minutes}분 전`
+      } else if (timeDiff < 86400) {
+        const hours = Math.floor(timeDiff / 3600)
+        return `${hours}시간 전`
+      } else {
+        const days = Math.floor(timeDiff / 86400)
+        return `${days}일 전`
+      }
+    })
     //게시물 이미지
     const imagePathList = findedPost.map((post) =>
       post.dataValues.POST_IMAGEs.map((image) => image.path)
@@ -410,13 +430,16 @@ const postBoard = async (req, res) => {
       }
     })
     console.log('contentList :', contentList)
+    console.log('dateList :', dateList)
     console.log('writerList :', writerList)
     console.log('imagePathLis:', imagePathList)
     console.log('date:', date)
     res.render('board', {
       data: {
         contentList,
+        dateList,
         writerList,
+        profileList,
         imagePathList,
         date,
       },
