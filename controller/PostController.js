@@ -274,8 +274,7 @@ const postRoom = async (req, res) => {
     ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 방 입장 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
   console.log('req.body:', req.body)
-  const { code, email } = req.body
-  firstEntrance = Boolean(req.body.firstEntrance)
+  const { code, email, firstEntrance } = req.body
   try {
     // 입력한 code 방 존재 여부 조회
     const findedRoom = await mRoom.findOne({
@@ -298,11 +297,15 @@ const postRoom = async (req, res) => {
     console.log('findedMIR:', findedMIR)
 
     // 멤버가 입장되어 있는 경우
-    if (firstEntrance && findedMIR.length && findedMIR[0].role != 'admin') {
+    if (
+      firstEntrance == '1' &&
+      findedMIR.length &&
+      findedMIR[0].role != 'admin'
+    ) {
       throw new Error('이미 입장되어 있습니다')
     }
 
-    // 모델에 추가 (멤버)
+    // 모델에 추가 후 입장 (멤버)
     if (!findedMIR.length) {
       const createdMIR = await mMembersInRoom.create({
         role: 'member',

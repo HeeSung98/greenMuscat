@@ -127,7 +127,7 @@
         <input type="text" name="code" />
         <input type="text" name="email" />
         <input type="text" name="case" />
-        <input type="number" name="firstEntrance" />
+        <input type="checkbox" name="firstEntrance" />
       </form>
     </div>
 
@@ -201,7 +201,7 @@
 
           entranceForm.code.value = resData.createdRoom.code
           entranceForm.email.value = user.email
-          entranceForm.firstEntrance.value = 1
+          entranceForm.firstEntrance.value = true
 
           entranceForm.submit()
         } else {
@@ -242,7 +242,7 @@
 
           entranceForm.code.value = resData.findedRoom.code
           entranceForm.email.value = user.email
-          entranceForm.firstEntrance.value = 1
+          entranceForm.firstEntrance.value = true
           entranceForm.submit()
         } else {
           alert(`${resData.message}`)
@@ -272,7 +272,7 @@
 
         entranceForm.code.value = code
         entranceForm.email.value = user.email
-        entranceForm.firstEntrance.value = 0
+        entranceForm.firstEntrance.value = false
         entranceForm.submit()
       }
     </script>
