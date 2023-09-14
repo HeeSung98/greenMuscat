@@ -82,11 +82,18 @@ router.post('/main/signin', postController.postSignIn)
 router.post('/main/signout', postController.postSignOut)
 // 회원 정보 수정
 // router.get('/main/profile/edit', getController.profileEdit)
+// router.patch(
+//   '/main/profile/edit',
+//   uploadProfile.array('files'),
+//   patchController.editProfile
+// )
+// 라우터 설정
 router.patch(
   '/main/profile/edit',
-  uploadProfile.array('files'),
+  uploadProfile.array('file'),
   patchController.editProfile
 )
+
 // 회원 탈퇴
 router.delete('/main/profile/destroy', deleteController.deleteProfile)
 // 마이 페이지 (Profile)

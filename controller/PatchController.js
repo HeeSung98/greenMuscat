@@ -16,9 +16,6 @@ const SECRET = process.env.SECRET_KEY
 
 // 회원 정보 수정
 const editProfile = async (req, res) => {
-  console.log(
-    ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 회원 정보 수정 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
-  )
   const authHeader = req.headers.authorization
   if (!authHeader) {
     res.json({ result: false, message: '인증 정보가 필요합니다.' })
@@ -29,32 +26,43 @@ const editProfile = async (req, res) => {
     res.json({ result: false, message: '인증 방식이 틀렸습니다.' })
     return
   }
-  const { profileImage, nickname, password } = req.body
-  // 토큰 검증
+
   try {
     const decodedToken = jwt.verify(token, SECRET)
-    console.log(decodedToken)
 
-    // email이 일치한 하나의 member 찾아서 해당 member 회원 정보 수정
-    const member = await mMember.findOne({
+    const user = await mMember.findOne({
       where: { email: decodedToken.email },
     })
-    // 회원이 없으면
-    if (!member) {
+
+    if (!user) {
       res.json({ result: false, message: '회원을 찾을 수 없습니다.' })
       return
     }
-    // 있으면 프로필 사진, 닉네임, 비밀번호 수정
-    const hash = await bcryptPassword(password) // 비밀번호 암호화
-    await member.update({ profileImage, nickname, password: hash })
+
+    const { type, file, nickname, password } = req.body
+
+    if (type === 'profileImage' && file) {
+      // 프로필 이미지 수정
+      await user.update({ mImg: file })
+    } else if (type === 'nickname' && nickname) {
+      // 닉네임 수정
+      await user.update({ nickname })
+    } else if (type === 'password' && password) {
+      // 비밀번호 수정
+      const hash = await bcryptPassword(password)
+      await user.update({ password: hash })
+    } else {
+      res.status(400).json({ result: false, message: '잘못된 요청입니다.' })
+      return
+    }
+
     res.json({
       result: true,
-      profileImage,
-      nickname,
       message: '회원 정보 수정 성공',
+      user, // 수정된 프로필 이미지 URL 반환
     })
   } catch (error) {
-    console.log(error)
+    console.error('오류:', error)
     res.json({ result: false, message: '토큰 검증 실패' })
   }
 }
@@ -97,15 +105,15 @@ const editNotice = async (req, res) => {
   console.log(req.body)
   const { rNo, notice } = req.body
   try {
+    const findedRoom = await mRoom.findOne({
+      where: { rNo },
+    })
     const updatedRoom = await mRoom.update(
       { notice: notice },
       { where: { rNo: rNo } }
     )
     console.log('updatedRoom:', updatedRoom)
 
-    const findedRoom = await mRoom.findOne({
-      where: { rNo },
-    })
     console.log(' findedRoom: ', findedRoom)
 
     if (updatedRoom)
