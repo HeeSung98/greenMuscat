@@ -1,45 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="/img/icon.ico" type="image/x-icon" />
+    <link rel="icon" href="/img/icon.ico" type="image/x-icon" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="/css/main.css" />
+    <title>GreenMuscat</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="shortcut icon" href="/img/icon.ico" type="image/x-icon" />
-  <link rel="icon" href="/img/icon.ico" type="image/x-icon" />
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <link rel="stylesheet" href="/css/main.css" />
-  <title>GreenMuscat</title>
-</head>
-
-<body>
-  <%- include('mainHeader') %>
+  <body>
+    <%- include('mainHeader') %>
     <!-- body 시작 -->
     <div class="main">
       <h2 class="mainH2" id="nick">닉네임의 포도 농장👨‍🌾</h2>
       <!-- section 시작 -->
       <section class="top">
         <% for(let i=0; i < roomList.length; i++) { %>
-          <div class="roomDiv">
-            <button type="button" class="roomBtn btnPush" onclick="imgRoomEntrance('<%= roomList[i].ROOM_code %>')">
-              <% if (roomList[i].ROOM_rImg) {%>
-                <img src="<%= roomList[i].ROOM_rImg %>" id="rImg_1" />
-                <% } else {%>
-                  <img src="/img/earth.svg" width="50" />
-                  <% } %>
-            </button>
-            <p class="btnName">
-              <b>
-                <%= roomList[i].ROOM_rTitle %>
-              </b>
-            </p>
-          </div>
-          <% } %>
-            <div class="roomDiv">
-              <button type="button" class="roomBtn btnPush" onclick="btnOpenModal(registerModal.id)">
-                ➕
-              </button>
-              <p class="btnName"><b>농장 만들기</b></p>
-            </div>
+        <div class="roomDiv">
+          <button
+            type="button"
+            class="roomBtn btnPush"
+            onclick="imgRoomEntrance('<%= roomList[i].ROOM_code %>', '<%= roomList[i].role %>')"
+          >
+            <% if (roomList[i].ROOM_rImg) {%>
+            <img src="<%= roomList[i].ROOM_rImg %>" id="rImg_1" />
+            <% } else {%>
+            <img src="/img/earth.svg" width="50" />
+            <% } %>
+          </button>
+          <p class="btnName">
+            <b> <%= roomList[i].ROOM_rTitle %> </b>
+          </p>
+        </div>
+        <% } %>
+        <div class="roomDiv">
+          <button
+            type="button"
+            class="roomBtn btnPush"
+            onclick="btnOpenModal(registerModal.id)"
+          >
+            ➕
+          </button>
+          <p class="btnName"><b>농장 만들기</b></p>
+        </div>
       </section>
       <br />
       <br />
@@ -50,7 +55,11 @@
             <button class="button btnPush btnOk" type="button" onclick="btnOpenModal(registerModal.id)">
               농장 만들기
             </button> -->
-          <button class="button btnPush btnOk" type="button" onclick="btnOpenModal(entranceModal.id)">
+          <button
+            class="button btnPush btnOk"
+            type="button"
+            onclick="btnOpenModal(entranceModal.id)"
+          >
             다른 농장가기
           </button>
         </div>
@@ -69,10 +78,18 @@
             <input type="file" id="roomImg" />
           </form>
           <div class="formBtn">
-            <button type="button" class="button btnPush btnOk" onclick="btnRoomRegister()">
+            <button
+              type="button"
+              class="button btnPush btnOk"
+              onclick="btnRoomRegister()"
+            >
               생성
             </button>
-            <button type="button" class="button btnPush btnNo" onclick="btnCloseModal(registerModal.id)">
+            <button
+              type="button"
+              class="button btnPush btnNo"
+              onclick="btnCloseModal(registerModal.id)"
+            >
               닫기
             </button>
           </div>
@@ -87,10 +104,18 @@
             <input type="text" name="roomCode" />
           </form>
           <div class="formBtn">
-            <button type="button" class="button btnPush btnOk" onclick="btnRoomEntrance()">
+            <button
+              type="button"
+              class="button btnPush btnOk"
+              onclick="btnRoomEntrance()"
+            >
               입장
             </button>
-            <button type="button" class="button btnPush btnNo" onclick="btnCloseModal(entranceModal.id)">
+            <button
+              type="button"
+              class="button btnPush btnNo"
+              onclick="btnCloseModal(entranceModal.id)"
+            >
               닫기
             </button>
           </div>
@@ -169,10 +194,14 @@
         if (resData.result) {
           alert(`${resData.message}`)
           console.log('createdRoom: ', resData.createdRoom)
+
           localStorage.setItem('room', JSON.stringify(resData.createdRoom))
+          localStorage.setItem('userRole', 'admin')
+
           entranceForm.code.value = resData.createdRoom.code
           entranceForm.email.value = user.email
           entranceForm.firstEntrance.value = 1
+
           entranceForm.submit()
         } else {
           alert(`${resData.message}`)
@@ -181,7 +210,7 @@
       }
 
       // 방 입장 폼 데이터
-      async function btnRoomEntrance() {
+      async function btnRoomEntrance(role) {
         const form = document.forms['roomEntranceForm']
         const roomRegex = /^[a-zA-Z\d]{10}$/
         if (!roomRegex.test(form.roomCode.value)) {
@@ -206,7 +235,10 @@
 
         if (resData.result) {
           alert(`${resData.message}`)
+
           localStorage.setItem('room', JSON.stringify(resData.findedRoom))
+          localStorage.setItem('userRole', 'member')
+
           entranceForm.code.value = resData.findedRoom.code
           entranceForm.email.value = user.email
           entranceForm.firstEntrance.value = 1
@@ -217,7 +249,9 @@
       }
 
       // 방 입장 이미지 클릭
-      async function imgRoomEntrance(code) {
+      async function imgRoomEntrance(code, role) {
+        console.log('code, role:', code, role)
+
         const data = {
           email: user.email,
           code,
@@ -231,15 +265,15 @@
         })
         resData = respone.data
         console.log('resData: ', resData)
+
         localStorage.setItem('room', JSON.stringify(resData.findedRoom))
+        localStorage.setItem('userRole', role)
 
         entranceForm.code.value = code
         entranceForm.email.value = user.email
         entranceForm.firstEntrance.value = 0
-        console.log(entranceForm)
         entranceForm.submit()
       }
     </script>
-</body>
-
+  </body>
 </html>

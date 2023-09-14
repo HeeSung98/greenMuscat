@@ -165,7 +165,7 @@ const postRoomList = async (req, res) => {
     const roomList = findedMir.map((room) => ({
       ROOM_rTitle: room.dataValues.ROOM_rTitle,
       ROOM_code: room.dataValues.ROOM_code,
-      role: room.dataValues.ROOM_rTitle,
+      role: room.dataValues.role,
       ROOM_rImg: room.dataValues.ROOM.rImg,
     }))
     console.log('roomList:', roomList)
@@ -392,6 +392,8 @@ const postBoard = async (req, res) => {
       ],
     })
 
+    //게시물 번호
+    const pNoList = findedPost.map((post) => post.dataValues.pNo)
     //게시물 내용
     const contentList = findedPost.map((post) => post.dataValues.pContent)
     //게시물 작성자
@@ -399,7 +401,7 @@ const postBoard = async (req, res) => {
     //게시물 작성자 프로필 사진
     const profileList = findedPost.map((post) => post.dataValues.MEMBER.mImg)
     //게시물 작성일
-    const dateList = findedPost.map((post) => {
+    const date = findedPost.map((post) => {
       const createdAt = new Date(post.dataValues.createdAt)
       const now = new Date()
       const timeDiff = Math.floor((now - createdAt) / 1000) // 초 단위로 시간 차이 계산
@@ -421,38 +423,23 @@ const postBoard = async (req, res) => {
     const imagePathList = findedPost.map((post) =>
       post.dataValues.POST_IMAGEs.map((image) => image.path)
     )
-    const date = findedPost.map((post) => {
-      const createdAt = new Date(post.dataValues.createdAt)
-      const now = new Date()
-      const timeDiff = Math.floor((now - createdAt) / 1000) // 초 단위로 시간 차이 계산
+    //게시물 승인 여부
+    const approvedList = findedPost.map((post) => post.dataValues.approved)
 
-      if (timeDiff < 60) {
-        return `${timeDiff}초 전`
-      } else if (timeDiff < 3600) {
-        const minutes = Math.floor(timeDiff / 60)
-        return `${minutes}분 전`
-      } else if (timeDiff < 86400) {
-        const hours = Math.floor(timeDiff / 3600)
-        return `${hours}시간 전`
-      } else {
-        const days = Math.floor(timeDiff / 86400)
-        return `${days}일 전`
-      }
-    })
+    console.log('pNoList :', pNoList)
     console.log('contentList :', contentList)
     console.log('writerList :', writerList)
     console.log('profileList:', profileList)
     console.log('imagePathList:', imagePathList)
-    console.log('likeList:', likeList)
     console.log('approvedList:', approvedList)
     console.log('date:', date)
     res.render('board', {
       data: {
+        pNoList,
         contentList,
         writerList,
         profileList,
         imagePathList,
-        likeList,
         approvedList,
         date,
       },
@@ -538,7 +525,7 @@ const postReply = async (req, res) => {
   const { POST_pNo } = req.body
   // Reply db에서 게시물 번호에 해당하는 모든 댓글들 조회
   try {
-    const allReply = await mReply.findAll({
+    const findedReplys = await mReply.findAll({
       where: { POST_pNo },
       include: [
         {
@@ -546,18 +533,16 @@ const postReply = async (req, res) => {
         },
       ],
     })
-    const pReply = allReply.map((reply) => ({
+    const replyList = findedReplys.map((reply) => ({
       text: reply.text,
       nickname: reply.dataValues.MEMBER
         ? reply.dataValues.MEMBER.dataValues.nickname
         : 'Guest',
     }))
-    console.log('----------')
+    console.log('replyList:', replyList)
 
-    // console.log(pReply.nickname)
-    if (pReply) {
-      console.log(pReply)
-      res.json({ result: true, pReply })
+    if (replyList) {
+      res.json({ result: true, replyList })
     }
   } catch (error) {
     console.log(error)
@@ -570,27 +555,36 @@ const postRegisterReply = async (req, res) => {
   console.log(
     ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 댓글 등록 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
+  console.log('req.body:', req.body)
   const authHeader = req.headers.authorization
   const [bearer, token] = authHeader.split(' ')
   const { text, POST_pNo } = req.body
   try {
     const decodedToken = jwt.verify(token, SECRET)
     // token에 들어있는 email인 멤버 조회
-    const user = await mMember.findOne({ where: { email: decodedToken.email } })
-    console.log('User', user)
+    const findedUser = await mMember.findOne({
+      where: { email: decodedToken.email },
+    })
+    console.log('findedUser:', findedUser)
+
     // 조회 되면 댓글 작성
-    const reply = await mReply.create({
+    const createdReply = await mReply.create({
       text,
-      MEMBER_email: user.email,
+      MEMBER_email: findedUser.email,
       POST_pNo,
     })
-    if (reply) {
-      console.log({ nickname: user.nickname, reply })
-      res.json({ result: true, data: reply, nickname: user.nickname })
+    console.log('createdReply:', createdReply)
+
+    if (createdReply) {
+      res.json({
+        result: true,
+        data: createdReply,
+        nickname: findedUser.nickname,
+      })
     }
   } catch (error) {
     console.log(error)
-    res.json({ result: false })
+    res.json({ result: false, message: String(error) })
   }
 }
 

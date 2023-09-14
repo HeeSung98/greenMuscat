@@ -72,7 +72,6 @@ const deleteReply = async (req, res) => {
     if (delete_reply) {
       console.log(`${user.nickname}님 댓글 삭제 완료`, delete_reply)
       res.json({ result: true, message: '댓글 삭제 완료' })
-      // res.redirect('/')
     }
   } catch (error) {
     console.log(error)

@@ -1,102 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/roomHeader.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Document</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="/css/roomHeader.css" />
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <title>Document</title>
-</head>
-
-<body>
-  <div class="header">
-    <div id="webName" onclick="mainPage()">GreenMuscat</div>
-    <div class="innerHeaderLogo">
-      <img src="/img/home.svg" onclick="roomPage()" class="img1" />
-      <img src="/img/list.svg" onclick="boardPage()" class="img2" />
-      <img src="/img/board.svg" onclick="registerPage()" class="img3" />
-      <img src="/img/profile.svg" onclick="profilePage()" class="img4" />
+  <body>
+    <div class="header">
+      <div id="webName" onclick="mainPage()">GreenMuscat</div>
+      <div class="innerHeaderLogo">
+        <img src="/img/home.svg" onclick="roomPage()" class="img1" />
+        <img src="/img/list.svg" onclick="boardPage()" class="img2" />
+        <img src="/img/board.svg" onclick="registerPage()" class="img3" />
+        <img src="/img/profile.svg" onclick="profilePage()" class="img4" />
+      </div>
+      <div class="innerHeaderLogin"></div>
     </div>
-    <div class="innerHeaderLogin"></div>
-  </div>
 
-  <form action="/room" method="post" name="postRoomForm" hidden>
-    <input type="text" name="code" />
-    <input type="text" name="email" />
-  </form>
-  <form action="/room/board" method="post" name="postBoardForm" hidden>
-    <input type="text" name="rNo" />
-  </form>
-</body>
-<script>
-  const room = JSON.parse(localStorage.getItem('room'))
-  const user = JSON.parse(localStorage.getItem('user'))
+    <form action="/room" method="post" name="postRoomForm" hidden>
+      <input type="text" name="code" />
+      <input type="text" name="email" />
+    </form>
+    <form action="/room/board" method="post" name="postBoardForm" hidden>
+      <input type="text" name="rNo" />
+    </form>
+  </body>
+  <script>
+    const room = JSON.parse(localStorage.getItem('room'))
+    const user = JSON.parse(localStorage.getItem('user'))
+    const userRole = localStorage.getItem('userRole')
+    console.log('room:', room)
+    console.log('user:', user)
+    console.log('userRole:', userRole)
 
-  window.addEventListener('load', checkLoginStatus())
-  // 로그인 식별
-  function checkLoginStatus() {
-    const token = localStorage.getItem('token')
-    const div = document.querySelector('.innerHeaderLogin')
+    window.addEventListener('load', checkLoginStatus())
+    // 로그인 식별
+    function checkLoginStatus() {
+      const token = localStorage.getItem('token')
+      const div = document.querySelector('.innerHeaderLogin')
 
-    if (token) {
-      // 토큰과 닉네임이 로컬 스토리지에 존재하는 경우
-      // 로그인 상태로 판별하고 해당 닉네임을 사용
-      div.innerText = '로그아웃'
-      div.onclick = async () => {
-        const respone = await axios({
-          method: 'POST',
-          url: '/main/signout',
-        })
-        const resData = respone.data
-        console.log(resData)
+      if (token) {
+        // 토큰과 닉네임이 로컬 스토리지에 존재하는 경우
+        // 로그인 상태로 판별하고 해당 닉네임을 사용
+        div.innerText = '로그아웃'
+        div.onclick = async () => {
+          const respone = await axios({
+            method: 'POST',
+            url: '/main/signout',
+          })
+          const resData = respone.data
+          console.log(resData)
 
-        if (resData.logoutSuccess) {
-          console.log('로그아웃 ok')
-          localStorage.removeItem('token')
-          localStorage.removeItem('user')
-          localStorage.removeItem('room')
-          localStorage.removeItem('nickname')
-          document.location.href = '/'
+          if (resData.logoutSuccess) {
+            console.log('로그아웃 ok')
+            localStorage.removeItem('token')
+            localStorage.removeItem('user')
+            localStorage.removeItem('room')
+            localStorage.removeItem('nickname')
+            document.location.href = '/'
+          }
+        }
+      } else {
+        // 토큰 또는 닉네임이 로컬 스토리지에 없는 경우
+        // 로그인 상태가 아니라고 판별하고 "Guest" 닉네임 사용
+        div.innerText = '로그인'
+        div.onclick = () => {
+          window.location.href = '/main/signin'
         }
       }
-    } else {
-      // 토큰 또는 닉네임이 로컬 스토리지에 없는 경우
-      // 로그인 상태가 아니라고 판별하고 "Guest" 닉네임 사용
-      div.innerText = '로그인'
-      div.onclick = () => {
-        window.location.href = '/main/signin'
-      }
     }
-  }
 
-  //메인페이지 이동
-  function mainPage() {
-    window.location.href = '/'
-  }
-  //room 메인페이지로 이동
-  function roomPage() {
-    const roomForm = document.forms['postRoomForm'] // 방 페이지 이동을 위한 히든 폼
-    roomForm.code.value = room.code
-    roomForm.email.value = user.email
-    roomForm.submit()
-  }
-  //게시글 목록으로 이동
-  async function boardPage() {
-    const boardForm = document.forms['postBoardForm'] // 게시글 호출을 위한 히든 폼
-    boardForm.rNo.value = room.rNo
-    boardForm.submit()
-  }
-  //게시글 목록으로 이동
-  function registerPage() {
-    window.location.href = '/room/board/register'
-  }
-  //마이페이지 목록으로 이동
-  function profilePage() {
-    window.location.href = '/main/profile'
-  }
-</script>
-
+    //메인페이지 이동
+    function mainPage() {
+      window.location.href = '/'
+    }
+    //room 메인페이지로 이동
+    function roomPage() {
+      const roomForm = document.forms['postRoomForm'] // 방 페이지 이동을 위한 히든 폼
+      roomForm.code.value = room.code
+      roomForm.email.value = user.email
+      roomForm.submit()
+    }
+    //게시글 목록으로 이동
+    async function boardPage() {
+      const boardForm = document.forms['postBoardForm'] // 게시글 호출을 위한 히든 폼
+      boardForm.rNo.value = room.rNo
+      boardForm.submit()
+    }
+    //게시글 목록으로 이동
+    function registerPage() {
+      window.location.href = '/room/board/register'
+    }
+    //마이페이지 목록으로 이동
+    function profilePage() {
+      window.location.href = '/main/profile'
+    }
+  </script>
 </html>
 
 <!-- 
