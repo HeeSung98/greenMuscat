@@ -290,6 +290,9 @@
       }
     }
 
-    async function like() {}
+    async function like(index, pNo) {
+      const userRole = localStorage.getItem('userRole')
+      console.log(pNo, userRole)
+    }
   </script>
 </html>
