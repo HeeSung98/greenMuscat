@@ -20,7 +20,7 @@ const editProfile = async (req, res) => {
     ' ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 회원 정보 수정 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ '
   )
   console.log('req.body:', req.body)
-  console.log('req.file', req.file)
+  console.log('req.file:', req.file)
   let location
   try {
     location = req.file.location
@@ -28,6 +28,7 @@ const editProfile = async (req, res) => {
     location = null
   }
   const { nickname, password } = req.body
+  console.log('nickname type:', typeof nickname)
   const authHeader = req.headers.authorization
   const hash = await bcryptPassword(password) // 비밀번호 암호화
 
@@ -50,19 +51,22 @@ const editProfile = async (req, res) => {
     console.log('findedUser:', findedUser)
 
     let updatedUser
-    if (nickname != undefined) {
+    if (req.file != undefined) {
+      console.log('여기 들어와져?1')
+      updatedUser = await findedUser.update({
+        mImg: location,
+      })
+    }
+    if (nickname) {
+      console.log('여기 들어와져?2')
       updatedUser = await findedUser.update({
         nickname,
       })
     }
     if (password) {
+      console.log('여기 들어와져?3')
       updatedUser = await findedUser.update({
         password: hash,
-      })
-    }
-    if (location != undefined) {
-      updatedUser = await findedUser.update({
-        mImg: location,
       })
     }
     console.log('updatedUser:', updatedUser)

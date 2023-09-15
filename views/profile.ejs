@@ -21,7 +21,7 @@
           <div id="profileImg"><img src="" alt="" id="myProfile" /></div>
         </div>
         <br />
-        <p id="nickname"></p>
+        <p id="nick"></p>
       </div>
       <div class="loginDiv">
         <div class="innerform" style="justify-content: center; width: 50%">
@@ -45,7 +45,7 @@
 
     <script>
       document.querySelector(
-        '#nickname'
+        '#nick'
       ).innerHTML = `<b>${user.name}님 환영합니다!</b>`
       if (user.mImg) {
         myProfile.src = user.mImg
