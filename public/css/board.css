@@ -106,12 +106,19 @@ hr {
   object-fit: cover;
   height: 100%;
 }
-
+.btn {
+  display: flex;
+}
 .img_del,
-#commentBtn,
-#likeBtn {
-  width: 40px;
+#commentBtn {
+  width: 20px;
   padding: 5px;
+  height: 20px;
+}
+#likeBtn {
+  width: 20px;
+  padding: 5px;
+  height: 18px;
 }
 .innerContent {
   width: 100%;
