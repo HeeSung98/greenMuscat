@@ -111,6 +111,11 @@
     async function roomPage() {
       const roomForm = document.forms['postRoomForm'] // 방 페이지 이동을 위한 히든 폼
 
+      const data = {
+        email: user.email,
+        code: room.code,
+      }
+      console.log('data:', data)
       const respone = await axios({
         method: 'POST',
         url: '/room/find',
