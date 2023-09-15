@@ -50,7 +50,7 @@ const editProfile = async (req, res) => {
     console.log('findedUser:', findedUser)
 
     let updatedUser
-    if (nickname) {
+    if (nickname != undefined) {
       updatedUser = await findedUser.update({
         nickname,
       })
@@ -60,7 +60,7 @@ const editProfile = async (req, res) => {
         password: hash,
       })
     }
-    if (location) {
+    if (location != undefined) {
       updatedUser = await findedUser.update({
         mImg: location,
       })
