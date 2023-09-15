@@ -19,10 +19,9 @@
         <!-- 이미지 -->
         <div class="profile image">
           <div id="profileImg"><img src="" alt="" id="myProfile" /></div>
-          <div id="pencil" onclick="editProfile()">
-            <img src="/img/pencil.svg" alt="프로필 이미지 변경" />
-          </div>
         </div>
+        <br />
+        <p id="nickname"></p>
       </div>
       <div class="loginDiv">
         <div class="innerform" style="justify-content: center; width: 50%">
@@ -45,6 +44,9 @@
     </div>
 
     <script>
+      document.querySelector(
+        '#nickname'
+      ).innerHTML = `<b>${user.name}님 환영합니다!</b>`
       if (user.mImg) {
         myProfile.src = user.mImg
       } else {
