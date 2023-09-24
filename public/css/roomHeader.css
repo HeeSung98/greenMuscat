@@ -21,7 +21,7 @@
 .header {
   height: 50px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 0px 20px;
   font-weight: bold;
@@ -40,9 +40,9 @@
 .innerHeaderLogo {
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  position: relative;
+  position: absolute;
   width: 50%;
+  justify-content: space-evenly;
 }
 
 .img1,
@@ -60,6 +60,11 @@
   width: 35px;
   height: 35px;
   margin-bottom: 11px;
+}
+.img5 {
+  width: 33px;
+  height: 33px;
+  margin-top: 4px;
 }
 
 .innerHeaderLogin:hover {
