@@ -2,7 +2,7 @@ const express = require('express')
 const db = require('./models')
 const app = express()
 const path = require('path')
-const PORT = 8000
+const PORT = 8080
 
 app.set('view engine', 'ejs')
 app.set('views', './views')
